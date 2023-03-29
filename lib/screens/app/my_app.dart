@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
         colorSchemeSeed: Colors.purpleAccent,
         brightness: Brightness.dark,
       ),
-      home: const ChatScreen(),
+      home:  const ChatScreen(),
     );
   }
 }

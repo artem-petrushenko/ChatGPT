@@ -1,10 +1,11 @@
+import 'package:chat_gpt/models/models_model.dart';
 import 'package:chat_gpt/providers/models_service.dart';
 
 class ModelsRepository {
   final _chatGPTProvider = ModelsService();
 
-  Future<void> getModels() async {
+  Future<ModelsModel> getModels() async {
     final models = await _chatGPTProvider.getModels();
-    print(models.data?.first.object);
+    return models;
   }
 }
