@@ -11,10 +11,10 @@ class MyApp extends StatelessWidget {
       title: 'ChatGPT',
       theme: ThemeData(
         useMaterial3: true,
-        colorSchemeSeed: Colors.purpleAccent,
+        colorSchemeSeed: Colors.green,
         brightness: Brightness.dark,
       ),
-      home:  const ChatScreen(),
+      home: const ChatScreen(),
     );
   }
 }

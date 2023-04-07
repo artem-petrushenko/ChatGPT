@@ -2,13 +2,18 @@ part of 'chat_bloc.dart';
 
 abstract class ChatState extends Equatable {}
 
+class ChatInitialState extends ChatState {
+  @override
+  List<Object?> get props => [];
+}
+
 class ChatLoadingState extends ChatState {
   @override
   List<Object?> get props => [];
 }
 
 class ChatLoadedState extends ChatState {
-  final ChatCompletionModel chatCompletionModel;
+  final ChatCompletionModel? chatCompletionModel;
 
   ChatLoadedState(this.chatCompletionModel);
 
