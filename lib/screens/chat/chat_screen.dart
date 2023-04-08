@@ -58,7 +58,7 @@ class ChatScreen extends StatelessWidget {
               ),
               backgroundColor: const Color(0xFF343541),
               bottomNavigationBar: Container(
-                margin: const EdgeInsets.all(20.0),
+                margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 12.0, bottom: 20.0),
                 padding: const EdgeInsets.all(8.0),
                 decoration: BoxDecoration(
                   color: const Color(0x1AFFFFFF),
@@ -116,65 +116,130 @@ class ChatScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              body: ListView.builder(
-                reverse: true,
-                itemBuilder: (BuildContext context, int index) {
-                  final chat = state.chatHistoryModel?.reversed.toList();
-                  return chat?[index].name == 'user'
-                      ? Container(
-                          margin: const EdgeInsets.only(
-                            left: 88.0,
-                            right: 20.0,
-                            top: 16.0,
-                            bottom: 16.0,
-                          ),
-                          padding: const EdgeInsets.all(12.0),
-                          decoration: const BoxDecoration(
-                            color: Color(0xFF10A37F),
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(8.0),
-                              topRight: Radius.circular(8.0),
-                              bottomLeft: Radius.circular(8.0),
-                            ),
-                          ),
-                          child: Text(
-                            '${chat?[index].message} ',
-                            style: GoogleFonts.raleway(
-                              fontWeight: FontWeight.w600,
-                              height: 1.5,
-                              fontSize: 16.0,
-                              color: const Color(0xFFFFFFFF),
-                            ),
-                          ),
-                        )
-                      : Container(
-                          margin: const EdgeInsets.only(
-                            left: 20.0,
-                            right: 88.0,
-                            top: 16.0,
-                            bottom: 16.0,
-                          ),
-                          padding: const EdgeInsets.all(12.0),
-                          decoration: const BoxDecoration(
-                            color: Color(0x33FFFFFF),
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(8.0),
-                              topRight: Radius.circular(8.0),
-                              bottomRight: Radius.circular(8.0),
-                            ),
-                          ),
-                          child: Text(
-                            '${chat?[index].message} ',
-                            style: GoogleFonts.raleway(
-                              fontWeight: FontWeight.w600,
-                              height: 1.5,
-                              fontSize: 16.0,
-                              color: const Color(0xFFFFFFFF),
-                            ),
-                          ),
-                        );
-                },
-                itemCount: state.chatHistoryModel?.length ?? 0,
+              body: Stack(
+                children: [
+                  ListView.builder(
+                    reverse: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      return state.chatHistoryModel?[index].name == 'user'
+                          ? Container(
+                              margin: const EdgeInsets.only(
+                                left: 88.0,
+                                right: 20.0,
+                                top: 4.0,
+                                bottom: 16.0,
+                              ),
+                              padding: const EdgeInsets.all(12.0),
+                              decoration: const BoxDecoration(
+                                color: Color(0xFF10A37F),
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(8.0),
+                                  topRight: Radius.circular(8.0),
+                                  bottomLeft: Radius.circular(8.0),
+                                ),
+                              ),
+                              child: Text(
+                                '${state.chatHistoryModel?[index].message} ',
+                                style: GoogleFonts.raleway(
+                                  fontWeight: FontWeight.w600,
+                                  height: 1.5,
+                                  fontSize: 16.0,
+                                  color: const Color(0xFFFFFFFF),
+                                ),
+                              ),
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.only(
+                                left: 20.0,
+                                right: 88.0,
+                                top: 4.0,
+                                bottom: 16.0,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(12.0),
+                                    decoration: const BoxDecoration(
+                                      color: Color(0x33FFFFFF),
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(8.0),
+                                        topRight: Radius.circular(8.0),
+                                        bottomRight: Radius.circular(8.0),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      '${state.chatHistoryModel?[index].message} ',
+                                      style: GoogleFonts.raleway(
+                                        fontWeight: FontWeight.w600,
+                                        height: 1.5,
+                                        fontSize: 16.0,
+                                        color: const Color(0xFFFFFFFF),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 14.0),
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.copy_sharp,
+                                        color: Color(0x52FFFFFF),
+                                        size: 12.0,
+                                      ),
+                                      const SizedBox(width: 12.0),
+                                      Text(
+                                        'Copy',
+                                        style: GoogleFonts.raleway(
+                                          fontWeight: FontWeight.w600,
+                                          height: 1.1742,
+                                          fontSize: 14.0,
+                                          color: const Color(0x52FFFFFF),
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            );
+                    },
+                    itemCount: state.chatHistoryModel?.length ?? 0,
+                  ),
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 13.0, vertical: 7.0),
+                          decoration: BoxDecoration(
+                              color: const Color(0xFF202123),
+                              border: Border.all(
+                                color: const Color(0x33FFFFFF),
+                                width: 1.0,
+                              ),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(4.0))),
+                          child: Row(children:  [
+                            const Icon(Icons.play_circle_outline_outlined, weight: 11.0, color: Color(0xFFFFFFFF),),
+                            const SizedBox(width: 10.0),
+                            Text(
+                              'Regenerate response',
+                              style: GoogleFonts.raleway(
+                                fontWeight: FontWeight.w500,
+                                height: 1.1742,
+                                fontSize: 14.0,
+                                color: const Color(0xFFFFFFFF),
+                              ),
+                            )
+                          ]),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             );
           } else if (state is ChatErrorState) {

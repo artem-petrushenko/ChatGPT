@@ -41,7 +41,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           message: chatCompletionModel.choices?.last.message?.content ?? '',
         ));
         message = null;
-        emit(ChatLoadedState(_chatHistoryModel));
+        emit(ChatLoadedState(_chatHistoryModel.reversed.toList()));
       } catch (e) {
         emit(ChatErrorState('Error'));
       }
