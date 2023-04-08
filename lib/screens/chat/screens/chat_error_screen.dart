@@ -26,6 +26,8 @@ class ChatErrorScreen extends StatelessWidget {
                     ),
                 textAlign: TextAlign.center,
               ),
+              const SizedBox(height: 32.0),
+              TextButton(onPressed: (){}, child: const Text('Try Again'))
             ],
           ),
         ),

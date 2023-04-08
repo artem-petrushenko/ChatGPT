@@ -13,12 +13,12 @@ class ChatLoadingState extends ChatState {
 }
 
 class ChatLoadedState extends ChatState {
-  final ChatCompletionModel? chatCompletionModel;
+  final List<ChatModel>? chatHistoryModel;
 
-  ChatLoadedState(this.chatCompletionModel);
+  ChatLoadedState(this.chatHistoryModel);
 
   @override
-  List<Object?> get props => [chatCompletionModel];
+  List<Object?> get props => [chatHistoryModel];
 }
 
 class ChatErrorState extends ChatState {
