@@ -22,7 +22,7 @@ class ChatLoadedState extends ChatState {
 }
 
 class ChatErrorState extends ChatState {
-  final String error;
+  final Object? error;
 
   ChatErrorState(this.error);
 

@@ -19,8 +19,9 @@ class SendMessageEvent extends ChatEvent {
 }
 
 class CopyMessageEvent extends ChatEvent {
-  const CopyMessageEvent();
+  final String message;
+  const CopyMessageEvent(this.message);
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [message];
 }

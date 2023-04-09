@@ -1,5 +1,6 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:chat_gpt/repository/chat_gpt_repository.dart';
@@ -19,13 +20,16 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     on<LoadingChatEvent>((event, emit) async {
       emit(ChatLoadedState(null));
     });
+    on<CopyMessageEvent>((event, emit) async {
+      Clipboard.setData(ClipboardData(text: event.message));
+    });
     on<SendMessageEvent>((event, emit) async {
-      emit(ChatLoadingState());
       try {
         _chatHistoryModel.add(ChatModel(
           name: 'user',
           message: message ?? '',
         ));
+        emit(ChatLoadedState(_chatHistoryModel.reversed.toList()));
         final chatCompletionModel =
             await _chatGPTRepository.createChatCompletion(
           model: "gpt-3.5-turbo",
@@ -40,10 +44,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           name: chatCompletionModel.choices?.last.message?.role ?? '',
           message: chatCompletionModel.choices?.last.message?.content ?? '',
         ));
-        message = null;
         emit(ChatLoadedState(_chatHistoryModel.reversed.toList()));
       } catch (e) {
-        emit(ChatErrorState('Error'));
+        emit(ChatErrorState(e));
       }
     }, transformer: sequential());
   }
