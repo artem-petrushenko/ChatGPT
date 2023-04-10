@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:chat_gpt/repository/chats_db_repository.dart';
 import 'package:chat_gpt/repository/chat_gpt_repository.dart';
 
 import 'package:chat_gpt/screens/chat/model/chat_history_model.dart';
@@ -13,19 +14,27 @@ part 'chat_event.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final _chatGPTRepository = ChatGPTRepository();
-  final _chatHistoryModel = <ChatModel>[];
+  final _chatsDBRepository = ChatsDBRepository();
+  late List<ChatHistoryModel> _chatHistoryModel;
   String? message;
 
   ChatBloc() : super(ChatInitialState()) {
     on<LoadingChatEvent>((event, emit) async {
-      emit(ChatLoadedState(null));
+      emit(ChatLoadingState());
+      _chatHistoryModel = await _chatsDBRepository.getMessage();
+      emit(ChatLoadedState(_chatHistoryModel.isEmpty ? null : _chatHistoryModel));
     });
     on<CopyMessageEvent>((event, emit) async {
       Clipboard.setData(ClipboardData(text: event.message));
     });
     on<SendMessageEvent>((event, emit) async {
       try {
-        _chatHistoryModel.add(ChatModel(
+        _chatHistoryModel.add(ChatHistoryModel(
+          name: 'user',
+          message: message ?? '',
+        ));
+        _chatsDBRepository.insertMessage(
+            chatHistoryModel: ChatHistoryModel(
           name: 'user',
           message: message ?? '',
         ));
@@ -40,10 +49,18 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
             },
           ],
         );
-        _chatHistoryModel.add(ChatModel(
-          name: chatCompletionModel.choices?.last.message?.role ?? '',
-          message: chatCompletionModel.choices?.last.message?.content ?? '',
-        ));
+        _chatHistoryModel.add(
+          ChatHistoryModel(
+            name: chatCompletionModel.choices?.last.message?.role ?? '',
+            message: chatCompletionModel.choices?.last.message?.content ?? '',
+          ),
+        );
+        _chatsDBRepository.insertMessage(
+          chatHistoryModel: ChatHistoryModel(
+            name: chatCompletionModel.choices?.last.message?.role ?? '',
+            message: chatCompletionModel.choices?.last.message?.content ?? '',
+          ),
+        );
         emit(ChatLoadedState(_chatHistoryModel.reversed.toList()));
       } catch (e) {
         emit(ChatErrorState(e));

@@ -13,7 +13,7 @@ class ChatLoadingState extends ChatState {
 }
 
 class ChatLoadedState extends ChatState {
-  final List<ChatModel>? chatHistoryModel;
+  final List<ChatHistoryModel>? chatHistoryModel;
 
   ChatLoadedState(this.chatHistoryModel);
 
