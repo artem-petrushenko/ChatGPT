@@ -22,7 +22,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     on<LoadingChatEvent>((event, emit) async {
       emit(ChatLoadingState());
       _chatHistoryModel = await _chatsDBRepository.getMessage();
-      emit(ChatLoadedState(_chatHistoryModel.isEmpty ? null : _chatHistoryModel));
+      emit(ChatLoadedState(_chatHistoryModel.isEmpty
+          ? null
+          : _chatHistoryModel.reversed.toList()));
     });
     on<CopyMessageEvent>((event, emit) async {
       Clipboard.setData(ClipboardData(text: event.message));
@@ -41,14 +43,11 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         emit(ChatLoadedState(_chatHistoryModel.reversed.toList()));
         final chatCompletionModel =
             await _chatGPTRepository.createChatCompletion(
-          model: "gpt-3.5-turbo",
-          messages: [
-            <String, dynamic>{
-              'role': 'user',
-              'content': message ?? '',
-            },
-          ],
-        );
+                model: "gpt-3.5-turbo",
+                messages: _chatHistoryModel
+                    .map((e) =>
+                        <String, String>{'role': e.name, 'content': e.message})
+                    .toList());
         _chatHistoryModel.add(
           ChatHistoryModel(
             name: chatCompletionModel.choices?.last.message?.role ?? '',
