@@ -20,7 +20,17 @@ class SendMessageEvent extends ChatEvent {
 
 class CopyMessageEvent extends ChatEvent {
   final String message;
+
   const CopyMessageEvent(this.message);
+
+  @override
+  List<Object> get props => [message];
+}
+
+class RegenerateResponseEvent extends ChatEvent {
+  final String message;
+
+  const RegenerateResponseEvent(this.message);
 
   @override
   List<Object> get props => [message];
