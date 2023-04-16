@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -55,6 +56,7 @@ class ApiRequestHelper {
         data: jsonEncode(body),
         queryParameters: queryParameters,
       );
+      log('${response.data}');
       _checkStatusCode(response);
       return jsonDecode(response.data ?? '') as Map<String, dynamic>;
     } on SocketException {

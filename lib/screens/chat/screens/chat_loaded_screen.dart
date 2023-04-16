@@ -1,9 +1,14 @@
-import 'package:chat_gpt/theme/chat_gpt_text_styles.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:chat_gpt/theme/chat_gpt_text_styles.dart';
+
 import 'package:chat_gpt/screens/chat/bloc/chat_bloc.dart';
+
+part '../widgets/user_message_widget.dart';
+
+part '../widgets/response_message_widget.dart';
 
 class ChatLoadedScreen extends StatelessWidget {
   const ChatLoadedScreen({
@@ -15,6 +20,7 @@ class ChatLoadedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final model = context.select((ChatLoadedState value) => value.chatHistoryModel);
     return Stack(
       children: [
         state.chatHistoryModel?.length != null
@@ -29,72 +35,10 @@ class ChatLoadedScreen extends StatelessWidget {
                     ),
                     reverse: true,
                     itemBuilder: (BuildContext context, int index) {
-                      return state.chatHistoryModel?[index].name == 'user'
-                          ? Container(
-                              margin: const EdgeInsets.only(
-                                left: 88.0,
-                              ),
-                              padding: const EdgeInsets.all(12.0),
-                              decoration: const BoxDecoration(
-                                color: Color(0xFF10A37F),
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(8.0),
-                                  topRight: Radius.circular(8.0),
-                                  bottomLeft: Radius.circular(8.0),
-                                ),
-                              ),
-                              child: Text(
-                                '${state.chatHistoryModel?[index].message} ',
-                                style: ChatGptTextStyles.textStyle4,
-                              ),
-                            )
-                          : Padding(
-                              padding: const EdgeInsets.only(
-                                right: 88.0,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.all(12.0),
-                                    decoration: const BoxDecoration(
-                                      color: Color(0x33FFFFFF),
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(8.0),
-                                        topRight: Radius.circular(8.0),
-                                        bottomRight: Radius.circular(8.0),
-                                      ),
-                                    ),
-                                    child: Text(
-                                      '${state.chatHistoryModel?[index].message} ',
-                                      style: ChatGptTextStyles.textStyle4,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 14.0),
-                                  GestureDetector(
-                                    onTap: () => context.read<ChatBloc>().add(
-                                        CopyMessageEvent(state
-                                                .chatHistoryModel?[index]
-                                                .message ??
-                                            '')),
-                                    child: Row(
-                                      children: const [
-                                        Icon(
-                                          Icons.copy_sharp,
-                                          color: Color(0x52FFFFFF),
-                                          size: 12.0,
-                                        ),
-                                        SizedBox(width: 12.0),
-                                        Text(
-                                          'Copy',
-                                          style: ChatGptTextStyles.textStyle3,
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            );
+                      final message = state.chatHistoryModel?[index];
+                      return message?.name == 'user'
+                          ? _UserMessageWidget(message: message?.message ?? '')
+                          : _ChatMessageWidget(message: message?.message ?? '');
                     },
                     itemCount: state.chatHistoryModel?.length ?? 0,
                     separatorBuilder: (BuildContext context, int index) =>

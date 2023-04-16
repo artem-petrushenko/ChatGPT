@@ -14,3 +14,4 @@ linter:
   rules:
     - avoid_print # Запрет принтов
     - always_use_package_imports # Полное название импорта
+    - use_string_in_part_of_directives

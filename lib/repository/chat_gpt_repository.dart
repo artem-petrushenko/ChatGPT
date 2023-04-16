@@ -22,6 +22,7 @@ class ChatGPTRepository {
       body: <String, dynamic>{
         'model': model,
         'messages': messages,
+        'stream': stream,
       },
     );
     return chatCompletion;

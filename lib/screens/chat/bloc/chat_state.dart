@@ -1,6 +1,8 @@
 part of 'chat_bloc.dart';
 
-abstract class ChatState extends Equatable {}
+abstract class ChatState extends Equatable {
+  const ChatState();
+}
 
 class ChatInitialState extends ChatState {
   @override
@@ -15,7 +17,7 @@ class ChatLoadingState extends ChatState {
 class ChatLoadedState extends ChatState {
   final List<ChatHistoryModel>? chatHistoryModel;
 
-  ChatLoadedState(this.chatHistoryModel);
+  const ChatLoadedState(this.chatHistoryModel);
 
   @override
   List<Object?> get props => [chatHistoryModel];
@@ -24,7 +26,7 @@ class ChatLoadedState extends ChatState {
 class ChatErrorState extends ChatState {
   final Object? error;
 
-  ChatErrorState(this.error);
+  const ChatErrorState(this.error);
 
   @override
   List<Object?> get props => [error];

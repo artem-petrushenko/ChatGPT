@@ -1,8 +1,9 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:chat_gpt/models/chat_completion_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:chat_gpt/models/chat_completion_model.dart';
 
 import 'package:chat_gpt/repository/chats_db_repository.dart';
 import 'package:chat_gpt/repository/chat_gpt_repository.dart';
@@ -72,10 +73,12 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   Future<ChatCompletionModel> _sendMessage() async {
     return await _chatGPTRepository.createChatCompletion(
-        model: "gpt-3.5-turbo",
-        messages: _chatHistoryModel
-            .map((e) => <String, String>{'role': e.name, 'content': e.message})
-            .toList());
+      model: "gpt-3.5-turbo",
+      messages: _chatHistoryModel
+          .map((e) => <String, String>{'role': e.name, 'content': e.message})
+          .toList(),
+      stream: true,
+    );
   }
 
   void _addDataToDatabase(ChatHistoryModel model) {
