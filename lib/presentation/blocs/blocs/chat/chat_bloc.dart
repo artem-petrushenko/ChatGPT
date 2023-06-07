@@ -23,65 +23,60 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }) : super(const ChatState.loading()) {
     on<LoadingChatEvent>(_onLoadingChatEvent);
     on<CopyMessageEvent>(_onCopyMessageEvent);
-    // on<SendMessageEvent>(_onSendMessageEvent, transformer: sequential());
+    on<SendMessageEvent>(_onSendMessageEvent);
     on<RegenerateResponseEvent>(_onRegenerateResponseEvent);
   }
 
-  void _onRegenerateResponseEvent(RegenerateResponseEvent event,
-      Emitter<ChatState> emit) async {
+  void _onRegenerateResponseEvent(
+      RegenerateResponseEvent event, Emitter<ChatState> emit) async {
     try {
-      // var a = state.when(
-      //   loading: () {},
-      //   success: (list) =>
-      //       ChatState.success(chatHistoryModel: list.reversed.toList()),
-      //   empty: () {},
-      //   failure: (e) {},
-      // );
-      // emit(ChatState.success(chatHistoryModel: ));
+      // emit(ChatState.success(history:));
       // emit(ChatState.success(chatHistoryModel.reversed.toList()));
     } catch (error) {
       emit(ChatState.failure(error: error));
     }
   }
 
-  void _onCopyMessageEvent(CopyMessageEvent event,
-      Emitter<ChatState> emit) async {
+  void _onCopyMessageEvent(
+      CopyMessageEvent event, Emitter<ChatState> emit) async {
     Clipboard.setData(ClipboardData(text: event.message));
   }
 
-// void _onSendMessageEvent(
-//     SendMessageEvent event, Emitter<ChatState> emit) async {
-//   try {
-//     final userMessage =
-//         ChatHistoryModel(name: 'user', message: message ?? '');
-//     _addDataToLocalDatabase(userMessage);
-//     _addDataToDatabase(userMessage);
-//     emit(ChatLoadedState(_chatHistoryModel.reversed.toList()));
-//     final chatCompletionModel = await _sendMessage();
-//     final requestMessage = userMessage.copyWith(
-//       name: chatCompletionModel.choices?.last.message?.role ?? '',
-//       message: chatCompletionModel.choices?.last.message?.content ?? '',
-//     );
-//     _addDataToLocalDatabase(requestMessage);
-//     _addDataToDatabase(requestMessage);
-//     emit(ChatLoadedState(_chatHistoryModel.reversed.toList()));
-//   } catch (e) {
-//     emit(ChatErrorState(e));
-//   }
-// }
-//
-  void _onLoadingChatEvent(LoadingChatEvent event,
-      Emitter<ChatState> emit) async {
+  void _onSendMessageEvent(
+      SendMessageEvent event, Emitter<ChatState> emit) async {
+
     try {
-      final chatHistoryModel = await chatsDBRepository.getMessage();
-      emit(chatHistoryModel.isEmpty
-          ? const ChatState.empty()
-          : ChatState.success(
-          chatHistoryModel: chatHistoryModel.reversed.toList()));
+      _addDataToDatabase(ChatHistoryModel(name: 'user', message: event.message));
+      final response = await chatGPTRepository.createChatCompletion(
+        model: "gpt-3.5-turbo",
+        messages: [
+          <String, String>{'role': 'user', 'content': event.message}
+        ],
+        stream: false,
+      );
+      _addDataToDatabase(ChatHistoryModel(name: response.choices?.last.message?.role ?? '', message: response.choices?.last.message?.content ?? ''));
+      emit(ChatState.success(history: [
+        ChatHistoryModel(
+            name: response.choices?.last.message?.role ?? '',
+            message: response.choices?.last.message?.content ?? '')
+      ]));
     } catch (error) {
       emit(ChatState.failure(error: error));
     }
   }
+
+  void _onLoadingChatEvent(
+      LoadingChatEvent event, Emitter<ChatState> emit) async {
+    try {
+      final history = await chatsDBRepository.getMessage();
+      emit(history.isEmpty
+          ? const ChatState.empty()
+          : ChatState.success(history: history.reversed.toList()));
+    } catch (error) {
+      emit(ChatState.failure(error: error));
+    }
+  }
+
 //
 // Future<ChatCompletionModel> _sendMessage() async {
 //   return await _chatGPTRepository.createChatCompletion(
@@ -93,13 +88,13 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 //   );
 // }
 //
-// void _addDataToDatabase(ChatHistoryModel model) {
-//   _chatsDBRepository.insertMessage(
-//       chatHistoryModel: ChatHistoryModel(
-//     name: model.name,
-//     message: model.message,
-//   ));
-// }
+  void _addDataToDatabase(ChatHistoryModel model) {
+    chatsDBRepository.insertMessage(
+        chatHistoryModel: ChatHistoryModel(
+      name: model.name,
+      message: model.message,
+    ));
+  }
 //
 // void _addDataToLocalDatabase(ChatHistoryModel model) {
 //   _chatHistoryModel.add(ChatHistoryModel(

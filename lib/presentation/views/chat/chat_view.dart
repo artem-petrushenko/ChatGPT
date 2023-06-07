@@ -9,6 +9,7 @@ class ChatView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final input = TextEditingController();
     final state = context.watch<ChatBloc>().state;
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -60,36 +61,42 @@ class ChatView extends StatelessWidget {
                   left: 0,
                   right: 0,
                   bottom: 100.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 13.0, vertical: 7.0),
-                        decoration: BoxDecoration(
-                            color: const Color(0xFF202123),
-                            border: Border.all(
-                              color: const Color(0x33FFFFFF),
-                              width: 1.0,
-                            ),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(4.0))),
-                        child: const Row(
-                          children: [
-                            Icon(
-                              Icons.play_circle_outline_outlined,
-                              weight: 11.0,
-                              color: Color(0xFFFFFFFF),
-                            ),
-                            SizedBox(width: 10.0),
-                            Text(
-                              'Regenerate response',
-                              style: ChatGptTextStyles.textStyle2,
-                            )
-                          ],
-                        ),
+                  child: GestureDetector(
+                    onTap: () => context.read<ChatBloc>()
+                      ..add(
+                        RegenerateResponseEvent(message: chat.last.message),
                       ),
-                    ],
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 13.0, vertical: 7.0),
+                          decoration: BoxDecoration(
+                              color: const Color(0xFF202123),
+                              border: Border.all(
+                                color: const Color(0x33FFFFFF),
+                                width: 1.0,
+                              ),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(4.0))),
+                          child: const Row(
+                            children: [
+                              Icon(
+                                Icons.play_circle_outline_outlined,
+                                weight: 11.0,
+                                color: Color(0xFFFFFFFF),
+                              ),
+                              SizedBox(width: 10.0),
+                              Text(
+                                'Regenerate response',
+                                style: ChatGptTextStyles.textStyle2,
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               Positioned(
@@ -119,7 +126,7 @@ class ChatView extends StatelessWidget {
                       children: [
                         Expanded(
                           child: TextField(
-                            onChanged: (String message) {},
+                            controller: input,
                             cursorColor: const Color(0xFFFFFFFF),
                             cursorHeight: 28.0,
                             cursorWidth: 1.0,
@@ -133,7 +140,9 @@ class ChatView extends StatelessWidget {
                         ),
                         const SizedBox(width: 8.0),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () => context
+                              .read<ChatBloc>()
+                              .add(SendMessageEvent(message: input.value.text)),
                           child: Container(
                             padding: const EdgeInsets.all(9.67),
                             decoration: const BoxDecoration(
@@ -155,9 +164,76 @@ class ChatView extends StatelessWidget {
               ),
             ],
           ),
-          empty: () => const Text(
-            'Ask anything, get your answer',
-            style: ChatGptTextStyles.textStyle1,
+          empty: () => Column(
+            children: [
+              const Text(
+                'Ask anything, get your answer',
+                style: ChatGptTextStyles.textStyle1,
+              ),
+              Positioned(
+                left: 20.0,
+                right: 20.0,
+                bottom: 0.0,
+                child: Container(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8.0),
+                      topRight: Radius.circular(8.0),
+                    ),
+                    color: Color(0xFF343541),
+                  ),
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 20.0),
+                    padding: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: const Color(0x1AFFFFFF),
+                      borderRadius:
+                      const BorderRadius.all(Radius.circular(8.0)),
+                      border: Border.all(
+                        color: const Color(0x52FFFFFF),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: input,
+                            cursorColor: const Color(0xFFFFFFFF),
+                            cursorHeight: 28.0,
+                            cursorWidth: 1.0,
+                            decoration: const InputDecoration(
+                              labelStyle: ChatGptTextStyles.textStyle6,
+                              hintText: 'Enter text',
+                              hintStyle: ChatGptTextStyles.textStyle5,
+                              border: InputBorder.none,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8.0),
+                        GestureDetector(
+                          onTap: () => context
+                              .read<ChatBloc>()
+                              .add(SendMessageEvent(message: input.value.text)),
+                          child: Container(
+                            padding: const EdgeInsets.all(9.67),
+                            decoration: const BoxDecoration(
+                              color: Color(0xFF10A37F),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                            ),
+                            child: const Icon(
+                              Icons.send_outlined,
+                              color: Color(0xFFFFFFFF),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
           failure: (error) => Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32.0),
@@ -228,6 +304,7 @@ class _ChatMessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = context.read<ChatBloc>();
     return Padding(
       padding: const EdgeInsets.only(
         right: 88.0,
@@ -252,7 +329,7 @@ class _ChatMessageWidget extends StatelessWidget {
           ),
           const SizedBox(height: 14.0),
           GestureDetector(
-            onTap: () {},
+            onTap: () => bloc.add(CopyMessageEvent(message: message)),
             child: const Row(
               children: [
                 Icon(

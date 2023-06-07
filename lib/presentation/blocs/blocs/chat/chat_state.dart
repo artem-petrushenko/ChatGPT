@@ -5,7 +5,7 @@ class ChatState with _$ChatState {
   const factory ChatState.loading() = _ChatLoadingState;
 
   const factory ChatState.success({
-    required List<ChatHistoryModel> chatHistoryModel,
+    required List<ChatHistoryModel> history,
   }) = _ChatSuccessState;
 
   const factory ChatState.empty() = _ChatEmptyState;
