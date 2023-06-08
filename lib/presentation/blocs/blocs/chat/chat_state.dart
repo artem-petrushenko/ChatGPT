@@ -6,6 +6,7 @@ class ChatState with _$ChatState {
 
   const factory ChatState.success({
     required List<ChatHistoryModel> history,
+    required bool hasResponse,
   }) = _ChatSuccessState;
 
   const factory ChatState.empty() = _ChatEmptyState;

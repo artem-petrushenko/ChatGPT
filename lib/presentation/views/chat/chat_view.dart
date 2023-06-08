@@ -36,36 +36,45 @@ class ChatView extends StatelessWidget {
       body: Center(
         child: state.when(
           loading: () => const CircularProgressIndicator(),
-          success: (chat) => Stack(
+          success: (chat, hasResponse) => Stack(
             children: [
-              ListView.separated(
-                padding: const EdgeInsets.only(
-                  left: 20.0,
-                  right: 20.0,
-                  top: 12.0,
-                  bottom: 120.0,
-                ),
+              CustomScrollView(
                 reverse: true,
-                itemBuilder: (BuildContext context, int index) {
-                  final message = chat[index];
-                  return message.name == 'user'
-                      ? _UserMessageWidget(message: message.message)
-                      : _ChatMessageWidget(message: message.message);
-                },
-                itemCount: chat.length,
-                separatorBuilder: (BuildContext context, int index) =>
-                    const SizedBox(height: 16.0),
+                slivers: [
+                  const SliverPadding(padding: EdgeInsets.all(8.0)),
+                  if (!hasResponse)
+                    const SliverPadding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.0),
+                      sliver: SliverToBoxAdapter(
+                          child:
+                              _ChatMessageWidget(message: 'message.message')),
+                    ),
+                  SliverPadding(
+                    padding: const EdgeInsets.only(
+                        left: 20.0, right: 20.0, top: 12.0, bottom: 16.0),
+                    sliver: SliverList.separated(
+                      itemBuilder: (BuildContext context, int index) {
+                        final message = chat[index];
+                        return message.name == 'user'
+                            ? _UserMessageWidget(message: message.message)
+                            : _ChatMessageWidget(message: message.message);
+                      },
+                      separatorBuilder: (BuildContext context, int index) =>
+                          const SizedBox(height: 16.0),
+                      itemCount: chat.length,
+                    ),
+                  )
+                ],
               ),
               if (chat.first.name == 'assistant')
                 Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 100.0,
+                  left: 0.0,
+                  right: 0.0,
+                  bottom: 8.0,
                   child: GestureDetector(
                     onTap: () => context.read<ChatBloc>()
                       ..add(
-                        RegenerateResponseEvent(message: chat.last.message),
-                      ),
+                          RegenerateResponseEvent(message: chat.last.message)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -99,141 +108,11 @@ class ChatView extends StatelessWidget {
                     ),
                   ),
                 ),
-              Positioned(
-                left: 20.0,
-                right: 20.0,
-                bottom: 0.0,
-                child: Container(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8.0),
-                      topRight: Radius.circular(8.0),
-                    ),
-                    color: Color(0xFF343541),
-                  ),
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 20.0),
-                    padding: const EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      color: const Color(0x1AFFFFFF),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(8.0)),
-                      border: Border.all(
-                        color: const Color(0x52FFFFFF),
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: input,
-                            cursorColor: const Color(0xFFFFFFFF),
-                            cursorHeight: 28.0,
-                            cursorWidth: 1.0,
-                            decoration: const InputDecoration(
-                              labelStyle: ChatGptTextStyles.textStyle6,
-                              hintText: 'Enter text',
-                              hintStyle: ChatGptTextStyles.textStyle5,
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 8.0),
-                        GestureDetector(
-                          onTap: () => context
-                              .read<ChatBloc>()
-                              .add(SendMessageEvent(message: input.value.text)),
-                          child: Container(
-                            padding: const EdgeInsets.all(9.67),
-                            decoration: const BoxDecoration(
-                              color: Color(0xFF10A37F),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                            ),
-                            child: const Icon(
-                              Icons.send_outlined,
-                              color: Color(0xFFFFFFFF),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
             ],
           ),
-          empty: () => Column(
-            children: [
-              const Text(
-                'Ask anything, get your answer',
-                style: ChatGptTextStyles.textStyle1,
-              ),
-              Positioned(
-                left: 20.0,
-                right: 20.0,
-                bottom: 0.0,
-                child: Container(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8.0),
-                      topRight: Radius.circular(8.0),
-                    ),
-                    color: Color(0xFF343541),
-                  ),
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 20.0),
-                    padding: const EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      color: const Color(0x1AFFFFFF),
-                      borderRadius:
-                      const BorderRadius.all(Radius.circular(8.0)),
-                      border: Border.all(
-                        color: const Color(0x52FFFFFF),
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: input,
-                            cursorColor: const Color(0xFFFFFFFF),
-                            cursorHeight: 28.0,
-                            cursorWidth: 1.0,
-                            decoration: const InputDecoration(
-                              labelStyle: ChatGptTextStyles.textStyle6,
-                              hintText: 'Enter text',
-                              hintStyle: ChatGptTextStyles.textStyle5,
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 8.0),
-                        GestureDetector(
-                          onTap: () => context
-                              .read<ChatBloc>()
-                              .add(SendMessageEvent(message: input.value.text)),
-                          child: Container(
-                            padding: const EdgeInsets.all(9.67),
-                            decoration: const BoxDecoration(
-                              color: Color(0xFF10A37F),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                            ),
-                            child: const Icon(
-                              Icons.send_outlined,
-                              color: Color(0xFFFFFFFF),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
+          empty: () => const Text(
+            'Ask anything, get your answer',
+            style: ChatGptTextStyles.textStyle1,
           ),
           failure: (error) => Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32.0),
@@ -255,11 +134,141 @@ class ChatView extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 32.0),
-                TextButton(onPressed: () {}, child: const Text('Try Again'))
+                TextButton(
+                  onPressed: () =>
+                      context.read<ChatBloc>().add(const LoadingChatEvent()),
+                  child: const Text('Try Again'),
+                ),
               ],
             ),
           ),
         ),
+      ),
+      bottomNavigationBar: state.when(
+        loading: () => const SizedBox.shrink(),
+        success: (history, hasResponse) => Container(
+          padding: const EdgeInsets.only(
+            left: 20.0,
+            right: 20.0,
+          ),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(8.0),
+              topRight: Radius.circular(8.0),
+            ),
+            color: Color(0xFF343541),
+          ),
+          child: Container(
+            margin: const EdgeInsets.only(bottom: 20.0),
+            padding: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: const Color(0x1AFFFFFF),
+              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+              border: Border.all(
+                color: const Color(0x52FFFFFF),
+              ),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: input,
+                    cursorColor: const Color(0xFFFFFFFF),
+                    cursorHeight: 28.0,
+                    cursorWidth: 1.0,
+                    decoration: const InputDecoration(
+                      labelStyle: ChatGptTextStyles.textStyle6,
+                      hintText: 'Enter text',
+                      hintStyle: ChatGptTextStyles.textStyle5,
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8.0),
+                GestureDetector(
+                  onTap: () => context
+                      .read<ChatBloc>()
+                      .add(SendMessageEvent(message: input.value.text)),
+                  child: Container(
+                    padding: const EdgeInsets.all(9.67),
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF10A37F),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(8.0),
+                      ),
+                    ),
+                    child: const Icon(
+                      Icons.send_outlined,
+                      color: Color(0xFFFFFFFF),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+        empty: () => Container(
+          padding: const EdgeInsets.only(
+            left: 20.0,
+            right: 20.0,
+          ),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(8.0),
+              topRight: Radius.circular(8.0),
+            ),
+            color: Color(0xFF343541),
+          ),
+          child: Container(
+            margin: const EdgeInsets.only(bottom: 20.0),
+            padding: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: const Color(0x1AFFFFFF),
+              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+              border: Border.all(
+                color: const Color(0x52FFFFFF),
+              ),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: input,
+                    cursorColor: const Color(0xFFFFFFFF),
+                    cursorHeight: 28.0,
+                    cursorWidth: 1.0,
+                    decoration: const InputDecoration(
+                      labelStyle: ChatGptTextStyles.textStyle6,
+                      hintText: 'Enter text',
+                      hintStyle: ChatGptTextStyles.textStyle5,
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8.0),
+                GestureDetector(
+                  onTap: () => context
+                      .read<ChatBloc>()
+                      .add(SendMessageEvent(message: input.value.text)),
+                  child: Container(
+                    padding: const EdgeInsets.all(9.67),
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF10A37F),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(8.0),
+                      ),
+                    ),
+                    child: const Icon(
+                      Icons.send_outlined,
+                      color: Color(0xFFFFFFFF),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+        failure: (error) => const SizedBox.shrink(),
       ),
     );
   }
@@ -274,22 +283,25 @@ class _UserMessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(
-        left: 88.0,
-      ),
-      padding: const EdgeInsets.all(12.0),
-      decoration: const BoxDecoration(
-        color: Color(0xFF10A37F),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(8.0),
-          topRight: Radius.circular(8.0),
-          bottomLeft: Radius.circular(8.0),
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Container(
+        margin: const EdgeInsets.only(
+          left: 88.0,
         ),
-      ),
-      child: Text(
-        '$message ',
-        style: ChatGptTextStyles.textStyle4,
+        padding: const EdgeInsets.all(12.0),
+        decoration: const BoxDecoration(
+          color: Color(0xFF10A37F),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(8.0),
+            topRight: Radius.circular(8.0),
+            bottomLeft: Radius.circular(8.0),
+          ),
+        ),
+        child: Text(
+          '$message ',
+          style: ChatGptTextStyles.textStyle4,
+        ),
       ),
     );
   }
@@ -312,19 +324,22 @@ class _ChatMessageWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: const EdgeInsets.all(12.0),
-            decoration: const BoxDecoration(
-              color: Color(0x33FFFFFF),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(8.0),
-                topRight: Radius.circular(8.0),
-                bottomRight: Radius.circular(8.0),
+        Align(
+        alignment: Alignment.centerLeft,
+            child: Container(
+              padding: const EdgeInsets.all(12.0),
+              decoration: const BoxDecoration(
+                color: Color(0x33FFFFFF),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8.0),
+                  topRight: Radius.circular(8.0),
+                  bottomRight: Radius.circular(8.0),
+                ),
               ),
-            ),
-            child: Text(
-              '$message ',
-              style: ChatGptTextStyles.textStyle4,
+              child: Text(
+                '$message ',
+                style: ChatGptTextStyles.textStyle4,
+              ),
             ),
           ),
           const SizedBox(height: 14.0),

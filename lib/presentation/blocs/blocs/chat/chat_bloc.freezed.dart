@@ -19,7 +19,8 @@ mixin _$ChatState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(List<ChatHistoryModel> history) success,
+    required TResult Function(List<ChatHistoryModel> history, bool hasResponse)
+        success,
     required TResult Function() empty,
     required TResult Function(Object? error) failure,
   }) =>
@@ -27,7 +28,8 @@ mixin _$ChatState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(List<ChatHistoryModel> history)? success,
+    TResult? Function(List<ChatHistoryModel> history, bool hasResponse)?
+        success,
     TResult? Function()? empty,
     TResult? Function(Object? error)? failure,
   }) =>
@@ -35,7 +37,7 @@ mixin _$ChatState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(List<ChatHistoryModel> history)? success,
+    TResult Function(List<ChatHistoryModel> history, bool hasResponse)? success,
     TResult Function()? empty,
     TResult Function(Object? error)? failure,
     required TResult orElse(),
@@ -124,7 +126,8 @@ class _$_ChatLoadingState implements _ChatLoadingState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(List<ChatHistoryModel> history) success,
+    required TResult Function(List<ChatHistoryModel> history, bool hasResponse)
+        success,
     required TResult Function() empty,
     required TResult Function(Object? error) failure,
   }) {
@@ -135,7 +138,8 @@ class _$_ChatLoadingState implements _ChatLoadingState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(List<ChatHistoryModel> history)? success,
+    TResult? Function(List<ChatHistoryModel> history, bool hasResponse)?
+        success,
     TResult? Function()? empty,
     TResult? Function(Object? error)? failure,
   }) {
@@ -146,7 +150,7 @@ class _$_ChatLoadingState implements _ChatLoadingState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(List<ChatHistoryModel> history)? success,
+    TResult Function(List<ChatHistoryModel> history, bool hasResponse)? success,
     TResult Function()? empty,
     TResult Function(Object? error)? failure,
     required TResult orElse(),
@@ -205,7 +209,7 @@ abstract class _$$_ChatSuccessStateCopyWith<$Res> {
           _$_ChatSuccessState value, $Res Function(_$_ChatSuccessState) then) =
       __$$_ChatSuccessStateCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<ChatHistoryModel> history});
+  $Res call({List<ChatHistoryModel> history, bool hasResponse});
 }
 
 /// @nodoc
@@ -220,12 +224,17 @@ class __$$_ChatSuccessStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? history = null,
+    Object? hasResponse = null,
   }) {
     return _then(_$_ChatSuccessState(
       history: null == history
           ? _value._history
           : history // ignore: cast_nullable_to_non_nullable
               as List<ChatHistoryModel>,
+      hasResponse: null == hasResponse
+          ? _value.hasResponse
+          : hasResponse // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -233,7 +242,9 @@ class __$$_ChatSuccessStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_ChatSuccessState implements _ChatSuccessState {
-  const _$_ChatSuccessState({required final List<ChatHistoryModel> history})
+  const _$_ChatSuccessState(
+      {required final List<ChatHistoryModel> history,
+      required this.hasResponse})
       : _history = history;
 
   final List<ChatHistoryModel> _history;
@@ -245,8 +256,11 @@ class _$_ChatSuccessState implements _ChatSuccessState {
   }
 
   @override
+  final bool hasResponse;
+
+  @override
   String toString() {
-    return 'ChatState.success(history: $history)';
+    return 'ChatState.success(history: $history, hasResponse: $hasResponse)';
   }
 
   @override
@@ -254,12 +268,14 @@ class _$_ChatSuccessState implements _ChatSuccessState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ChatSuccessState &&
-            const DeepCollectionEquality().equals(other._history, _history));
+            const DeepCollectionEquality().equals(other._history, _history) &&
+            (identical(other.hasResponse, hasResponse) ||
+                other.hasResponse == hasResponse));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_history));
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_history), hasResponse);
 
   @JsonKey(ignore: true)
   @override
@@ -271,35 +287,37 @@ class _$_ChatSuccessState implements _ChatSuccessState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(List<ChatHistoryModel> history) success,
+    required TResult Function(List<ChatHistoryModel> history, bool hasResponse)
+        success,
     required TResult Function() empty,
     required TResult Function(Object? error) failure,
   }) {
-    return success(history);
+    return success(history, hasResponse);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(List<ChatHistoryModel> history)? success,
+    TResult? Function(List<ChatHistoryModel> history, bool hasResponse)?
+        success,
     TResult? Function()? empty,
     TResult? Function(Object? error)? failure,
   }) {
-    return success?.call(history);
+    return success?.call(history, hasResponse);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(List<ChatHistoryModel> history)? success,
+    TResult Function(List<ChatHistoryModel> history, bool hasResponse)? success,
     TResult Function()? empty,
     TResult Function(Object? error)? failure,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(history);
+      return success(history, hasResponse);
     }
     return orElse();
   }
@@ -344,9 +362,11 @@ class _$_ChatSuccessState implements _ChatSuccessState {
 
 abstract class _ChatSuccessState implements ChatState {
   const factory _ChatSuccessState(
-      {required final List<ChatHistoryModel> history}) = _$_ChatSuccessState;
+      {required final List<ChatHistoryModel> history,
+      required final bool hasResponse}) = _$_ChatSuccessState;
 
   List<ChatHistoryModel> get history;
+  bool get hasResponse;
   @JsonKey(ignore: true)
   _$$_ChatSuccessStateCopyWith<_$_ChatSuccessState> get copyWith =>
       throw _privateConstructorUsedError;
@@ -391,7 +411,8 @@ class _$_ChatEmptyState implements _ChatEmptyState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(List<ChatHistoryModel> history) success,
+    required TResult Function(List<ChatHistoryModel> history, bool hasResponse)
+        success,
     required TResult Function() empty,
     required TResult Function(Object? error) failure,
   }) {
@@ -402,7 +423,8 @@ class _$_ChatEmptyState implements _ChatEmptyState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(List<ChatHistoryModel> history)? success,
+    TResult? Function(List<ChatHistoryModel> history, bool hasResponse)?
+        success,
     TResult? Function()? empty,
     TResult? Function(Object? error)? failure,
   }) {
@@ -413,7 +435,7 @@ class _$_ChatEmptyState implements _ChatEmptyState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(List<ChatHistoryModel> history)? success,
+    TResult Function(List<ChatHistoryModel> history, bool hasResponse)? success,
     TResult Function()? empty,
     TResult Function(Object? error)? failure,
     required TResult orElse(),
@@ -529,7 +551,8 @@ class _$_ChatFailureState implements _ChatFailureState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(List<ChatHistoryModel> history) success,
+    required TResult Function(List<ChatHistoryModel> history, bool hasResponse)
+        success,
     required TResult Function() empty,
     required TResult Function(Object? error) failure,
   }) {
@@ -540,7 +563,8 @@ class _$_ChatFailureState implements _ChatFailureState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(List<ChatHistoryModel> history)? success,
+    TResult? Function(List<ChatHistoryModel> history, bool hasResponse)?
+        success,
     TResult? Function()? empty,
     TResult? Function(Object? error)? failure,
   }) {
@@ -551,7 +575,7 @@ class _$_ChatFailureState implements _ChatFailureState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(List<ChatHistoryModel> history)? success,
+    TResult Function(List<ChatHistoryModel> history, bool hasResponse)? success,
     TResult Function()? empty,
     TResult Function(Object? error)? failure,
     required TResult orElse(),

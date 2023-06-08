@@ -44,22 +44,37 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   void _onSendMessageEvent(
       SendMessageEvent event, Emitter<ChatState> emit) async {
-
     try {
-      _addDataToDatabase(ChatHistoryModel(name: 'user', message: event.message));
+      final userMessage =
+          ChatHistoryModel(name: 'user', message: event.message);
+      late final List<ChatHistoryModel> newHistory;
+      if (state is _ChatSuccessState) {
+        newHistory =
+            List<ChatHistoryModel>.from((state as _ChatSuccessState).history)
+              ..insert(0, userMessage);
+      } else {
+        newHistory = <ChatHistoryModel>[]..insert(0, userMessage);
+      }
+      _addDataToDatabase(userMessage);
+      emit(ChatState.success(history: newHistory, hasResponse: false));
+      final message = newHistory
+          .map((e) => <String, String>{'role': e.name, 'content': e.message})
+          .toList()
+          .reversed
+          .toList();
       final response = await chatGPTRepository.createChatCompletion(
         model: "gpt-3.5-turbo",
-        messages: [
-          <String, String>{'role': 'user', 'content': event.message}
-        ],
+        messages: message,
         stream: false,
       );
-      _addDataToDatabase(ChatHistoryModel(name: response.choices?.last.message?.role ?? '', message: response.choices?.last.message?.content ?? ''));
-      emit(ChatState.success(history: [
-        ChatHistoryModel(
-            name: response.choices?.last.message?.role ?? '',
-            message: response.choices?.last.message?.content ?? '')
-      ]));
+      final responseMessage = ChatHistoryModel(
+          name: response.choices?.last.message?.role ?? '',
+          message: response.choices?.last.message?.content ?? '');
+      final newNewHistory =
+          List<ChatHistoryModel>.from((state as _ChatSuccessState).history)
+            ..insert(0, responseMessage);
+      _addDataToDatabase(responseMessage);
+      emit(ChatState.success(history: newNewHistory, hasResponse: true));
     } catch (error) {
       emit(ChatState.failure(error: error));
     }
@@ -71,23 +86,13 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       final history = await chatsDBRepository.getMessage();
       emit(history.isEmpty
           ? const ChatState.empty()
-          : ChatState.success(history: history.reversed.toList()));
+          : ChatState.success(
+              history: history.reversed.toList(), hasResponse: true));
     } catch (error) {
       emit(ChatState.failure(error: error));
     }
   }
 
-//
-// Future<ChatCompletionModel> _sendMessage() async {
-//   return await _chatGPTRepository.createChatCompletion(
-//     model: "gpt-3.5-turbo",
-//     messages: _chatHistoryModel
-//         .map((e) => <String, String>{'role': e.name, 'content': e.message})
-//         .toList(),
-//     stream: false,
-//   );
-// }
-//
   void _addDataToDatabase(ChatHistoryModel model) {
     chatsDBRepository.insertMessage(
         chatHistoryModel: ChatHistoryModel(
@@ -95,15 +100,4 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       message: model.message,
     ));
   }
-//
-// void _addDataToLocalDatabase(ChatHistoryModel model) {
-//   _chatHistoryModel.add(ChatHistoryModel(
-//     name: model.name,
-//     message: model.message,
-//   ));
-// }
-//
-// void onChangeMessage(String text) {
-//   message = text;
-// }
 }
