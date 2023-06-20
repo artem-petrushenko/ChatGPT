@@ -1,11 +1,12 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 
-import 'package:chat_gpt/repository/chats_db_repository.dart';
-import 'package:chat_gpt/repository/chat_gpt_repository.dart';
-
-import 'package:chat_gpt/screens/chat/model/chat_history_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import 'package:chat_gpt/model/chat_history_model.dart';
+
+import 'package:chat_gpt/data/repository/chat_gpt_repository.dart';
 
 part 'chat_state.dart';
 
@@ -15,19 +16,22 @@ part 'chat_bloc.freezed.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final ChatGPTRepository chatGPTRepository;
-  final ChatsDBRepository chatsDBRepository;
 
   ChatBloc({
     required this.chatGPTRepository,
-    required this.chatsDBRepository,
   }) : super(const ChatState.loading()) {
-    on<LoadingChatEvent>(_onLoadingChatEvent);
-    on<CopyMessageEvent>(_onCopyMessageEvent);
-    on<SendMessageEvent>(_onSendMessageEvent);
-    on<RegenerateResponseEvent>(_onRegenerateResponseEvent);
+    on<ChatEvent>(
+      (ChatEvent event, Emitter<ChatState> emit) => event.map<Future<void>>(
+        loadingChat: (event) => _onLoadingChatEvent(event, emit),
+        sendMessage: (event) => _onSendMessageEvent(event, emit),
+        copyMessage: (event) => _onCopyMessageEvent(event, emit),
+        regenerateResponse: (event) => _onRegenerateResponseEvent(event, emit),
+      ),
+      transformer: sequential(),
+    );
   }
 
-  void _onRegenerateResponseEvent(
+  Future<void> _onRegenerateResponseEvent(
       RegenerateResponseEvent event, Emitter<ChatState> emit) async {
     try {
       // emit(ChatState.success(history:));
@@ -37,27 +41,28 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     }
   }
 
-  void _onCopyMessageEvent(
+  Future<void> _onCopyMessageEvent(
       CopyMessageEvent event, Emitter<ChatState> emit) async {
     Clipboard.setData(ClipboardData(text: event.message));
   }
 
-  void _onSendMessageEvent(
+  Future<void> _onSendMessageEvent(
       SendMessageEvent event, Emitter<ChatState> emit) async {
     try {
       final userMessage =
           ChatHistoryModel(name: 'user', message: event.message);
-      late final List<ChatHistoryModel> newHistory;
       if (state is _ChatSuccessState) {
-        newHistory =
-            List<ChatHistoryModel>.from((state as _ChatSuccessState).history)
-              ..insert(0, userMessage);
+        emit((state as _ChatSuccessState).copyWith(
+            hasResponse: false,
+            history: List<ChatHistoryModel>.from(
+                (state as _ChatSuccessState).history)
+              ..insert(0, userMessage)));
       } else {
-        newHistory = <ChatHistoryModel>[]..insert(0, userMessage);
+        emit(ChatState.success(history: [userMessage], hasResponse: false));
       }
       _addDataToDatabase(userMessage);
-      emit(ChatState.success(history: newHistory, hasResponse: false));
-      final message = newHistory
+      final message = List<ChatHistoryModel>.from(
+              (state as _ChatSuccessState).history)
           .map((e) => <String, String>{'role': e.name, 'content': e.message})
           .toList()
           .reversed
@@ -70,20 +75,22 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       final responseMessage = ChatHistoryModel(
           name: response.choices?.last.message?.role ?? '',
           message: response.choices?.last.message?.content ?? '');
-      final newNewHistory =
-          List<ChatHistoryModel>.from((state as _ChatSuccessState).history)
-            ..insert(0, responseMessage);
+      final newState = (state as _ChatSuccessState).copyWith(
+          history:
+              List<ChatHistoryModel>.from((state as _ChatSuccessState).history)
+                ..insert(0, responseMessage),
+          hasResponse: true);
       _addDataToDatabase(responseMessage);
-      emit(ChatState.success(history: newNewHistory, hasResponse: true));
+      emit(newState);
     } catch (error) {
       emit(ChatState.failure(error: error));
     }
   }
 
-  void _onLoadingChatEvent(
+  Future<void> _onLoadingChatEvent(
       LoadingChatEvent event, Emitter<ChatState> emit) async {
     try {
-      final history = await chatsDBRepository.getMessage();
+      final history = await chatGPTRepository.getHistory();
       emit(history.isEmpty
           ? const ChatState.empty()
           : ChatState.success(
@@ -94,7 +101,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
 
   void _addDataToDatabase(ChatHistoryModel model) {
-    chatsDBRepository.insertMessage(
+    chatGPTRepository.addHistory(
         chatHistoryModel: ChatHistoryModel(
       name: model.name,
       message: model.message,

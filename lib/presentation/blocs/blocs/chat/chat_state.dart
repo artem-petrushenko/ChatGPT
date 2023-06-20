@@ -5,13 +5,13 @@ class ChatState with _$ChatState {
   const factory ChatState.loading() = _ChatLoadingState;
 
   const factory ChatState.success({
-    required List<ChatHistoryModel> history,
-    required bool hasResponse,
+    required final List<ChatHistoryModel> history,
+    required final bool hasResponse,
   }) = _ChatSuccessState;
 
   const factory ChatState.empty() = _ChatEmptyState;
 
   const factory ChatState.failure({
-    required Object? error,
+    required final Object? error,
   }) = _ChatFailureState;
 }

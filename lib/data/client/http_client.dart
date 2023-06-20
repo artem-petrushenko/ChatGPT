@@ -1,14 +1,13 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 
 import 'package:chat_gpt/providers/api_exceptions.dart';
 
-import 'package:chat_gpt/configuration/api_configuration.dart';
+import 'package:chat_gpt/utils/constants/strings.dart';
 
-class ApiRequestHelper {
+class HttpClient {
   final dio = Dio();
 
   Future<Map<String, dynamic>> get({
@@ -17,11 +16,10 @@ class ApiRequestHelper {
   }) async {
     try {
       final response = await dio.get<String>(
-        '${ApiConfiguration.host}$endpoint',
+        '$host$endpoint',
         options: Options(
           headers: <String, dynamic>{
-            HttpHeaders.authorizationHeader:
-                "Bearer ${ApiConfiguration.apiKey}",
+            HttpHeaders.authorizationHeader: "Bearer $apiKey",
             HttpHeaders.contentTypeHeader: "application/json",
           },
         ),
@@ -45,18 +43,16 @@ class ApiRequestHelper {
   }) async {
     try {
       final response = await dio.post<String>(
-        '${ApiConfiguration.host}$endpoint',
+        '$host$endpoint',
         options: Options(
           headers: <String, dynamic>{
-            HttpHeaders.authorizationHeader:
-                "Bearer ${ApiConfiguration.apiKey}",
+            HttpHeaders.authorizationHeader: "Bearer $apiKey",
             HttpHeaders.contentTypeHeader: "application/json",
           },
         ),
         data: jsonEncode(body),
         queryParameters: queryParameters,
       );
-      log('${response.data}');
       _checkStatusCode(response);
       return jsonDecode(response.data ?? '') as Map<String, dynamic>;
     } on SocketException {

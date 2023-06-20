@@ -1,9 +1,8 @@
 import 'package:chat_gpt/models/chat_completion_model.dart';
-import 'package:chat_gpt/providers/chat_gpt_service.dart';
 
-class ChatGPTRepository {
-  final _chatGPTProvider = ChatGPTService();
+import 'package:chat_gpt/model/chat_history_model.dart';
 
+abstract class ChatGPTRepository {
   Future<ChatCompletionModel> createChatCompletion({
     required String model,
     required List<Map<String, dynamic>> messages,
@@ -17,14 +16,11 @@ class ChatGPTRepository {
     double? frequencyPenalty,
     Map<String, dynamic>? logitBias,
     String? user,
-  }) async {
-    final chatCompletion = await _chatGPTProvider.createChatCompletion(
-      body: <String, dynamic>{
-        'model': model,
-        'messages': messages,
-        'stream': stream,
-      },
-    );
-    return chatCompletion;
-  }
+  });
+
+  Future<List<ChatHistoryModel>> getHistory();
+
+  Future<void> addHistory({
+    required ChatHistoryModel chatHistoryModel,
+  });
 }

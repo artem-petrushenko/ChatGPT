@@ -1,8 +1,8 @@
-import 'package:chat_gpt/presentation/blocs/blocs/chat/chat_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:chat_gpt/theme/chat_gpt_text_styles.dart';
+import 'package:chat_gpt/config/theme/chat_gpt_text_styles.dart';
+import 'package:chat_gpt/presentation/blocs/blocs/chat/chat_bloc.dart';
 
 class ChatView extends StatelessWidget {
   const ChatView({Key? key}) : super(key: key);
@@ -12,7 +12,7 @@ class ChatView extends StatelessWidget {
     final input = TextEditingController();
     final state = context.watch<ChatBloc>().state;
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xFF343541),
       appBar: AppBar(
         flexibleSpace: const FlexibleSpaceBar(
@@ -73,8 +73,8 @@ class ChatView extends StatelessWidget {
                   bottom: 8.0,
                   child: GestureDetector(
                     onTap: () => context.read<ChatBloc>()
-                      ..add(
-                          RegenerateResponseEvent(message: chat.last.message)),
+                      ..add(ChatEvent.regenerateResponse(
+                          message: chat.last.message)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -135,8 +135,9 @@ class ChatView extends StatelessWidget {
                 ),
                 const SizedBox(height: 32.0),
                 TextButton(
-                  onPressed: () =>
-                      context.read<ChatBloc>().add(const LoadingChatEvent()),
+                  onPressed: () => context
+                      .read<ChatBloc>()
+                      .add(const ChatEvent.loadingChat()),
                   child: const Text('Try Again'),
                 ),
               ],
@@ -188,7 +189,7 @@ class ChatView extends StatelessWidget {
                 GestureDetector(
                   onTap: () => context
                       .read<ChatBloc>()
-                      .add(SendMessageEvent(message: input.value.text)),
+                      .add(ChatEvent.sendMessage(message: input.value.text)),
                   child: Container(
                     padding: const EdgeInsets.all(9.67),
                     decoration: const BoxDecoration(
@@ -249,7 +250,7 @@ class ChatView extends StatelessWidget {
                 GestureDetector(
                   onTap: () => context
                       .read<ChatBloc>()
-                      .add(SendMessageEvent(message: input.value.text)),
+                      .add(ChatEvent.sendMessage(message: input.value.text)),
                   child: Container(
                     padding: const EdgeInsets.all(9.67),
                     decoration: const BoxDecoration(
@@ -324,8 +325,8 @@ class _ChatMessageWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-        Align(
-        alignment: Alignment.centerLeft,
+          Align(
+            alignment: Alignment.centerLeft,
             child: Container(
               padding: const EdgeInsets.all(12.0),
               decoration: const BoxDecoration(
@@ -344,7 +345,7 @@ class _ChatMessageWidget extends StatelessWidget {
           ),
           const SizedBox(height: 14.0),
           GestureDetector(
-            onTap: () => bloc.add(CopyMessageEvent(message: message)),
+            onTap: () => bloc.add(ChatEvent.copyMessage(message: message)),
             child: const Row(
               children: [
                 Icon(
