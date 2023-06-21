@@ -12,7 +12,7 @@ class ChatView extends StatelessWidget {
     final input = TextEditingController();
     final state = context.watch<ChatBloc>().state;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: const Color(0xFF343541),
       appBar: AppBar(
         flexibleSpace: const FlexibleSpaceBar(
