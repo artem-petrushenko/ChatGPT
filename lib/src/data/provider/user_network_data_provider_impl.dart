@@ -50,4 +50,7 @@ class UserNetworkDataProviderImpl implements UserNetworkDataProvider {
 
   @override
   bool isAuth() => FirebaseAuth.instance.currentUser != null;
+
+  @override
+  String getCurrentUID() => FirebaseAuth.instance.currentUser?.uid ?? '';
 }

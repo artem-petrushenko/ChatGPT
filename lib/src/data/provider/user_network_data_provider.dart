@@ -14,4 +14,6 @@ abstract class UserNetworkDataProvider {
   Future<void> logOut();
 
   bool isAuth();
+
+  String getCurrentUID();
 }

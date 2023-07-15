@@ -11,9 +11,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'ChatGPT',
       theme: ThemeData(
-        fontFamily: 'Raleway',
         useMaterial3: true,
-        colorSchemeSeed: const Color(0xFF10A37F),
         brightness: Brightness.dark,
       ),
       routerDelegate: AppRouter.router.routerDelegate,

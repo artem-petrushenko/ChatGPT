@@ -48,4 +48,7 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   bool isAuth() => _userNetworkDataProvider.isAuth();
+
+  @override
+  String getCurrentUID() => _userNetworkDataProvider.getCurrentUID();
 }

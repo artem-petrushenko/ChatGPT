@@ -14,4 +14,6 @@ abstract class UserRepository {
   });
 
   bool isAuth();
+
+  String getCurrentUID();
 }

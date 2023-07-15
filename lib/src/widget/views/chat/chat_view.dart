@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:chat_gpt/src/config/theme/chat_gpt_text_styles.dart';
-
 import 'package:chat_gpt/src/blocs/blocs/chat/chat_bloc.dart';
 
 class ChatView extends StatelessWidget {
@@ -24,7 +22,6 @@ class ChatView extends StatelessWidget {
         backgroundColor: const Color(0xFF343541),
         title: const Text(
           'ChatGPT',
-          style: ChatGptTextStyles.textStyle6,
         ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1.0),
@@ -100,7 +97,6 @@ class ChatView extends StatelessWidget {
                               SizedBox(width: 10.0),
                               Text(
                                 'Regenerate response',
-                                style: ChatGptTextStyles.textStyle2,
                               )
                             ],
                           ),
@@ -113,7 +109,6 @@ class ChatView extends StatelessWidget {
           ),
           empty: () => const Text(
             'Ask anything, get your answer',
-            style: ChatGptTextStyles.textStyle1,
           ),
           failure: (error) => Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32.0),
@@ -179,9 +174,7 @@ class ChatView extends StatelessWidget {
                     cursorHeight: 28.0,
                     cursorWidth: 1.0,
                     decoration: const InputDecoration(
-                      labelStyle: ChatGptTextStyles.textStyle6,
                       hintText: 'Enter text',
-                      hintStyle: ChatGptTextStyles.textStyle5,
                       border: InputBorder.none,
                     ),
                   ),
@@ -240,9 +233,7 @@ class ChatView extends StatelessWidget {
                     cursorHeight: 28.0,
                     cursorWidth: 1.0,
                     decoration: const InputDecoration(
-                      labelStyle: ChatGptTextStyles.textStyle6,
                       hintText: 'Enter text',
-                      hintStyle: ChatGptTextStyles.textStyle5,
                       border: InputBorder.none,
                     ),
                   ),
@@ -302,7 +293,6 @@ class _UserMessageWidget extends StatelessWidget {
         ),
         child: Text(
           '$message ',
-          style: ChatGptTextStyles.textStyle4,
         ),
       ),
     );
@@ -340,7 +330,6 @@ class _ChatMessageWidget extends StatelessWidget {
               ),
               child: Text(
                 '$message ',
-                style: ChatGptTextStyles.textStyle4,
               ),
             ),
           ),
@@ -357,7 +346,6 @@ class _ChatMessageWidget extends StatelessWidget {
                 SizedBox(width: 12.0),
                 Text(
                   'Copy',
-                  style: ChatGptTextStyles.textStyle3,
                 )
               ],
             ),
