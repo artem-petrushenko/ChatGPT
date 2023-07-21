@@ -5,7 +5,7 @@ class ChatsState with _$ChatsState {
   const factory ChatsState.loading() = _ChatsLoadingState;
 
   const factory ChatsState.success({
-    required final List<ChatModel> chats,
+    required final List<ConversationModel> chats,
     required final bool hasReachedMax,
   }) = _ChatsSuccessState;
 

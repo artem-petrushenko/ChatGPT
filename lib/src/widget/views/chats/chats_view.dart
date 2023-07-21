@@ -1,7 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
-import 'package:chat_gpt/src/blocs/blocs/chats_list/chats_bloc.dart';
+import 'package:chat_gpt/src/blocs/blocs/chats/chats_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class ChatsView extends StatelessWidget {
   const ChatsView({super.key});
@@ -22,33 +23,41 @@ class ChatsView extends StatelessWidget {
       body: Center(
         child: state.when(
             loading: () => const CircularProgressIndicator(),
-            success: (chats, hasReachedMax) => CustomScrollView(slivers: [
-                  SliverList.builder(
+            success: (chats, hasReachedMax) => CustomScrollView(
+                  slivers: [
+                    SliverList.builder(
                       itemCount: chats.length,
                       itemBuilder: (BuildContext context, int index) {
                         if (index >= chats.length - 1) {
                           context.read<ChatsBloc>().add(
-                              ChatsEvent.fetchChats(id: chats[index].id ?? ''));
+                              ChatsEvent.fetchChats(id: chats[index].conversationId));
                         }
-                        return ListTile(
-                          title: Text(chats[index].name ?? ''),
-                          subtitle: Text(chats[index].id ?? ''),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.delete_outline),
-                            onPressed: () => context.read<ChatsBloc>().add(
-                                  ChatsEvent.removeChat(
-                                      id: chats[index].id ?? ''),
-                                ),
+                        return Dismissible(
+                          key: Key(chats[index].conversationId),
+                          onDismissed: (direction) =>
+                              context.read<ChatsBloc>().add(
+                                    ChatsEvent.removeChat(
+                                        id: chats[index].conversationId),
+                                  ),
+                          child: ListTile(
+                            onTap: () => context.push(
+                              '/chat',
+                              extra: {'id': chats[index].conversationId},
+                            ),
+                            title: Text(chats[index].name),
+                            subtitle: Text(DateTime.fromMillisecondsSinceEpoch(chats[index].createdAt).toString()),
                           ),
                         );
-                      }),
-                  if (hasReachedMax == false)
-                    const SliverToBoxAdapter(
-                      child: Center(
-                        child: CircularProgressIndicator(),
-                      ),
+                      },
                     ),
-                ]),
+                    if (hasReachedMax == false)
+                      const SliverToBoxAdapter(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
+                  ],
+                ),
             empty: () => const Text('Empty'),
             failure: (error) => const Text('Failure')),
       ),

@@ -1,4 +1,4 @@
-import 'package:chat_gpt/src/models/chat_completion_model.dart';
+import 'package:chat_gpt/src/model/chat_completion/chat_completion_model.dart';
 
 abstract class ChatNetworkDataProvider {
   Future<ChatCompletionModel> createChatCompletion({

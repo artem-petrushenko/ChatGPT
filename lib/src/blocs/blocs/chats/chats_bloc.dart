@@ -1,10 +1,10 @@
+import 'package:chat_gpt/src/model/conversation/conversation_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:chat_gpt/src/models/chat_model.dart';
-import 'package:chat_gpt/src/data/repository/chats_repository.dart';
-import 'package:chat_gpt/src/data/repository/user_repository.dart';
+import 'package:chat_gpt/src/data/repository/chats/chats_repository.dart';
+import 'package:chat_gpt/src/data/repository/user/user_repository.dart';
 
 part 'chats_event.dart';
 
@@ -38,7 +38,8 @@ class ChatsBloc extends Bloc<ChatsEvent, ChatsState> {
     try {
       if (state is _ChatsSuccessState) {
         final uid = _userRepository.getCurrentUID();
-        final chats = await _chatsRepository.getChatsList(uid: uid, id: event.id);
+        final chats =
+            await _chatsRepository.getChatsList(uid: uid, id: event.id);
         emit(chats.isEmpty
             ? (state as _ChatsSuccessState).copyWith(hasReachedMax: true)
             : (state as _ChatsSuccessState).copyWith(
@@ -46,7 +47,8 @@ class ChatsBloc extends Bloc<ChatsEvent, ChatsState> {
                 chats: (state as _ChatsSuccessState).chats + chats));
       } else {
         final uid = _userRepository.getCurrentUID();
-        final chats = await _chatsRepository.getChatsList(uid: uid, id: event.id);
+        final chats =
+            await _chatsRepository.getChatsList(uid: uid, id: event.id);
         final newState = chats.isEmpty
             ? const ChatsState.empty()
             : ChatsState.success(chats: chats, hasReachedMax: false);

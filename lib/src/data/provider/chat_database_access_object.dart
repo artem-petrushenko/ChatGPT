@@ -1,9 +1,9 @@
-import 'package:chat_gpt/src/models/chat_history_model.dart';
+import 'package:chat_gpt/src/model/message/message_model.dart';
 
 abstract class ChatDatabaseAccessObject {
   Future<void> insertMessage({
-    required ChatHistoryModel chatHistoryModel,
+    required MessageModel chatHistoryModel,
   });
 
-  Future<List<ChatHistoryModel>> getItems();
+  Future<List<MessageModel>> getItems();
 }

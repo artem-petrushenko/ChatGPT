@@ -1,4 +1,4 @@
-import 'package:chat_gpt/src/models/chat_model.dart';
+import 'package:chat_gpt/src/model/conversation/conversation_model.dart';
 
 abstract class ChatsNetworkDataProvider {
   Future<void> createChat({
@@ -6,7 +6,7 @@ abstract class ChatsNetworkDataProvider {
     required String uid,
   });
 
-  Future<List<ChatModel>> getChats({
+  Future<List<ConversationModel>> getChats({
     required String uid,
     required String id,
   });

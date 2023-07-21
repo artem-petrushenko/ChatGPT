@@ -1,6 +1,6 @@
-import 'package:chat_gpt/src/models/chat_completion_model.dart';
+import 'package:chat_gpt/src/model/message/message_model.dart';
 
-import 'package:chat_gpt/src/models/chat_history_model.dart';
+import 'package:chat_gpt/src/model/chat_completion/chat_completion_model.dart';
 
 abstract class ChatRepository {
   Future<ChatCompletionModel> createChatCompletion({
@@ -18,9 +18,9 @@ abstract class ChatRepository {
     String? user,
   });
 
-  Future<List<ChatHistoryModel>> getHistory();
+  Future<List<MessageModel>> getHistory();
 
   Future<void> addHistory({
-    required ChatHistoryModel chatHistoryModel,
+    required MessageModel chatHistoryModel,
   });
 }

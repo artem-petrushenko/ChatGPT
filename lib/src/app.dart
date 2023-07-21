@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:chat_gpt/src/widget/router/router.dart';
 
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -13,6 +12,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
+        appBarTheme: const AppBarTheme(
+          centerTitle: true,
+        ),
       ),
       routerDelegate: AppRouter.router.routerDelegate,
       routeInformationParser: AppRouter.router.routeInformationParser,

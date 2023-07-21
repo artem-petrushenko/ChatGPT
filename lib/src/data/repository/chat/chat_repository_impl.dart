@@ -1,12 +1,13 @@
-import 'package:chat_gpt/src/data/provider/chat_database_access_object.dart';
-import 'package:chat_gpt/src/models/chat_completion_model.dart';
+import 'package:chat_gpt/src/model/message/message_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:chat_gpt/src/data/provider/chat_network_data_provider.dart';
 
-import 'package:chat_gpt/src/data/repository/chat_repository.dart';
+import 'package:chat_gpt/src/data/repository/chat/chat_repository.dart';
 
-import 'package:chat_gpt/src/models/chat_history_model.dart';
+import 'package:chat_gpt/src/data/provider/chat_database_access_object.dart';
+
+import 'package:chat_gpt/src/model/chat_completion/chat_completion_model.dart';
 
 @immutable
 class ChatRepositoryImpl implements ChatRepository {
@@ -45,13 +46,13 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<List<ChatHistoryModel>> getHistory() async {
+  Future<List<MessageModel>> getHistory() async {
     return await _chatDatabaseAccessObject.getItems();
   }
 
   @override
   Future<void> addHistory({
-    required ChatHistoryModel chatHistoryModel,
+    required MessageModel chatHistoryModel,
   }) async {
     await _chatDatabaseAccessObject.insertMessage(
         chatHistoryModel: chatHistoryModel);

@@ -53,7 +53,7 @@ class ChatView extends StatelessWidget {
                     sliver: SliverList.separated(
                       itemBuilder: (BuildContext context, int index) {
                         final message = chat[index];
-                        return message.name == 'user'
+                        return message.senderId == 'user'
                             ? _UserMessageWidget(message: message.message)
                             : _ChatMessageWidget(message: message.message);
                       },
@@ -64,7 +64,7 @@ class ChatView extends StatelessWidget {
                   )
                 ],
               ),
-              if (chat.first.name == 'assistant')
+              if (chat.first.senderId == 'assistant')
                 Positioned(
                   left: 0.0,
                   right: 0.0,

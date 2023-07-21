@@ -1,10 +1,10 @@
 import 'package:sqflite/sqflite.dart';
 
-import 'package:chat_gpt/src/models/chat_history_model.dart';
-
 import 'package:chat_gpt/src/data/provider/chat_database_access_object.dart';
 
 import 'package:chat_gpt/src/data/client/sqlite_database.dart';
+
+import 'package:chat_gpt/src/model/message/message_model.dart';
 
 class ChatDatabaseAccessObjectImpl implements ChatDatabaseAccessObject {
   const ChatDatabaseAccessObjectImpl({
@@ -15,12 +15,12 @@ class ChatDatabaseAccessObjectImpl implements ChatDatabaseAccessObject {
 
   @override
   Future<void> insertMessage({
-    ChatHistoryModel? chatHistoryModel,
+    MessageModel? chatHistoryModel,
   }) async {
     final database = await _sqLiteDatabase.initializeDB();
 
     final data = <String, dynamic>{
-      'name': chatHistoryModel?.name,
+      'name': chatHistoryModel?.senderId,
       'message': chatHistoryModel?.message,
     };
     await database.insert('chats', data,
@@ -28,9 +28,9 @@ class ChatDatabaseAccessObjectImpl implements ChatDatabaseAccessObject {
   }
 
   @override
-  Future<List<ChatHistoryModel>> getItems() async {
+  Future<List<MessageModel>> getItems() async {
     final database = await _sqLiteDatabase.initializeDB();
     final List<Map<String, dynamic>> query = await database.query('chats');
-    return query.map((e) => ChatHistoryModel.fromJson(e)).toList();
+    return query.map((e) => MessageModel.fromJson(e)).toList();
   }
 }
