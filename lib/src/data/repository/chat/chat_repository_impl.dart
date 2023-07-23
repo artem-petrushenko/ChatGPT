@@ -1,53 +1,33 @@
-import 'package:chat_gpt/src/model/message/message_model.dart';
 import 'package:flutter/material.dart';
 
-import 'package:chat_gpt/src/data/provider/chat_network_data_provider.dart';
-
+import 'package:chat_gpt/src/data/provider/chat/remote/chat_network_data_provider.dart';
+import 'package:chat_gpt/src/model/message/message_model.dart';
 import 'package:chat_gpt/src/data/repository/chat/chat_repository.dart';
 
-import 'package:chat_gpt/src/data/provider/chat_database_access_object.dart';
-
-import 'package:chat_gpt/src/model/chat_completion/chat_completion_model.dart';
+import 'package:chat_gpt/src/data/provider/chat/local/chat_database_access_object.dart';
 
 @immutable
 class ChatRepositoryImpl implements ChatRepository {
   const ChatRepositoryImpl({
-    required ChatNetworkDataProvider chatNetworkDataProvider,
     required ChatDatabaseAccessObject chatDatabaseAccessObject,
+    required ChatNetworkDataProvider chatNetworkDataProvider,
   })  : _chatNetworkDataProvider = chatNetworkDataProvider,
         _chatDatabaseAccessObject = chatDatabaseAccessObject;
 
   final ChatNetworkDataProvider _chatNetworkDataProvider;
+
   final ChatDatabaseAccessObject _chatDatabaseAccessObject;
 
   @override
-  Future<ChatCompletionModel> createChatCompletion({
-    required String model,
-    required List<Map<String, dynamic>> messages,
-    double? temperature,
-    double? topP,
-    int? n,
-    bool? stream,
-    String? stop,
-    int? maxTokens,
-    double? presencePenalty,
-    double? frequencyPenalty,
-    Map<String, dynamic>? logitBias,
-    String? user,
+  Future<List<MessageModel>> getHistory({
+    required String messageId,
+    required String conversationId,
   }) async {
-    final chatCompletion = await _chatNetworkDataProvider.createChatCompletion(
-      body: <String, dynamic>{
-        'model': model,
-        'messages': messages,
-        'stream': stream,
-      },
+    // return await _chatDatabaseAccessObject.getItems();
+    return await _chatNetworkDataProvider.getChatHistory(
+      messageId: messageId,
+      conversationId: conversationId,
     );
-    return chatCompletion;
-  }
-
-  @override
-  Future<List<MessageModel>> getHistory() async {
-    return await _chatDatabaseAccessObject.getItems();
   }
 
   @override

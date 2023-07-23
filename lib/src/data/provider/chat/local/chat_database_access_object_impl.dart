@@ -1,6 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 
-import 'package:chat_gpt/src/data/provider/chat_database_access_object.dart';
+import 'package:chat_gpt/src/data/provider/chat/local/chat_database_access_object.dart';
 
 import 'package:chat_gpt/src/data/client/sqlite_database.dart';
 
@@ -17,14 +17,14 @@ class ChatDatabaseAccessObjectImpl implements ChatDatabaseAccessObject {
   Future<void> insertMessage({
     MessageModel? chatHistoryModel,
   }) async {
-    final database = await _sqLiteDatabase.initializeDB();
-
-    final data = <String, dynamic>{
-      'name': chatHistoryModel?.senderId,
-      'message': chatHistoryModel?.message,
-    };
-    await database.insert('chats', data,
-        conflictAlgorithm: ConflictAlgorithm.replace);
+    // final database = await _sqLiteDatabase.initializeDB();
+    //
+    // final data = <String, dynamic>{
+    //   'name': chatHistoryModel?.senderId,
+    //   'message': chatHistoryModel?.message,
+    // };
+    // await database.insert('chats', data,
+    //     conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   @override

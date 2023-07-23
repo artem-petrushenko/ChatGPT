@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-
-import 'package:chat_gpt/src/blocs/blocs/chats/chats_bloc.dart';
 import 'package:go_router/go_router.dart';
+
+import 'package:chat_gpt/src/bloc/bloc/chats/chats_bloc.dart';
 
 class ChatsView extends StatelessWidget {
   const ChatsView({super.key});
@@ -17,7 +17,7 @@ class ChatsView extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () => context
             .read<ChatsBloc>()
-            .add(const ChatsEvent.createChat(name: 'nameController.text')),
+            .add(const ChatsEvent.createChat(name: 'New Chat')),
         child: const Icon(Icons.add),
       ),
       body: Center(
@@ -29,8 +29,8 @@ class ChatsView extends StatelessWidget {
                       itemCount: chats.length,
                       itemBuilder: (BuildContext context, int index) {
                         if (index >= chats.length - 1) {
-                          context.read<ChatsBloc>().add(
-                              ChatsEvent.fetchChats(id: chats[index].conversationId));
+                          context.read<ChatsBloc>().add(ChatsEvent.fetchChats(
+                              id: chats[index].conversationId));
                         }
                         return Dismissible(
                           key: Key(chats[index].conversationId),
@@ -40,12 +40,18 @@ class ChatsView extends StatelessWidget {
                                         id: chats[index].conversationId),
                                   ),
                           child: ListTile(
-                            onTap: () => context.push(
-                              '/chat',
-                              extra: {'id': chats[index].conversationId},
-                            ),
+                            onTap: () {
+                              context.pushNamed(
+                                'chat',
+                                queryParameters: {
+                                  'id': chats[index].conversationId
+                                },
+                              );
+                            },
                             title: Text(chats[index].name),
-                            subtitle: Text(DateTime.fromMillisecondsSinceEpoch(chats[index].createdAt).toString()),
+                            subtitle: Text(DateTime.fromMillisecondsSinceEpoch(
+                                    chats[index].createdAt)
+                                .toString()),
                           ),
                         );
                       },

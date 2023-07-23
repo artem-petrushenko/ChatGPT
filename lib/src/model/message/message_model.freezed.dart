@@ -20,11 +20,11 @@ MessageModel _$MessageModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$MessageModel {
-  String get id => throw _privateConstructorUsedError;
-  String get message => throw _privateConstructorUsedError;
-  String get senderId => throw _privateConstructorUsedError;
+  String get messageId => throw _privateConstructorUsedError;
+  String get content => throw _privateConstructorUsedError;
+  String get conversationId => throw _privateConstructorUsedError;
+  String get sender => throw _privateConstructorUsedError;
   int get timestamp => throw _privateConstructorUsedError;
-  String get role => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39,7 +39,11 @@ abstract class $MessageModelCopyWith<$Res> {
       _$MessageModelCopyWithImpl<$Res, MessageModel>;
   @useResult
   $Res call(
-      {String id, String message, String senderId, int timestamp, String role});
+      {String messageId,
+      String content,
+      String conversationId,
+      String sender,
+      int timestamp});
 }
 
 /// @nodoc
@@ -55,33 +59,33 @@ class _$MessageModelCopyWithImpl<$Res, $Val extends MessageModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? message = null,
-    Object? senderId = null,
+    Object? messageId = null,
+    Object? content = null,
+    Object? conversationId = null,
+    Object? sender = null,
     Object? timestamp = null,
-    Object? role = null,
   }) {
     return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      messageId: null == messageId
+          ? _value.messageId
+          : messageId // ignore: cast_nullable_to_non_nullable
               as String,
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
               as String,
-      senderId: null == senderId
-          ? _value.senderId
-          : senderId // ignore: cast_nullable_to_non_nullable
+      conversationId: null == conversationId
+          ? _value.conversationId
+          : conversationId // ignore: cast_nullable_to_non_nullable
+              as String,
+      sender: null == sender
+          ? _value.sender
+          : sender // ignore: cast_nullable_to_non_nullable
               as String,
       timestamp: null == timestamp
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as int,
-      role: null == role
-          ? _value.role
-          : role // ignore: cast_nullable_to_non_nullable
-              as String,
     ) as $Val);
   }
 }
@@ -95,7 +99,11 @@ abstract class _$$_MessageModelCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id, String message, String senderId, int timestamp, String role});
+      {String messageId,
+      String content,
+      String conversationId,
+      String sender,
+      int timestamp});
 }
 
 /// @nodoc
@@ -109,33 +117,33 @@ class __$$_MessageModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? message = null,
-    Object? senderId = null,
+    Object? messageId = null,
+    Object? content = null,
+    Object? conversationId = null,
+    Object? sender = null,
     Object? timestamp = null,
-    Object? role = null,
   }) {
     return _then(_$_MessageModel(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      messageId: null == messageId
+          ? _value.messageId
+          : messageId // ignore: cast_nullable_to_non_nullable
               as String,
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
               as String,
-      senderId: null == senderId
-          ? _value.senderId
-          : senderId // ignore: cast_nullable_to_non_nullable
+      conversationId: null == conversationId
+          ? _value.conversationId
+          : conversationId // ignore: cast_nullable_to_non_nullable
+              as String,
+      sender: null == sender
+          ? _value.sender
+          : sender // ignore: cast_nullable_to_non_nullable
               as String,
       timestamp: null == timestamp
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as int,
-      role: null == role
-          ? _value.role
-          : role // ignore: cast_nullable_to_non_nullable
-              as String,
     ));
   }
 }
@@ -145,29 +153,29 @@ class __$$_MessageModelCopyWithImpl<$Res>
 @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
 class _$_MessageModel implements _MessageModel {
   const _$_MessageModel(
-      {required this.id,
-      required this.message,
-      required this.senderId,
-      required this.timestamp,
-      required this.role});
+      {required this.messageId,
+      required this.content,
+      required this.conversationId,
+      required this.sender,
+      required this.timestamp});
 
   factory _$_MessageModel.fromJson(Map<String, dynamic> json) =>
       _$$_MessageModelFromJson(json);
 
   @override
-  final String id;
+  final String messageId;
   @override
-  final String message;
+  final String content;
   @override
-  final String senderId;
+  final String conversationId;
+  @override
+  final String sender;
   @override
   final int timestamp;
-  @override
-  final String role;
 
   @override
   String toString() {
-    return 'MessageModel(id: $id, message: $message, senderId: $senderId, timestamp: $timestamp, role: $role)';
+    return 'MessageModel(messageId: $messageId, content: $content, conversationId: $conversationId, sender: $sender, timestamp: $timestamp)';
   }
 
   @override
@@ -175,19 +183,20 @@ class _$_MessageModel implements _MessageModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_MessageModel &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.message, message) || other.message == message) &&
-            (identical(other.senderId, senderId) ||
-                other.senderId == senderId) &&
+            (identical(other.messageId, messageId) ||
+                other.messageId == messageId) &&
+            (identical(other.content, content) || other.content == content) &&
+            (identical(other.conversationId, conversationId) ||
+                other.conversationId == conversationId) &&
+            (identical(other.sender, sender) || other.sender == sender) &&
             (identical(other.timestamp, timestamp) ||
-                other.timestamp == timestamp) &&
-            (identical(other.role, role) || other.role == role));
+                other.timestamp == timestamp));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, message, senderId, timestamp, role);
+  int get hashCode => Object.hash(
+      runtimeType, messageId, content, conversationId, sender, timestamp);
 
   @JsonKey(ignore: true)
   @override
@@ -205,25 +214,25 @@ class _$_MessageModel implements _MessageModel {
 
 abstract class _MessageModel implements MessageModel {
   const factory _MessageModel(
-      {required final String id,
-      required final String message,
-      required final String senderId,
-      required final int timestamp,
-      required final String role}) = _$_MessageModel;
+      {required final String messageId,
+      required final String content,
+      required final String conversationId,
+      required final String sender,
+      required final int timestamp}) = _$_MessageModel;
 
   factory _MessageModel.fromJson(Map<String, dynamic> json) =
       _$_MessageModel.fromJson;
 
   @override
-  String get id;
+  String get messageId;
   @override
-  String get message;
+  String get content;
   @override
-  String get senderId;
+  String get conversationId;
+  @override
+  String get sender;
   @override
   int get timestamp;
-  @override
-  String get role;
   @override
   @JsonKey(ignore: true)
   _$$_MessageModelCopyWith<_$_MessageModel> get copyWith =>

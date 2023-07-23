@@ -7,7 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:chat_gpt/src/blocs/chat_observer.dart';
+import 'package:chat_gpt/src/bloc/chat_observer.dart';
 
 import 'package:chat_gpt/src/app.dart';
 

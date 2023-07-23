@@ -6,25 +6,38 @@ class ChatObserver extends BlocObserver {
   const ChatObserver();
 
   @override
-  void onEvent(Bloc bloc, Object? event) {
+  void onEvent(
+    Bloc<dynamic, dynamic> bloc,
+    Object? event,
+  ) {
     super.onEvent(bloc, event);
     log('onEvent: $event');
   }
 
   @override
-  void onChange(BlocBase bloc, Change change) {
+  void onChange(
+    BlocBase<dynamic> bloc,
+    Change<dynamic> change,
+  ) {
     super.onChange(bloc, change);
     log('onChange: $change');
   }
 
   @override
-  void onTransition(Bloc bloc, Transition transition) {
+  void onTransition(
+    Bloc<dynamic, dynamic> bloc,
+    Transition<dynamic, dynamic> transition,
+  ) {
     super.onTransition(bloc, transition);
     log('onTransition: $transition');
   }
 
   @override
-  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
+  void onError(
+    BlocBase<dynamic> bloc,
+    Object error,
+    StackTrace stackTrace,
+  ) {
     log('onError: $error');
     super.onError(bloc, error, stackTrace);
   }

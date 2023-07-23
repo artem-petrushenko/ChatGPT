@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 
 import 'package:chat_gpt/src/data/repository/chats/chats_repository.dart';
 
-import 'package:chat_gpt/src/data/provider/chats_network_data_provider.dart';
+import 'package:chat_gpt/src/data/provider/chats/remote/chats_network_data_provider.dart';
 
 import 'package:chat_gpt/src/model/conversation/conversation_model.dart';
 

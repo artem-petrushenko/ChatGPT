@@ -9,11 +9,11 @@ part 'message_model.g.dart';
 class MessageModel with _$MessageModel {
   @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
   const factory MessageModel({
-    required String id,
-    required String message,
-    required String senderId,
-    required int timestamp,
-    required String role,
+    required final String messageId,
+    required final String content,
+    required final String conversationId,
+    required final String sender,
+    required final int timestamp,
   }) = _MessageModel;
 
   factory MessageModel.fromJson(Map<String, dynamic> json) =>
@@ -23,11 +23,11 @@ class MessageModel with _$MessageModel {
       DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data();
     return MessageModel(
-      id: data!['id'] as String,
-      message: data['message'] as String,
-      senderId: data['sender_id'] as String,
+      messageId: data!['message_id'] as String,
+      content: data['content'] as String,
+      conversationId: data['conversation_id'] as String,
+      sender: data['sender'] as String,
       timestamp: data['timestamp'] as int,
-      role: data['role'] as String,
     );
   }
 }

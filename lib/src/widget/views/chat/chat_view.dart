@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:chat_gpt/src/blocs/blocs/chat/chat_bloc.dart';
+import 'package:chat_gpt/src/bloc/bloc/chat/chat_bloc.dart';
 
 class ChatView extends StatelessWidget {
   const ChatView({Key? key}) : super(key: key);
@@ -12,29 +12,13 @@ class ChatView extends StatelessWidget {
     final state = context.watch<ChatBloc>().state;
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: const Color(0xFF343541),
       appBar: AppBar(
-        flexibleSpace: const FlexibleSpaceBar(
-          background: ColoredBox(
-            color: Color(0xFF343541),
-          ),
-        ),
-        backgroundColor: const Color(0xFF343541),
-        title: const Text(
-          'ChatGPT',
-        ),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1.0),
-          child: Container(
-            color: const Color(0x66FFFFFF),
-            height: 1.0,
-          ),
-        ),
+        title: const Text('ChatGPT'),
       ),
       body: Center(
         child: state.when(
           loading: () => const CircularProgressIndicator(),
-          success: (chat, hasResponse) => Stack(
+          success: (messages, hasReachedMax, hasResponse) => Stack(
             children: [
               CustomScrollView(
                 reverse: true,
@@ -47,62 +31,61 @@ class ChatView extends StatelessWidget {
                           child:
                               _ChatMessageWidget(message: 'message.message')),
                     ),
-                  SliverPadding(
-                    padding: const EdgeInsets.only(
-                        left: 20.0, right: 20.0, top: 12.0, bottom: 16.0),
-                    sliver: SliverList.separated(
-                      itemBuilder: (BuildContext context, int index) {
-                        final message = chat[index];
-                        return message.senderId == 'user'
-                            ? _UserMessageWidget(message: message.message)
-                            : _ChatMessageWidget(message: message.message);
-                      },
-                      separatorBuilder: (BuildContext context, int index) =>
-                          const SizedBox(height: 16.0),
-                      itemCount: chat.length,
+                  SliverList.separated(
+                    itemBuilder: (BuildContext context, int index) {
+                      final message = messages[index];
+                      if (index >= messages.length - 1) {
+                        context.read<ChatBloc>().add(ChatEvent.loadingChat(
+                            messageId: messages[index].messageId));
+                      }
+                      return message.sender == 'user'
+                          ? _UserMessageWidget(message: message.content)
+                          : _ChatMessageWidget(message: message.content);
+                    },
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const SizedBox(height: 16.0),
+                    itemCount: messages.length,
+                  ),
+                  if (hasReachedMax)
+                    const SliverToBoxAdapter(
+                      child: CircularProgressIndicator(),
                     ),
-                  )
                 ],
               ),
-              if (chat.first.senderId == 'assistant')
-                Positioned(
-                  left: 0.0,
-                  right: 0.0,
-                  bottom: 8.0,
-                  child: GestureDetector(
-                    onTap: () => context.read<ChatBloc>()
-                      ..add(ChatEvent.regenerateResponse(
-                          message: chat.last.message)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 13.0, vertical: 7.0),
-                          decoration: BoxDecoration(
-                              color: const Color(0xFF202123),
-                              border: Border.all(
-                                color: const Color(0x33FFFFFF),
-                                width: 1.0,
-                              ),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(4.0))),
-                          child: const Row(
-                            children: [
-                              Icon(
-                                Icons.play_circle_outline_outlined,
-                                weight: 11.0,
-                                color: Color(0xFFFFFFFF),
-                              ),
-                              SizedBox(width: 10.0),
-                              Text(
-                                'Regenerate response',
-                              )
-                            ],
-                          ),
+              if (messages.first.sender == 'assistant')
+                GestureDetector(
+                  onTap: () => context.read<ChatBloc>()
+                    ..add(ChatEvent.regenerateResponse(
+                        message: messages.last.content)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 13.0, vertical: 7.0),
+                        decoration: BoxDecoration(
+                            color: const Color(0xFF202123),
+                            border: Border.all(
+                              color: const Color(0x33FFFFFF),
+                              width: 1.0,
+                            ),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(4.0))),
+                        child: const Row(
+                          children: [
+                            Icon(
+                              Icons.play_circle_outline_outlined,
+                              weight: 11.0,
+                              color: Color(0xFFFFFFFF),
+                            ),
+                            SizedBox(width: 10.0),
+                            Text(
+                              'Regenerate response',
+                            )
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
             ],
@@ -110,40 +93,17 @@ class ChatView extends StatelessWidget {
           empty: () => const Text(
             'Ask anything, get your answer',
           ),
-          failure: (error) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.bolt_outlined,
-                  color: Theme.of(context).colorScheme.error,
-                  size: 72.0,
-                ),
-                const SizedBox(height: 32.0),
-                Text(
-                  'Sorry, an unexpected error occurred',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 4.0,
-                      ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 32.0),
-                TextButton(
-                  onPressed: () => context
-                      .read<ChatBloc>()
-                      .add(const ChatEvent.loadingChat()),
-                  child: const Text('Try Again'),
-                ),
-              ],
-            ),
+          failure: (error) => TextButton(
+            onPressed: () => context
+                .read<ChatBloc>()
+                .add(const ChatEvent.loadingChat(messageId: '')),
+            child: const Text('Try Again'),
           ),
         ),
       ),
       bottomNavigationBar: state.when(
         loading: () => const SizedBox.shrink(),
-        success: (history, hasResponse) => Container(
+        success: (history, hasReachedMax, hasResponse) => Container(
           padding: const EdgeInsets.only(
             left: 20.0,
             right: 20.0,

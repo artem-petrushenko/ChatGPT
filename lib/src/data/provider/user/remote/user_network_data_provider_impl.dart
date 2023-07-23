@@ -2,7 +2,7 @@ import 'package:chat_gpt/src/data/client/firebase_authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import 'package:chat_gpt/src/data/provider/user_network_data_provider.dart';
+import 'package:chat_gpt/src/data/provider/user/remote/user_network_data_provider.dart';
 
 class UserNetworkDataProviderImpl implements UserNetworkDataProvider {
   const UserNetworkDataProviderImpl({

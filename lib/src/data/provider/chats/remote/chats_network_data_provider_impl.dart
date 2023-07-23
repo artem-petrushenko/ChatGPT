@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:chat_gpt/src/data/provider/chats_network_data_provider.dart';
+import 'package:chat_gpt/src/data/provider/chats/remote/chats_network_data_provider.dart';
 import 'package:chat_gpt/src/data/client/cloud_firestore.dart';
 import 'package:chat_gpt/src/model/conversation/conversation_model.dart';
 
@@ -32,20 +32,17 @@ class ChatsNetworkDataProviderImpl implements ChatsNetworkDataProvider {
     required String uid,
     required String id,
   }) async {
-    final db = FirebaseFirestore.instance;
-    final collection = db.collection('conversations');
-    final response = id != ''
-        ? await collection
-            .where('participants', arrayContains: uid)
-            .orderBy('updated_at')
-            .startAfter([id])
-            .limit(10)
-            .get()
-        : await collection
-            .where('participants', arrayContains: uid)
-            .orderBy('updated_at')
-            .limit(10)
-            .get();
+    final db = FirebaseFirestore.instance.collection('conversations');
+    final query = db
+        .where('participants', arrayContains: uid)
+        .orderBy('updated_at', descending: true);
+    final QuerySnapshot<Map<String, dynamic>> response;
+    if (id != '') {
+      final lastMessage = await db.doc(id).get();
+      response = await query.startAfterDocument(lastMessage).limit(1).get();
+    } else {
+      response = await query.limit(1).get();
+    }
     return response.docs
         .map((e) => ConversationModel.fromFirestore(e))
         .toList();

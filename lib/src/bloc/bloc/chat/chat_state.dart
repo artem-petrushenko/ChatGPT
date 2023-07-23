@@ -5,8 +5,9 @@ class ChatState with _$ChatState {
   const factory ChatState.loading() = _ChatLoadingState;
 
   const factory ChatState.success({
-    required final List<MessageModel> history,
+    required final List<MessageModel> messages,
     required final bool hasResponse,
+    required final bool hasReachedMax,
   }) = _ChatSuccessState;
 
   const factory ChatState.empty() = _ChatEmptyState;
