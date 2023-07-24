@@ -11,9 +11,6 @@ class ChatsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = context.watch<ChatsBloc>().state;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Chats'),
-      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context
             .read<ChatsBloc>()

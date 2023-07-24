@@ -1,56 +1,23 @@
-import 'package:chat_gpt/src/data/client/firebase_authentication.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:chat_gpt/src/model/user/user_model.dart';
 
 import 'package:chat_gpt/src/data/provider/user/remote/user_network_data_provider.dart';
 
+import 'package:chat_gpt/src/data/client/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UserNetworkDataProviderImpl implements UserNetworkDataProvider {
   const UserNetworkDataProviderImpl({
-    required FirebaseAuthentication firebaseAuthentication,
-  }) : _firebaseAuthentication = firebaseAuthentication;
+    required CloudFirestore cloudFirestore,
+  }) : _cloudFirestore = cloudFirestore;
 
-  final FirebaseAuthentication _firebaseAuthentication;
+  final CloudFirestore _cloudFirestore;
 
   @override
-  Future<void> createUserWithEmailAndPassword({
-    required String email,
-    required String password,
+  Future<UserModel> getUser({
+    required String uid,
   }) async {
-    // TODO: implement createUserWithEmailAndPassword
-    throw UnimplementedError();
+    final collection = FirebaseFirestore.instance.collection('users');
+    final snapshot = await collection.doc(uid).get();
+    return UserModel.fromFirestore(snapshot);
   }
-
-  @override
-  Future<void> logOut() async => await FirebaseAuth.instance.signOut();
-
-  @override
-  Future<void> signInWithEmailAndPassword({
-    required String email,
-    required String password,
-  }) async {
-    // TODO: implement signInWithEmailAndPassword
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> signInWithGoogle() async {
-    try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-      await FirebaseAuth.instance.signInWithCredential(credential);
-    } catch (e) {
-      throw Exception(e.toString());
-    }
-  }
-
-  @override
-  bool isAuth() => FirebaseAuth.instance.currentUser != null;
-
-  @override
-  String getCurrentUID() => FirebaseAuth.instance.currentUser?.uid ?? '';
 }

@@ -14,41 +14,48 @@ class ChatView extends StatelessWidget {
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: const Text('ChatGPT'),
+        actions: [
+          PopupMenuButton(
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                child: const Text('Rename'),
+                onTap: () {},
+              ),
+            ],
+          ),
+        ],
       ),
       body: Center(
         child: state.when(
           loading: () => const CircularProgressIndicator(),
-          success: (messages, hasReachedMax, hasResponse) => Stack(
+          success: (messages, hasResponse, hasReachedMax) => Stack(
             children: [
               CustomScrollView(
                 reverse: true,
                 slivers: [
-                  const SliverPadding(padding: EdgeInsets.all(8.0)),
-                  if (!hasResponse)
+                  if (hasResponse)
                     const SliverPadding(
                       padding: EdgeInsets.symmetric(horizontal: 20.0),
                       sliver: SliverToBoxAdapter(
-                          child:
-                              _ChatMessageWidget(message: 'message.message')),
+                        child: Text('Await'),
+                      ),
                     ),
                   SliverList.separated(
                     itemBuilder: (BuildContext context, int index) {
                       final message = messages[index];
                       if (index >= messages.length - 1) {
-                        context.read<ChatBloc>().add(ChatEvent.loadingChat(
-                            messageId: messages[index].messageId));
+                        context.read<ChatBloc>().add(ChatEvent.fetchMessages(
+                            messageId: message.messageId));
                       }
-                      return message.sender == 'user'
-                          ? _UserMessageWidget(message: message.content)
-                          : _ChatMessageWidget(message: message.content);
+                      return Text(message.content);
                     },
                     separatorBuilder: (BuildContext context, int index) =>
                         const SizedBox(height: 16.0),
                     itemCount: messages.length,
                   ),
-                  if (hasReachedMax)
+                  if (!hasReachedMax)
                     const SliverToBoxAdapter(
-                      child: CircularProgressIndicator(),
+                      child: Center(child: CircularProgressIndicator()),
                     ),
                 ],
               ),
@@ -96,221 +103,66 @@ class ChatView extends StatelessWidget {
           failure: (error) => TextButton(
             onPressed: () => context
                 .read<ChatBloc>()
-                .add(const ChatEvent.loadingChat(messageId: '')),
+                .add(const ChatEvent.fetchMessages(messageId: '')),
             child: const Text('Try Again'),
           ),
         ),
       ),
       bottomNavigationBar: state.when(
         loading: () => const SizedBox.shrink(),
-        success: (history, hasReachedMax, hasResponse) => Container(
-          padding: const EdgeInsets.only(
-            left: 20.0,
-            right: 20.0,
-          ),
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(8.0),
-              topRight: Radius.circular(8.0),
-            ),
-            color: Color(0xFF343541),
-          ),
-          child: Container(
-            margin: const EdgeInsets.only(bottom: 20.0),
-            padding: const EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-              color: const Color(0x1AFFFFFF),
-              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-              border: Border.all(
-                color: const Color(0x52FFFFFF),
+        success: (history, hasReachedMax, hasResponse) => Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: input,
+                cursorColor: const Color(0xFFFFFFFF),
+                cursorHeight: 28.0,
+                cursorWidth: 1.0,
+                decoration: const InputDecoration(
+                  hintText: 'Enter text',
+                  border: InputBorder.none,
+                ),
               ),
             ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: input,
-                    cursorColor: const Color(0xFFFFFFFF),
-                    cursorHeight: 28.0,
-                    cursorWidth: 1.0,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter text',
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8.0),
-                GestureDetector(
-                  onTap: () => context
-                      .read<ChatBloc>()
-                      .add(ChatEvent.sendMessage(message: input.value.text)),
-                  child: Container(
-                    padding: const EdgeInsets.all(9.67),
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF10A37F),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(8.0),
-                      ),
-                    ),
-                    child: const Icon(
-                      Icons.send_outlined,
-                      color: Color(0xFFFFFFFF),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
+            const SizedBox(width: 8.0),
+            GestureDetector(
+              onTap: () => context
+                  .read<ChatBloc>()
+                  .add(ChatEvent.sendMessage(message: input.value.text)),
+              child: const Icon(
+                Icons.send_outlined,
+                color: Color(0xFFFFFFFF),
+              ),
+            )
+          ],
         ),
-        empty: () => Container(
-          padding: const EdgeInsets.only(
-            left: 20.0,
-            right: 20.0,
-          ),
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(8.0),
-              topRight: Radius.circular(8.0),
-            ),
-            color: Color(0xFF343541),
-          ),
-          child: Container(
-            margin: const EdgeInsets.only(bottom: 20.0),
-            padding: const EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-              color: const Color(0x1AFFFFFF),
-              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-              border: Border.all(
-                color: const Color(0x52FFFFFF),
+        empty: () => Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: input,
+                cursorColor: const Color(0xFFFFFFFF),
+                cursorHeight: 28.0,
+                cursorWidth: 1.0,
+                decoration: const InputDecoration(
+                  hintText: 'Enter text',
+                  border: InputBorder.none,
+                ),
               ),
             ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: input,
-                    cursorColor: const Color(0xFFFFFFFF),
-                    cursorHeight: 28.0,
-                    cursorWidth: 1.0,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter text',
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8.0),
-                GestureDetector(
-                  onTap: () => context
-                      .read<ChatBloc>()
-                      .add(ChatEvent.sendMessage(message: input.value.text)),
-                  child: Container(
-                    padding: const EdgeInsets.all(9.67),
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF10A37F),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(8.0),
-                      ),
-                    ),
-                    child: const Icon(
-                      Icons.send_outlined,
-                      color: Color(0xFFFFFFFF),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
+            const SizedBox(width: 8.0),
+            GestureDetector(
+              onTap: () => context
+                  .read<ChatBloc>()
+                  .add(ChatEvent.sendMessage(message: input.value.text)),
+              child: const Icon(
+                Icons.send_outlined,
+                color: Color(0xFFFFFFFF),
+              ),
+            )
+          ],
         ),
         failure: (error) => const SizedBox.shrink(),
-      ),
-    );
-  }
-}
-
-class _UserMessageWidget extends StatelessWidget {
-  const _UserMessageWidget({
-    required this.message,
-  });
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: Container(
-        margin: const EdgeInsets.only(
-          left: 88.0,
-        ),
-        padding: const EdgeInsets.all(12.0),
-        decoration: const BoxDecoration(
-          color: Color(0xFF10A37F),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(8.0),
-            topRight: Radius.circular(8.0),
-            bottomLeft: Radius.circular(8.0),
-          ),
-        ),
-        child: Text(
-          '$message ',
-        ),
-      ),
-    );
-  }
-}
-
-class _ChatMessageWidget extends StatelessWidget {
-  const _ChatMessageWidget({
-    required this.message,
-  });
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    final bloc = context.read<ChatBloc>();
-    return Padding(
-      padding: const EdgeInsets.only(
-        right: 88.0,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              padding: const EdgeInsets.all(12.0),
-              decoration: const BoxDecoration(
-                color: Color(0x33FFFFFF),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8.0),
-                  topRight: Radius.circular(8.0),
-                  bottomRight: Radius.circular(8.0),
-                ),
-              ),
-              child: Text(
-                '$message ',
-              ),
-            ),
-          ),
-          const SizedBox(height: 14.0),
-          GestureDetector(
-            onTap: () => bloc.add(ChatEvent.copyMessage(message: message)),
-            child: const Row(
-              children: [
-                Icon(
-                  Icons.copy_sharp,
-                  color: Color(0x52FFFFFF),
-                  size: 12.0,
-                ),
-                SizedBox(width: 12.0),
-                Text(
-                  'Copy',
-                )
-              ],
-            ),
-          )
-        ],
       ),
     );
   }

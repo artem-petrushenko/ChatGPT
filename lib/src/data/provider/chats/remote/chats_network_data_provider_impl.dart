@@ -32,16 +32,16 @@ class ChatsNetworkDataProviderImpl implements ChatsNetworkDataProvider {
     required String uid,
     required String id,
   }) async {
-    final db = FirebaseFirestore.instance.collection('conversations');
-    final query = db
+    final collection = FirebaseFirestore.instance.collection('conversations');
+    final query = collection
         .where('participants', arrayContains: uid)
         .orderBy('updated_at', descending: true);
     final QuerySnapshot<Map<String, dynamic>> response;
     if (id != '') {
-      final lastMessage = await db.doc(id).get();
-      response = await query.startAfterDocument(lastMessage).limit(1).get();
+      final lastChat = await collection.doc(id).get();
+      response = await query.startAfterDocument(lastChat).limit(20).get();
     } else {
-      response = await query.limit(1).get();
+      response = await query.limit(20).get();
     }
     return response.docs
         .map((e) => ConversationModel.fromFirestore(e))

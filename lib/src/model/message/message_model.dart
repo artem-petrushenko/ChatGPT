@@ -21,9 +21,9 @@ class MessageModel with _$MessageModel {
 
   factory MessageModel.fromFirestore(
       DocumentSnapshot<Map<String, dynamic>> snapshot) {
-    final data = snapshot.data();
+    final data = snapshot.data()!;
     return MessageModel(
-      messageId: data!['message_id'] as String,
+      messageId: data['message_id'] as String,
       content: data['content'] as String,
       conversationId: data['conversation_id'] as String,
       sender: data['sender'] as String,

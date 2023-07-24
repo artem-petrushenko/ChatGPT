@@ -2,9 +2,9 @@ part of 'chat_bloc.dart';
 
 @freezed
 class ChatEvent with _$ChatEvent {
-  const factory ChatEvent.loadingChat({
+  const factory ChatEvent.fetchMessages({
     required final String messageId,
-  }) = _LoadingChatEvent;
+  }) = _FetchMessagesEvent;
 
   const factory ChatEvent.sendMessage({
     required final String message,

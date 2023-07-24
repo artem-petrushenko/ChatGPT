@@ -9,4 +9,10 @@ abstract class ChatRepository {
   Future<void> addHistory({
     required MessageModel chatHistoryModel,
   });
+
+  Future<void> sendMessage({
+    required String uid,
+    required String message,
+    required String conversationId,
+  });
 }

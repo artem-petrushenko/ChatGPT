@@ -674,7 +674,7 @@ abstract class _ChatFailureState implements ChatState {
 mixin _$ChatEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String messageId) loadingChat,
+    required TResult Function(String messageId) fetchMessages,
     required TResult Function(String message) sendMessage,
     required TResult Function(String message) copyMessage,
     required TResult Function(String message) regenerateResponse,
@@ -682,7 +682,7 @@ mixin _$ChatEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String messageId)? loadingChat,
+    TResult? Function(String messageId)? fetchMessages,
     TResult? Function(String message)? sendMessage,
     TResult? Function(String message)? copyMessage,
     TResult? Function(String message)? regenerateResponse,
@@ -690,7 +690,7 @@ mixin _$ChatEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String messageId)? loadingChat,
+    TResult Function(String messageId)? fetchMessages,
     TResult Function(String message)? sendMessage,
     TResult Function(String message)? copyMessage,
     TResult Function(String message)? regenerateResponse,
@@ -699,7 +699,7 @@ mixin _$ChatEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_LoadingChatEvent value) loadingChat,
+    required TResult Function(_FetchMessagesEvent value) fetchMessages,
     required TResult Function(_SendMessageEvent value) sendMessage,
     required TResult Function(_CopyMessageEvent value) copyMessage,
     required TResult Function(_RegenerateResponseEvent value)
@@ -708,7 +708,7 @@ mixin _$ChatEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LoadingChatEvent value)? loadingChat,
+    TResult? Function(_FetchMessagesEvent value)? fetchMessages,
     TResult? Function(_SendMessageEvent value)? sendMessage,
     TResult? Function(_CopyMessageEvent value)? copyMessage,
     TResult? Function(_RegenerateResponseEvent value)? regenerateResponse,
@@ -716,7 +716,7 @@ mixin _$ChatEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LoadingChatEvent value)? loadingChat,
+    TResult Function(_FetchMessagesEvent value)? fetchMessages,
     TResult Function(_SendMessageEvent value)? sendMessage,
     TResult Function(_CopyMessageEvent value)? copyMessage,
     TResult Function(_RegenerateResponseEvent value)? regenerateResponse,
@@ -743,20 +743,20 @@ class _$ChatEventCopyWithImpl<$Res, $Val extends ChatEvent>
 }
 
 /// @nodoc
-abstract class _$$_LoadingChatEventCopyWith<$Res> {
-  factory _$$_LoadingChatEventCopyWith(
-          _$_LoadingChatEvent value, $Res Function(_$_LoadingChatEvent) then) =
-      __$$_LoadingChatEventCopyWithImpl<$Res>;
+abstract class _$$_FetchMessagesEventCopyWith<$Res> {
+  factory _$$_FetchMessagesEventCopyWith(_$_FetchMessagesEvent value,
+          $Res Function(_$_FetchMessagesEvent) then) =
+      __$$_FetchMessagesEventCopyWithImpl<$Res>;
   @useResult
   $Res call({String messageId});
 }
 
 /// @nodoc
-class __$$_LoadingChatEventCopyWithImpl<$Res>
-    extends _$ChatEventCopyWithImpl<$Res, _$_LoadingChatEvent>
-    implements _$$_LoadingChatEventCopyWith<$Res> {
-  __$$_LoadingChatEventCopyWithImpl(
-      _$_LoadingChatEvent _value, $Res Function(_$_LoadingChatEvent) _then)
+class __$$_FetchMessagesEventCopyWithImpl<$Res>
+    extends _$ChatEventCopyWithImpl<$Res, _$_FetchMessagesEvent>
+    implements _$$_FetchMessagesEventCopyWith<$Res> {
+  __$$_FetchMessagesEventCopyWithImpl(
+      _$_FetchMessagesEvent _value, $Res Function(_$_FetchMessagesEvent) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -764,7 +764,7 @@ class __$$_LoadingChatEventCopyWithImpl<$Res>
   $Res call({
     Object? messageId = null,
   }) {
-    return _then(_$_LoadingChatEvent(
+    return _then(_$_FetchMessagesEvent(
       messageId: null == messageId
           ? _value.messageId
           : messageId // ignore: cast_nullable_to_non_nullable
@@ -775,22 +775,22 @@ class __$$_LoadingChatEventCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_LoadingChatEvent implements _LoadingChatEvent {
-  const _$_LoadingChatEvent({required this.messageId});
+class _$_FetchMessagesEvent implements _FetchMessagesEvent {
+  const _$_FetchMessagesEvent({required this.messageId});
 
   @override
   final String messageId;
 
   @override
   String toString() {
-    return 'ChatEvent.loadingChat(messageId: $messageId)';
+    return 'ChatEvent.fetchMessages(messageId: $messageId)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_LoadingChatEvent &&
+            other is _$_FetchMessagesEvent &&
             (identical(other.messageId, messageId) ||
                 other.messageId == messageId));
   }
@@ -801,42 +801,43 @@ class _$_LoadingChatEvent implements _LoadingChatEvent {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_LoadingChatEventCopyWith<_$_LoadingChatEvent> get copyWith =>
-      __$$_LoadingChatEventCopyWithImpl<_$_LoadingChatEvent>(this, _$identity);
+  _$$_FetchMessagesEventCopyWith<_$_FetchMessagesEvent> get copyWith =>
+      __$$_FetchMessagesEventCopyWithImpl<_$_FetchMessagesEvent>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String messageId) loadingChat,
+    required TResult Function(String messageId) fetchMessages,
     required TResult Function(String message) sendMessage,
     required TResult Function(String message) copyMessage,
     required TResult Function(String message) regenerateResponse,
   }) {
-    return loadingChat(messageId);
+    return fetchMessages(messageId);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String messageId)? loadingChat,
+    TResult? Function(String messageId)? fetchMessages,
     TResult? Function(String message)? sendMessage,
     TResult? Function(String message)? copyMessage,
     TResult? Function(String message)? regenerateResponse,
   }) {
-    return loadingChat?.call(messageId);
+    return fetchMessages?.call(messageId);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String messageId)? loadingChat,
+    TResult Function(String messageId)? fetchMessages,
     TResult Function(String message)? sendMessage,
     TResult Function(String message)? copyMessage,
     TResult Function(String message)? regenerateResponse,
     required TResult orElse(),
   }) {
-    if (loadingChat != null) {
-      return loadingChat(messageId);
+    if (fetchMessages != null) {
+      return fetchMessages(messageId);
     }
     return orElse();
   }
@@ -844,49 +845,49 @@ class _$_LoadingChatEvent implements _LoadingChatEvent {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_LoadingChatEvent value) loadingChat,
+    required TResult Function(_FetchMessagesEvent value) fetchMessages,
     required TResult Function(_SendMessageEvent value) sendMessage,
     required TResult Function(_CopyMessageEvent value) copyMessage,
     required TResult Function(_RegenerateResponseEvent value)
         regenerateResponse,
   }) {
-    return loadingChat(this);
+    return fetchMessages(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LoadingChatEvent value)? loadingChat,
+    TResult? Function(_FetchMessagesEvent value)? fetchMessages,
     TResult? Function(_SendMessageEvent value)? sendMessage,
     TResult? Function(_CopyMessageEvent value)? copyMessage,
     TResult? Function(_RegenerateResponseEvent value)? regenerateResponse,
   }) {
-    return loadingChat?.call(this);
+    return fetchMessages?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LoadingChatEvent value)? loadingChat,
+    TResult Function(_FetchMessagesEvent value)? fetchMessages,
     TResult Function(_SendMessageEvent value)? sendMessage,
     TResult Function(_CopyMessageEvent value)? copyMessage,
     TResult Function(_RegenerateResponseEvent value)? regenerateResponse,
     required TResult orElse(),
   }) {
-    if (loadingChat != null) {
-      return loadingChat(this);
+    if (fetchMessages != null) {
+      return fetchMessages(this);
     }
     return orElse();
   }
 }
 
-abstract class _LoadingChatEvent implements ChatEvent {
-  const factory _LoadingChatEvent({required final String messageId}) =
-      _$_LoadingChatEvent;
+abstract class _FetchMessagesEvent implements ChatEvent {
+  const factory _FetchMessagesEvent({required final String messageId}) =
+      _$_FetchMessagesEvent;
 
   String get messageId;
   @JsonKey(ignore: true)
-  _$$_LoadingChatEventCopyWith<_$_LoadingChatEvent> get copyWith =>
+  _$$_FetchMessagesEventCopyWith<_$_FetchMessagesEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -954,7 +955,7 @@ class _$_SendMessageEvent implements _SendMessageEvent {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String messageId) loadingChat,
+    required TResult Function(String messageId) fetchMessages,
     required TResult Function(String message) sendMessage,
     required TResult Function(String message) copyMessage,
     required TResult Function(String message) regenerateResponse,
@@ -965,7 +966,7 @@ class _$_SendMessageEvent implements _SendMessageEvent {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String messageId)? loadingChat,
+    TResult? Function(String messageId)? fetchMessages,
     TResult? Function(String message)? sendMessage,
     TResult? Function(String message)? copyMessage,
     TResult? Function(String message)? regenerateResponse,
@@ -976,7 +977,7 @@ class _$_SendMessageEvent implements _SendMessageEvent {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String messageId)? loadingChat,
+    TResult Function(String messageId)? fetchMessages,
     TResult Function(String message)? sendMessage,
     TResult Function(String message)? copyMessage,
     TResult Function(String message)? regenerateResponse,
@@ -991,7 +992,7 @@ class _$_SendMessageEvent implements _SendMessageEvent {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_LoadingChatEvent value) loadingChat,
+    required TResult Function(_FetchMessagesEvent value) fetchMessages,
     required TResult Function(_SendMessageEvent value) sendMessage,
     required TResult Function(_CopyMessageEvent value) copyMessage,
     required TResult Function(_RegenerateResponseEvent value)
@@ -1003,7 +1004,7 @@ class _$_SendMessageEvent implements _SendMessageEvent {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LoadingChatEvent value)? loadingChat,
+    TResult? Function(_FetchMessagesEvent value)? fetchMessages,
     TResult? Function(_SendMessageEvent value)? sendMessage,
     TResult? Function(_CopyMessageEvent value)? copyMessage,
     TResult? Function(_RegenerateResponseEvent value)? regenerateResponse,
@@ -1014,7 +1015,7 @@ class _$_SendMessageEvent implements _SendMessageEvent {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LoadingChatEvent value)? loadingChat,
+    TResult Function(_FetchMessagesEvent value)? fetchMessages,
     TResult Function(_SendMessageEvent value)? sendMessage,
     TResult Function(_CopyMessageEvent value)? copyMessage,
     TResult Function(_RegenerateResponseEvent value)? regenerateResponse,
@@ -1101,7 +1102,7 @@ class _$_CopyMessageEvent implements _CopyMessageEvent {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String messageId) loadingChat,
+    required TResult Function(String messageId) fetchMessages,
     required TResult Function(String message) sendMessage,
     required TResult Function(String message) copyMessage,
     required TResult Function(String message) regenerateResponse,
@@ -1112,7 +1113,7 @@ class _$_CopyMessageEvent implements _CopyMessageEvent {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String messageId)? loadingChat,
+    TResult? Function(String messageId)? fetchMessages,
     TResult? Function(String message)? sendMessage,
     TResult? Function(String message)? copyMessage,
     TResult? Function(String message)? regenerateResponse,
@@ -1123,7 +1124,7 @@ class _$_CopyMessageEvent implements _CopyMessageEvent {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String messageId)? loadingChat,
+    TResult Function(String messageId)? fetchMessages,
     TResult Function(String message)? sendMessage,
     TResult Function(String message)? copyMessage,
     TResult Function(String message)? regenerateResponse,
@@ -1138,7 +1139,7 @@ class _$_CopyMessageEvent implements _CopyMessageEvent {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_LoadingChatEvent value) loadingChat,
+    required TResult Function(_FetchMessagesEvent value) fetchMessages,
     required TResult Function(_SendMessageEvent value) sendMessage,
     required TResult Function(_CopyMessageEvent value) copyMessage,
     required TResult Function(_RegenerateResponseEvent value)
@@ -1150,7 +1151,7 @@ class _$_CopyMessageEvent implements _CopyMessageEvent {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LoadingChatEvent value)? loadingChat,
+    TResult? Function(_FetchMessagesEvent value)? fetchMessages,
     TResult? Function(_SendMessageEvent value)? sendMessage,
     TResult? Function(_CopyMessageEvent value)? copyMessage,
     TResult? Function(_RegenerateResponseEvent value)? regenerateResponse,
@@ -1161,7 +1162,7 @@ class _$_CopyMessageEvent implements _CopyMessageEvent {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LoadingChatEvent value)? loadingChat,
+    TResult Function(_FetchMessagesEvent value)? fetchMessages,
     TResult Function(_SendMessageEvent value)? sendMessage,
     TResult Function(_CopyMessageEvent value)? copyMessage,
     TResult Function(_RegenerateResponseEvent value)? regenerateResponse,
@@ -1250,7 +1251,7 @@ class _$_RegenerateResponseEvent implements _RegenerateResponseEvent {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String messageId) loadingChat,
+    required TResult Function(String messageId) fetchMessages,
     required TResult Function(String message) sendMessage,
     required TResult Function(String message) copyMessage,
     required TResult Function(String message) regenerateResponse,
@@ -1261,7 +1262,7 @@ class _$_RegenerateResponseEvent implements _RegenerateResponseEvent {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String messageId)? loadingChat,
+    TResult? Function(String messageId)? fetchMessages,
     TResult? Function(String message)? sendMessage,
     TResult? Function(String message)? copyMessage,
     TResult? Function(String message)? regenerateResponse,
@@ -1272,7 +1273,7 @@ class _$_RegenerateResponseEvent implements _RegenerateResponseEvent {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String messageId)? loadingChat,
+    TResult Function(String messageId)? fetchMessages,
     TResult Function(String message)? sendMessage,
     TResult Function(String message)? copyMessage,
     TResult Function(String message)? regenerateResponse,
@@ -1287,7 +1288,7 @@ class _$_RegenerateResponseEvent implements _RegenerateResponseEvent {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_LoadingChatEvent value) loadingChat,
+    required TResult Function(_FetchMessagesEvent value) fetchMessages,
     required TResult Function(_SendMessageEvent value) sendMessage,
     required TResult Function(_CopyMessageEvent value) copyMessage,
     required TResult Function(_RegenerateResponseEvent value)
@@ -1299,7 +1300,7 @@ class _$_RegenerateResponseEvent implements _RegenerateResponseEvent {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LoadingChatEvent value)? loadingChat,
+    TResult? Function(_FetchMessagesEvent value)? fetchMessages,
     TResult? Function(_SendMessageEvent value)? sendMessage,
     TResult? Function(_CopyMessageEvent value)? copyMessage,
     TResult? Function(_RegenerateResponseEvent value)? regenerateResponse,
@@ -1310,7 +1311,7 @@ class _$_RegenerateResponseEvent implements _RegenerateResponseEvent {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LoadingChatEvent value)? loadingChat,
+    TResult Function(_FetchMessagesEvent value)? fetchMessages,
     TResult Function(_SendMessageEvent value)? sendMessage,
     TResult Function(_CopyMessageEvent value)? copyMessage,
     TResult Function(_RegenerateResponseEvent value)? regenerateResponse,

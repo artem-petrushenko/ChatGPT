@@ -37,4 +37,17 @@ class ChatRepositoryImpl implements ChatRepository {
     await _chatDatabaseAccessObject.insertMessage(
         chatHistoryModel: chatHistoryModel);
   }
+
+  @override
+  Future<void> sendMessage({
+    required String uid,
+    required String message,
+    required String conversationId,
+  }) async {
+    await _chatNetworkDataProvider.sendMessage(
+      uid: uid,
+      message: message,
+      conversationId: conversationId,
+    );
+  }
 }

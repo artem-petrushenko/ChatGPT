@@ -5,4 +5,10 @@ abstract class ChatNetworkDataProvider {
     required String messageId,
     required String conversationId,
   });
+
+  Future<void> sendMessage({
+    required String uid,
+    required String message,
+    required String conversationId,
+  });
 }

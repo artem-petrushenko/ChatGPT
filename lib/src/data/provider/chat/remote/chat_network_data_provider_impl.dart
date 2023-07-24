@@ -18,20 +18,34 @@ class ChatNetworkDataProviderImpl implements ChatNetworkDataProvider {
     required String messageId,
     required String conversationId,
   }) async {
-    final db = FirebaseFirestore.instance;
-    final collection = db.collection('messages');
-    final response = messageId != ''
-        ? await collection
-            .where('conversation_id', isEqualTo: conversationId)
-            .orderBy('timestamp', descending: true)
-            .startAfter([messageId])
-            .limit(1)
-            .get()
-        : await collection
-            .where('conversation_id', isEqualTo: conversationId)
-            .orderBy('timestamp', descending: true)
-            .limit(1)
-            .get();
+    final collection = FirebaseFirestore.instance.collection('messages');
+    final query = collection
+        .where('conversation_id', isEqualTo: conversationId)
+        .orderBy('timestamp', descending: true);
+    final QuerySnapshot<Map<String, dynamic>> response;
+    if (messageId != '') {
+      final lastMessage = await collection.doc(messageId).get();
+      response = await query.startAfterDocument(lastMessage).limit(20).get();
+    } else {
+      response = await query.limit(20).get();
+    }
     return response.docs.map((e) => MessageModel.fromFirestore(e)).toList();
+  }
+
+  @override
+  Future<void> sendMessage({
+    required String uid,
+    required String message,
+    required String conversationId,
+  }) async {
+    final collection = FirebaseFirestore.instance.collection('messages');
+    final document = collection.doc();
+    await document.set(MessageModel(
+      messageId: document.id,
+      content: message,
+      conversationId: conversationId,
+      sender: uid,
+      timestamp: DateTime.now().millisecondsSinceEpoch,
+    ).toJson());
   }
 }

@@ -6,8 +6,8 @@ import 'package:dio/dio.dart';
 import 'package:chat_gpt/src/utils/constants/strings.dart';
 
 class HttpClient {
-  const HttpClient({required Dio dio}) : _dio = dio;
-  final Dio _dio;
+  // const HttpClient({required Dio dio}) : _dio = dio;
+  final Dio _dio = Dio();
 
   Future<Map<String, dynamic>> get({
     required String endpoint,
