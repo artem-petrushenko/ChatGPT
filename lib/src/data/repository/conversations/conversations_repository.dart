@@ -1,17 +1,17 @@
 import 'package:chat_gpt/src/model/conversation/conversation_model.dart';
 
-abstract class ChatsRepository {
-  Future<List<ConversationModel>> getChatsList({
+abstract class ConversationsRepository {
+  Future<List<ConversationModel>> fetchConversations({
     required String uid,
     required String id,
   });
 
-  Future<void> createChat({
+  Future<void> createConversation({
     required String uid,
     required String name,
   });
 
-  Future<void> removeChat({
+  Future<void> removeConversation({
     required String uid,
     required String id,
   });

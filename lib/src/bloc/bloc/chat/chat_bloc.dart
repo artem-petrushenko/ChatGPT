@@ -1,5 +1,6 @@
 import 'package:chat_gpt/src/data/repository/message/message_repository.dart';
 import 'package:chat_gpt/src/data/repository/user/user_repository.dart';
+import 'package:chat_gpt/src/model/user/user_model.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
@@ -126,6 +127,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     Emitter<ChatState> emit,
   ) async {
     try {
+      final uid = _userRepository.getCurrentUID();
       final messages = await _chatRepository.getHistory(
         messageId: event.messageId,
         conversationId: _conversationId,
@@ -141,7 +143,11 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         final newState = messages.isEmpty
             ? const ChatState.empty()
             : ChatState.success(
-                messages: messages, hasReachedMax: false, hasResponse: false);
+                userId: uid,
+                messages: messages,
+                hasReachedMax: false,
+                hasResponse: false,
+              );
         emit(newState);
       }
     } catch (error) {

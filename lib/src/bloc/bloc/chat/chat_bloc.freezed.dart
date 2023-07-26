@@ -19,8 +19,8 @@ mixin _$ChatState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(
-            List<MessageModel> messages, bool hasResponse, bool hasReachedMax)
+    required TResult Function(String userId, List<MessageModel> messages,
+            bool hasResponse, bool hasReachedMax)
         success,
     required TResult Function() empty,
     required TResult Function(Object? error) failure,
@@ -29,8 +29,8 @@ mixin _$ChatState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(
-            List<MessageModel> messages, bool hasResponse, bool hasReachedMax)?
+    TResult? Function(String userId, List<MessageModel> messages,
+            bool hasResponse, bool hasReachedMax)?
         success,
     TResult? Function()? empty,
     TResult? Function(Object? error)? failure,
@@ -39,8 +39,8 @@ mixin _$ChatState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(
-            List<MessageModel> messages, bool hasResponse, bool hasReachedMax)?
+    TResult Function(String userId, List<MessageModel> messages,
+            bool hasResponse, bool hasReachedMax)?
         success,
     TResult Function()? empty,
     TResult Function(Object? error)? failure,
@@ -130,8 +130,8 @@ class _$_ChatLoadingState implements _ChatLoadingState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(
-            List<MessageModel> messages, bool hasResponse, bool hasReachedMax)
+    required TResult Function(String userId, List<MessageModel> messages,
+            bool hasResponse, bool hasReachedMax)
         success,
     required TResult Function() empty,
     required TResult Function(Object? error) failure,
@@ -143,8 +143,8 @@ class _$_ChatLoadingState implements _ChatLoadingState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(
-            List<MessageModel> messages, bool hasResponse, bool hasReachedMax)?
+    TResult? Function(String userId, List<MessageModel> messages,
+            bool hasResponse, bool hasReachedMax)?
         success,
     TResult? Function()? empty,
     TResult? Function(Object? error)? failure,
@@ -156,8 +156,8 @@ class _$_ChatLoadingState implements _ChatLoadingState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(
-            List<MessageModel> messages, bool hasResponse, bool hasReachedMax)?
+    TResult Function(String userId, List<MessageModel> messages,
+            bool hasResponse, bool hasReachedMax)?
         success,
     TResult Function()? empty,
     TResult Function(Object? error)? failure,
@@ -218,7 +218,10 @@ abstract class _$$_ChatSuccessStateCopyWith<$Res> {
       __$$_ChatSuccessStateCopyWithImpl<$Res>;
   @useResult
   $Res call(
-      {List<MessageModel> messages, bool hasResponse, bool hasReachedMax});
+      {String userId,
+      List<MessageModel> messages,
+      bool hasResponse,
+      bool hasReachedMax});
 }
 
 /// @nodoc
@@ -232,11 +235,16 @@ class __$$_ChatSuccessStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? userId = null,
     Object? messages = null,
     Object? hasResponse = null,
     Object? hasReachedMax = null,
   }) {
     return _then(_$_ChatSuccessState(
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
       messages: null == messages
           ? _value._messages
           : messages // ignore: cast_nullable_to_non_nullable
@@ -257,11 +265,14 @@ class __$$_ChatSuccessStateCopyWithImpl<$Res>
 
 class _$_ChatSuccessState implements _ChatSuccessState {
   const _$_ChatSuccessState(
-      {required final List<MessageModel> messages,
+      {required this.userId,
+      required final List<MessageModel> messages,
       required this.hasResponse,
       required this.hasReachedMax})
       : _messages = messages;
 
+  @override
+  final String userId;
   final List<MessageModel> _messages;
   @override
   List<MessageModel> get messages {
@@ -277,7 +288,7 @@ class _$_ChatSuccessState implements _ChatSuccessState {
 
   @override
   String toString() {
-    return 'ChatState.success(messages: $messages, hasResponse: $hasResponse, hasReachedMax: $hasReachedMax)';
+    return 'ChatState.success(userId: $userId, messages: $messages, hasResponse: $hasResponse, hasReachedMax: $hasReachedMax)';
   }
 
   @override
@@ -285,6 +296,7 @@ class _$_ChatSuccessState implements _ChatSuccessState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_ChatSuccessState &&
+            (identical(other.userId, userId) || other.userId == userId) &&
             const DeepCollectionEquality().equals(other._messages, _messages) &&
             (identical(other.hasResponse, hasResponse) ||
                 other.hasResponse == hasResponse) &&
@@ -295,6 +307,7 @@ class _$_ChatSuccessState implements _ChatSuccessState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      userId,
       const DeepCollectionEquality().hash(_messages),
       hasResponse,
       hasReachedMax);
@@ -309,41 +322,41 @@ class _$_ChatSuccessState implements _ChatSuccessState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(
-            List<MessageModel> messages, bool hasResponse, bool hasReachedMax)
+    required TResult Function(String userId, List<MessageModel> messages,
+            bool hasResponse, bool hasReachedMax)
         success,
     required TResult Function() empty,
     required TResult Function(Object? error) failure,
   }) {
-    return success(messages, hasResponse, hasReachedMax);
+    return success(userId, messages, hasResponse, hasReachedMax);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(
-            List<MessageModel> messages, bool hasResponse, bool hasReachedMax)?
+    TResult? Function(String userId, List<MessageModel> messages,
+            bool hasResponse, bool hasReachedMax)?
         success,
     TResult? Function()? empty,
     TResult? Function(Object? error)? failure,
   }) {
-    return success?.call(messages, hasResponse, hasReachedMax);
+    return success?.call(userId, messages, hasResponse, hasReachedMax);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(
-            List<MessageModel> messages, bool hasResponse, bool hasReachedMax)?
+    TResult Function(String userId, List<MessageModel> messages,
+            bool hasResponse, bool hasReachedMax)?
         success,
     TResult Function()? empty,
     TResult Function(Object? error)? failure,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(messages, hasResponse, hasReachedMax);
+      return success(userId, messages, hasResponse, hasReachedMax);
     }
     return orElse();
   }
@@ -388,10 +401,12 @@ class _$_ChatSuccessState implements _ChatSuccessState {
 
 abstract class _ChatSuccessState implements ChatState {
   const factory _ChatSuccessState(
-      {required final List<MessageModel> messages,
+      {required final String userId,
+      required final List<MessageModel> messages,
       required final bool hasResponse,
       required final bool hasReachedMax}) = _$_ChatSuccessState;
 
+  String get userId;
   List<MessageModel> get messages;
   bool get hasResponse;
   bool get hasReachedMax;
@@ -439,8 +454,8 @@ class _$_ChatEmptyState implements _ChatEmptyState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(
-            List<MessageModel> messages, bool hasResponse, bool hasReachedMax)
+    required TResult Function(String userId, List<MessageModel> messages,
+            bool hasResponse, bool hasReachedMax)
         success,
     required TResult Function() empty,
     required TResult Function(Object? error) failure,
@@ -452,8 +467,8 @@ class _$_ChatEmptyState implements _ChatEmptyState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(
-            List<MessageModel> messages, bool hasResponse, bool hasReachedMax)?
+    TResult? Function(String userId, List<MessageModel> messages,
+            bool hasResponse, bool hasReachedMax)?
         success,
     TResult? Function()? empty,
     TResult? Function(Object? error)? failure,
@@ -465,8 +480,8 @@ class _$_ChatEmptyState implements _ChatEmptyState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(
-            List<MessageModel> messages, bool hasResponse, bool hasReachedMax)?
+    TResult Function(String userId, List<MessageModel> messages,
+            bool hasResponse, bool hasReachedMax)?
         success,
     TResult Function()? empty,
     TResult Function(Object? error)? failure,
@@ -583,8 +598,8 @@ class _$_ChatFailureState implements _ChatFailureState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function(
-            List<MessageModel> messages, bool hasResponse, bool hasReachedMax)
+    required TResult Function(String userId, List<MessageModel> messages,
+            bool hasResponse, bool hasReachedMax)
         success,
     required TResult Function() empty,
     required TResult Function(Object? error) failure,
@@ -596,8 +611,8 @@ class _$_ChatFailureState implements _ChatFailureState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
-    TResult? Function(
-            List<MessageModel> messages, bool hasResponse, bool hasReachedMax)?
+    TResult? Function(String userId, List<MessageModel> messages,
+            bool hasResponse, bool hasReachedMax)?
         success,
     TResult? Function()? empty,
     TResult? Function(Object? error)? failure,
@@ -609,8 +624,8 @@ class _$_ChatFailureState implements _ChatFailureState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function(
-            List<MessageModel> messages, bool hasResponse, bool hasReachedMax)?
+    TResult Function(String userId, List<MessageModel> messages,
+            bool hasResponse, bool hasReachedMax)?
         success,
     TResult Function()? empty,
     TResult Function(Object? error)? failure,

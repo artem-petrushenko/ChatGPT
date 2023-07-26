@@ -29,7 +29,7 @@ class ChatDatabaseAccessObjectImpl implements ChatDatabaseAccessObject {
 
   @override
   Future<List<MessageModel>> getItems() async {
-    final database = await _sqLiteDatabase.initializeDB();
+    final database = await _sqLiteDatabase.conversationsDatabase;
     final List<Map<String, dynamic>> query = await database.query('chats');
     return query.map((e) => MessageModel.fromJson(e)).toList();
   }

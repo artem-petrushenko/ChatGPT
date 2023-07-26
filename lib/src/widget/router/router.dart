@@ -1,3 +1,5 @@
+import 'package:chat_gpt/src/bloc/bloc/conversations/conversations_bloc.dart';
+import 'package:chat_gpt/src/data/provider/conversations/local/conversations_database_access_object_impl.dart';
 import 'package:chat_gpt/src/data/provider/user/remote/user_network_data_provider_impl.dart';
 import 'package:flutter/widgets.dart';
 import 'package:dio/dio.dart';
@@ -6,11 +8,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:chat_gpt/src/widget/views/main/main_view.dart';
-import 'package:chat_gpt/src/widget/views/chats/chats_view.dart';
+import 'package:chat_gpt/src/widget/views/conversations/conversations_view.dart';
 import 'package:chat_gpt/src/widget/views/chat/chat_view.dart';
 import 'package:chat_gpt/src/widget/views/sign_in/sign_in_view.dart';
 
-import 'package:chat_gpt/src/bloc/bloc/chats/chats_bloc.dart';
 import 'package:chat_gpt/src/bloc/bloc/main/main_bloc.dart';
 
 import 'package:chat_gpt/src/bloc/bloc/auth/auth_bloc.dart';
@@ -19,13 +20,13 @@ import 'package:chat_gpt/src/bloc/bloc/chat/chat_bloc.dart';
 import 'package:chat_gpt/src/data/repository/message/message_repository_impl.dart';
 import 'package:chat_gpt/src/data/repository/user/user_repository_impl.dart';
 import 'package:chat_gpt/src/data/repository/chat/chat_repository_impl.dart';
-import 'package:chat_gpt/src/data/repository/chats/chats_repository_impl.dart';
+import 'package:chat_gpt/src/data/repository/conversations/conversations_repository_impl.dart';
 
 import 'package:chat_gpt/src/data/provider/chat/remote/chat_network_data_provider_impl.dart';
 import 'package:chat_gpt/src/data/provider/message/remote/message_network_data_provider_impl.dart';
 import 'package:chat_gpt/src/data/provider/chat/local/chat_database_access_object_impl.dart';
 import 'package:chat_gpt/src/data/provider/auth/remote/auth_network_data_provider_impl.dart';
-import 'package:chat_gpt/src/data/provider/chats/remote/chats_network_data_provider_impl.dart';
+import 'package:chat_gpt/src/data/provider/conversations/remote/conversations_network_data_provider_impl.dart';
 
 import 'package:chat_gpt/src/data/client/firebase_authentication.dart';
 import 'package:chat_gpt/src/data/client/http_client.dart';
@@ -43,7 +44,7 @@ class AppRouter {
     redirect: (BuildContext context, GoRouterState state) {
       final user = FirebaseAuth.instance.currentUser;
       if (user == null) {
-        return '/';
+        return '/signIn';
       }
       return null;
     },
@@ -68,7 +69,7 @@ class AppRouter {
             path: '/chats',
             builder: (BuildContext context, GoRouterState state) {
               return BlocProvider(
-                create: (BuildContext context) => ChatsBloc(
+                create: (BuildContext context) => ConversationsBloc(
                   userRepository: const UserRepositoryImpl(
                     authNetworkDataProvider: AuthNetworkDataProviderImpl(
                       firebaseAuthentication: FirebaseAuthentication(),
@@ -77,12 +78,17 @@ class AppRouter {
                       cloudFirestore: CloudFirestore(),
                     ),
                   ),
-                  chatsRepository: const ChatsRepositoryImpl(
-                    chatsNetworkDataProvider: ChatsNetworkDataProviderImpl(
+                  conversationsRepository: const ConversationsRepositoryImpl(
+                    conversationsNetworkDataProvider:
+                        ConversationsNetworkDataProviderImpl(
                       cloudFirestore: CloudFirestore(),
                     ),
+                    conversationsDatabaseAccessObject:
+                        ConversationsDatabaseAccessObjectImpl(
+                      sqLiteDatabase: SQLiteDatabase(),
+                    ),
                   ),
-                )..add(const ChatsEvent.fetchChats(id: '')),
+                )..add(const ConversationsEvent.fetchConversations(id: '')),
                 child: const ChatsView(),
               );
             },

@@ -1,18 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:chat_gpt/src/data/provider/chats/remote/chats_network_data_provider.dart';
 import 'package:chat_gpt/src/data/client/cloud_firestore.dart';
 import 'package:chat_gpt/src/model/conversation/conversation_model.dart';
+import 'package:chat_gpt/src/data/provider/conversations/remote/conversations_network_data_provider.dart';
 
-class ChatsNetworkDataProviderImpl implements ChatsNetworkDataProvider {
-  const ChatsNetworkDataProviderImpl({
+class ConversationsNetworkDataProviderImpl
+    implements ConversationsNetworkDataProvider {
+  const ConversationsNetworkDataProviderImpl({
     required CloudFirestore cloudFirestore,
   }) : _cloudFirestore = cloudFirestore;
 
   final CloudFirestore _cloudFirestore;
 
   @override
-  Future<void> createChat({
+  Future<String> createConversation({
     required String name,
     required String uid,
   }) async {
@@ -25,10 +26,11 @@ class ChatsNetworkDataProviderImpl implements ChatsNetworkDataProvider {
       'created_at': DateTime.now().millisecondsSinceEpoch,
       'updated_at': DateTime.now().millisecondsSinceEpoch,
     });
+    return document.id;
   }
 
   @override
-  Future<List<ConversationModel>> getChats({
+  Future<List<ConversationModel>> fetchConversations({
     required String uid,
     required String id,
   }) async {
@@ -49,8 +51,7 @@ class ChatsNetworkDataProviderImpl implements ChatsNetworkDataProvider {
   }
 
   @override
-  Future<void> removeChat({
-    required String uid,
+  Future<void> removeConversation({
     required String id,
   }) async {
     final db = FirebaseFirestore.instance;

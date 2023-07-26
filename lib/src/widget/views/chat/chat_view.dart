@@ -28,7 +28,7 @@ class ChatView extends StatelessWidget {
       body: Center(
         child: state.when(
           loading: () => const CircularProgressIndicator(),
-          success: (messages, hasResponse, hasReachedMax) => Stack(
+          success: (uid, messages, hasResponse, hasReachedMax) => Stack(
             children: [
               CustomScrollView(
                 reverse: true,
@@ -47,7 +47,13 @@ class ChatView extends StatelessWidget {
                         context.read<ChatBloc>().add(ChatEvent.fetchMessages(
                             messageId: message.messageId));
                       }
-                      return Text(message.content);
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(message.sender == uid ? 'You' : message.sender),
+                          Text(message.content),
+                        ],
+                      );
                     },
                     separatorBuilder: (BuildContext context, int index) =>
                         const SizedBox(height: 16.0),
@@ -110,7 +116,7 @@ class ChatView extends StatelessWidget {
       ),
       bottomNavigationBar: state.when(
         loading: () => const SizedBox.shrink(),
-        success: (history, hasReachedMax, hasResponse) => Row(
+        success: (_, history, hasReachedMax, hasResponse) => Row(
           children: [
             Expanded(
               child: TextField(

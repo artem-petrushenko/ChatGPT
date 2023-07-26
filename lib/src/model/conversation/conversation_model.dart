@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -28,6 +30,17 @@ class ConversationModel with _$ConversationModel {
       participants: data['participants'] as List<dynamic>,
       createdAt: data['created_at'] as int,
       updatedAt: data['updated_at'] as int,
+    );
+  }
+
+  factory ConversationModel.fromSQL(Map<String, dynamic> json) {
+    return ConversationModel(
+      conversationId: json['conversation_id'] as String,
+      createdAt: json['created_at'] as int,
+      name: json['name'] as String,
+      participants: List<String>.from(
+          jsonDecode(json['participants'] as String) as List<dynamic>),
+      updatedAt: json['updated_at'] as int,
     );
   }
 }

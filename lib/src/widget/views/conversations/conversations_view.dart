@@ -2,19 +2,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:chat_gpt/src/bloc/bloc/chats/chats_bloc.dart';
+import 'package:chat_gpt/src/bloc/bloc/conversations/conversations_bloc.dart';
 
 class ChatsView extends StatelessWidget {
   const ChatsView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<ChatsBloc>().state;
+    final state = context.watch<ConversationsBloc>().state;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () => context
-            .read<ChatsBloc>()
-            .add(const ChatsEvent.createChat(name: 'New Chat')),
+            .read<ConversationsBloc>()
+            .add(const ConversationsEvent.createConversation(name: 'New Chat')),
         child: const Icon(Icons.add),
       ),
       body: Center(
@@ -26,14 +26,15 @@ class ChatsView extends StatelessWidget {
                       itemCount: chats.length,
                       itemBuilder: (BuildContext context, int index) {
                         if (index >= chats.length - 1) {
-                          context.read<ChatsBloc>().add(ChatsEvent.fetchChats(
-                              id: chats[index].conversationId));
+                          context.read<ConversationsBloc>().add(
+                              ConversationsEvent.fetchConversations(
+                                  id: chats[index].conversationId));
                         }
                         return Dismissible(
                           key: Key(chats[index].conversationId),
                           onDismissed: (direction) =>
-                              context.read<ChatsBloc>().add(
-                                    ChatsEvent.removeChat(
+                              context.read<ConversationsBloc>().add(
+                                    ConversationsEvent.removeConversation(
                                         id: chats[index].conversationId),
                                   ),
                           child: ListTile(
