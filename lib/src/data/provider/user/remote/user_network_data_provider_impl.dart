@@ -1,9 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:chat_gpt/src/model/user/user_model.dart';
 
 import 'package:chat_gpt/src/data/provider/user/remote/user_network_data_provider.dart';
 
 import 'package:chat_gpt/src/data/client/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserNetworkDataProviderImpl implements UserNetworkDataProvider {
   const UserNetworkDataProviderImpl({

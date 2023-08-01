@@ -25,6 +25,8 @@ mixin _$MessageModel {
   String get conversationId => throw _privateConstructorUsedError;
   String get sender => throw _privateConstructorUsedError;
   int get timestamp => throw _privateConstructorUsedError;
+  String? get senderName => throw _privateConstructorUsedError;
+  String? get photoUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +45,9 @@ abstract class $MessageModelCopyWith<$Res> {
       String content,
       String conversationId,
       String sender,
-      int timestamp});
+      int timestamp,
+      String? senderName,
+      String? photoUrl});
 }
 
 /// @nodoc
@@ -64,6 +68,8 @@ class _$MessageModelCopyWithImpl<$Res, $Val extends MessageModel>
     Object? conversationId = null,
     Object? sender = null,
     Object? timestamp = null,
+    Object? senderName = freezed,
+    Object? photoUrl = freezed,
   }) {
     return _then(_value.copyWith(
       messageId: null == messageId
@@ -86,6 +92,14 @@ class _$MessageModelCopyWithImpl<$Res, $Val extends MessageModel>
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as int,
+      senderName: freezed == senderName
+          ? _value.senderName
+          : senderName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      photoUrl: freezed == photoUrl
+          ? _value.photoUrl
+          : photoUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -103,7 +117,9 @@ abstract class _$$_MessageModelCopyWith<$Res>
       String content,
       String conversationId,
       String sender,
-      int timestamp});
+      int timestamp,
+      String? senderName,
+      String? photoUrl});
 }
 
 /// @nodoc
@@ -122,6 +138,8 @@ class __$$_MessageModelCopyWithImpl<$Res>
     Object? conversationId = null,
     Object? sender = null,
     Object? timestamp = null,
+    Object? senderName = freezed,
+    Object? photoUrl = freezed,
   }) {
     return _then(_$_MessageModel(
       messageId: null == messageId
@@ -144,6 +162,14 @@ class __$$_MessageModelCopyWithImpl<$Res>
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as int,
+      senderName: freezed == senderName
+          ? _value.senderName
+          : senderName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      photoUrl: freezed == photoUrl
+          ? _value.photoUrl
+          : photoUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -157,7 +183,9 @@ class _$_MessageModel implements _MessageModel {
       required this.content,
       required this.conversationId,
       required this.sender,
-      required this.timestamp});
+      required this.timestamp,
+      this.senderName,
+      this.photoUrl});
 
   factory _$_MessageModel.fromJson(Map<String, dynamic> json) =>
       _$$_MessageModelFromJson(json);
@@ -172,10 +200,14 @@ class _$_MessageModel implements _MessageModel {
   final String sender;
   @override
   final int timestamp;
+  @override
+  final String? senderName;
+  @override
+  final String? photoUrl;
 
   @override
   String toString() {
-    return 'MessageModel(messageId: $messageId, content: $content, conversationId: $conversationId, sender: $sender, timestamp: $timestamp)';
+    return 'MessageModel(messageId: $messageId, content: $content, conversationId: $conversationId, sender: $sender, timestamp: $timestamp, senderName: $senderName, photoUrl: $photoUrl)';
   }
 
   @override
@@ -190,13 +222,17 @@ class _$_MessageModel implements _MessageModel {
                 other.conversationId == conversationId) &&
             (identical(other.sender, sender) || other.sender == sender) &&
             (identical(other.timestamp, timestamp) ||
-                other.timestamp == timestamp));
+                other.timestamp == timestamp) &&
+            (identical(other.senderName, senderName) ||
+                other.senderName == senderName) &&
+            (identical(other.photoUrl, photoUrl) ||
+                other.photoUrl == photoUrl));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, messageId, content, conversationId, sender, timestamp);
+  int get hashCode => Object.hash(runtimeType, messageId, content,
+      conversationId, sender, timestamp, senderName, photoUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -218,7 +254,9 @@ abstract class _MessageModel implements MessageModel {
       required final String content,
       required final String conversationId,
       required final String sender,
-      required final int timestamp}) = _$_MessageModel;
+      required final int timestamp,
+      final String? senderName,
+      final String? photoUrl}) = _$_MessageModel;
 
   factory _MessageModel.fromJson(Map<String, dynamic> json) =
       _$_MessageModel.fromJson;
@@ -233,6 +271,10 @@ abstract class _MessageModel implements MessageModel {
   String get sender;
   @override
   int get timestamp;
+  @override
+  String? get senderName;
+  @override
+  String? get photoUrl;
   @override
   @JsonKey(ignore: true)
   _$$_MessageModelCopyWith<_$_MessageModel> get copyWith =>

@@ -13,6 +13,8 @@ _$_MessageModel _$$_MessageModelFromJson(Map<String, dynamic> json) =>
       conversationId: json['conversation_id'] as String,
       sender: json['sender'] as String,
       timestamp: json['timestamp'] as int,
+      senderName: json['sender_name'] as String?,
+      photoUrl: json['photo_url'] as String?,
     );
 
 Map<String, dynamic> _$$_MessageModelToJson(_$_MessageModel instance) =>
@@ -22,4 +24,6 @@ Map<String, dynamic> _$$_MessageModelToJson(_$_MessageModel instance) =>
       'conversation_id': instance.conversationId,
       'sender': instance.sender,
       'timestamp': instance.timestamp,
+      'sender_name': instance.senderName,
+      'photo_url': instance.photoUrl,
     };

@@ -28,78 +28,54 @@ class ChatView extends StatelessWidget {
       body: Center(
         child: state.when(
           loading: () => const CircularProgressIndicator(),
-          success: (uid, messages, hasResponse, hasReachedMax) => Stack(
-            children: [
+          success: (uid, messages, hasResponse, hasReachedMax) =>
               CustomScrollView(
-                reverse: true,
-                slivers: [
-                  if (hasResponse)
-                    const SliverPadding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.0),
-                      sliver: SliverToBoxAdapter(
-                        child: Text('Await'),
-                      ),
-                    ),
-                  SliverList.separated(
-                    itemBuilder: (BuildContext context, int index) {
-                      final message = messages[index];
-                      if (index >= messages.length - 1) {
-                        context.read<ChatBloc>().add(ChatEvent.fetchMessages(
-                            messageId: message.messageId));
-                      }
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(message.sender == uid ? 'You' : message.sender),
-                          Text(message.content),
-                        ],
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) =>
-                        const SizedBox(height: 16.0),
-                    itemCount: messages.length,
+            reverse: true,
+            slivers: [
+              if (hasResponse)
+                const SliverPadding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  sliver: SliverToBoxAdapter(
+                    child: Text('Await'),
                   ),
-                  if (!hasReachedMax)
-                    const SliverToBoxAdapter(
-                      child: Center(child: CircularProgressIndicator()),
-                    ),
-                ],
-              ),
-              if (messages.first.sender == 'assistant')
-                GestureDetector(
-                  onTap: () => context.read<ChatBloc>()
-                    ..add(ChatEvent.regenerateResponse(
-                        message: messages.last.content)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                ),
+              SliverList.separated(
+                itemBuilder: (BuildContext context, int index) {
+                  final message = messages[index];
+                  final bool showSenderName = index == messages.length - 1 ||
+                      message.sender != messages[index + 1].sender;
+                  if (index >= messages.length - 1) {
+                    context.read<ChatBloc>().add(
+                        ChatEvent.fetchMessages(messageId: message.messageId));
+                  }
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 13.0, vertical: 7.0),
-                        decoration: BoxDecoration(
-                            color: const Color(0xFF202123),
-                            border: Border.all(
-                              color: const Color(0x33FFFFFF),
-                              width: 1.0,
-                            ),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(4.0))),
-                        child: const Row(
+                      if (showSenderName)
+                        Row(
                           children: [
-                            Icon(
-                              Icons.play_circle_outline_outlined,
-                              weight: 11.0,
-                              color: Color(0xFFFFFFFF),
+                            CircleAvatar(
+                              radius: 16,
+                              backgroundImage:
+                                  NetworkImage(message.photoUrl ?? ''),
                             ),
-                            SizedBox(width: 10.0),
+                            const SizedBox(width: 8),
                             Text(
-                              'Regenerate response',
-                            )
+                              message.senderName ?? '',
+                            ),
                           ],
                         ),
-                      ),
+                      Text(message.content),
                     ],
-                  ),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) =>
+                    const SizedBox(height: 16.0),
+                itemCount: messages.length,
+              ),
+              if (!hasReachedMax)
+                const SliverToBoxAdapter(
+                  child: Center(child: CircularProgressIndicator()),
                 ),
             ],
           ),

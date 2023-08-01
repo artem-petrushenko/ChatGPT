@@ -14,6 +14,8 @@ class MessageModel with _$MessageModel {
     required final String conversationId,
     required final String sender,
     required final int timestamp,
+    final String? senderName,
+    final String? photoUrl,
   }) = _MessageModel;
 
   factory MessageModel.fromJson(Map<String, dynamic> json) =>

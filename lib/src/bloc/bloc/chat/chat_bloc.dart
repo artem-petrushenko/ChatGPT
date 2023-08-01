@@ -1,10 +1,11 @@
-import 'package:chat_gpt/src/data/repository/message/message_repository.dart';
-import 'package:chat_gpt/src/data/repository/user/user_repository.dart';
-import 'package:chat_gpt/src/model/user/user_model.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import 'package:chat_gpt/src/data/repository/message/message_repository.dart';
+import 'package:chat_gpt/src/data/repository/user/user_repository.dart';
+import 'package:chat_gpt/src/model/user/user_model.dart';
 
 import 'package:chat_gpt/src/model/message/message_model.dart';
 import 'package:chat_gpt/src/data/repository/chat/chat_repository.dart';
@@ -90,21 +91,21 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       //         .toList()
       //         .reversed
       //         .toList();
-      final response = await _messageRepository.createChatCompletion(
-        model: "gpt-3.5-turbo-16k",
-        messages: [
-          <String, String>{
-            'role': 'user',
-            'content': event.message,
-          },
-        ],
-        stream: false,
-      );
-      await _chatRepository.sendMessage(
-        uid: '5RQm9oiOX6tpXyKkhudk',
-        message: response.choices?.last.message?.content ?? '',
-        conversationId: _conversationId,
-      );
+      // final response = await _messageRepository.createChatCompletion(
+      //   model: "gpt-3.5-turbo",
+      //   messages: [
+      //     <String, String>{
+      //       'role': 'user',
+      //       'content': event.message,
+      //     },
+      //   ],
+      //   stream: false,
+      // );
+      // await _chatRepository.sendMessage(
+      //   uid: '5RQm9oiOX6tpXyKkhudk',
+      //   message: response.choices?.last.message?.content ?? '',
+      //   conversationId: _conversationId,
+      // );
       // final responseMessage = MessageModel(
       //   senderId: response.choices?.last.message?.role ?? '',
       //   message: response.choices?.last.message?.content ?? '',
@@ -132,19 +133,30 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         messageId: event.messageId,
         conversationId: _conversationId,
       );
+      final messagesWithSenderNames = <MessageModel>[];
+      for (final messageDoc in messages) {
+        final senderId = messageDoc.sender;
+        final sender = await _userRepository.getUser(uid: senderId);
+        final messageWithSenderName = messageDoc.copyWith(
+          senderName: sender.username ?? '',
+          photoUrl: sender.photoUrl ?? '',
+        );
+        messagesWithSenderNames.add(messageWithSenderName);
+      }
       if (state is _ChatSuccessState) {
         if ((state as _ChatSuccessState).hasReachedMax) return;
-        emit(messages.isEmpty
+        emit(messagesWithSenderNames.isEmpty
             ? (state as _ChatSuccessState).copyWith(hasReachedMax: true)
             : (state as _ChatSuccessState).copyWith(
                 hasReachedMax: false,
-                messages: (state as _ChatSuccessState).messages + messages));
+                messages: (state as _ChatSuccessState).messages +
+                    messagesWithSenderNames));
       } else {
         final newState = messages.isEmpty
             ? const ChatState.empty()
             : ChatState.success(
                 userId: uid,
-                messages: messages,
+                messages: messagesWithSenderNames,
                 hasReachedMax: false,
                 hasResponse: false,
               );
