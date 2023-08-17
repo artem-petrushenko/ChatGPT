@@ -1,7 +1,12 @@
 import 'package:chat_gpt/src/bloc/bloc/conversations/conversations_bloc.dart';
+import 'package:chat_gpt/src/bloc/bloc/profile/profile_bloc.dart';
 import 'package:chat_gpt/src/data/provider/conversations/local/conversations_database_access_object_impl.dart';
 import 'package:chat_gpt/src/data/provider/user/remote/user_network_data_provider_impl.dart';
+import 'package:chat_gpt/src/widget/views/main/main_view_model.dart';
+import 'package:chat_gpt/src/widget/views/onboard/onboard_view.dart';
+import 'package:chat_gpt/src/widget/views/profile/profile_view.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,8 +16,6 @@ import 'package:chat_gpt/src/widget/views/main/main_view.dart';
 import 'package:chat_gpt/src/widget/views/conversations/conversations_view.dart';
 import 'package:chat_gpt/src/widget/views/chat/chat_view.dart';
 import 'package:chat_gpt/src/widget/views/sign_in/sign_in_view.dart';
-
-import 'package:chat_gpt/src/bloc/bloc/main/main_bloc.dart';
 
 import 'package:chat_gpt/src/bloc/bloc/auth/auth_bloc.dart';
 import 'package:chat_gpt/src/bloc/bloc/chat/chat_bloc.dart';
@@ -40,7 +43,7 @@ class AppRouter {
   static final router = GoRouter(
     navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: '/chats',
+    initialLocation: '/onboard',
     redirect: (BuildContext context, GoRouterState state) {
       final user = FirebaseAuth.instance.currentUser;
       if (user == null) {
@@ -49,23 +52,38 @@ class AppRouter {
       return null;
     },
     routes: [
+      GoRoute(
+        parentNavigatorKey: _rootNavigatorKey,
+        path: '/onboard',
+        builder: (BuildContext context, GoRouterState state) =>
+            const OnboardView(),
+      ),
       ShellRoute(
         navigatorKey: _shellNavigatorKey,
-        builder: (context, state, child) => BlocProvider(
-          create: (BuildContext context) => MainBloc(
-            userRepository: const UserRepositoryImpl(
-              authNetworkDataProvider: AuthNetworkDataProviderImpl(
-                firebaseAuthentication: FirebaseAuthentication(),
-              ),
-              userNetworkDataProvider: UserNetworkDataProviderImpl(
-                cloudFirestore: CloudFirestore(),
-              ),
-            ),
-          )..add(const MainEvent.fetchUser()),
-          child: MainView(child),
-        ),
+        builder: (context, state, child) => ChangeNotifierProvider(
+            create: (BuildContext context) => MainViewModel(),
+            child: MainView(child)),
         routes: <RouteBase>[
           GoRoute(
+            name: 'profile',
+            path: '/profile',
+            builder: (BuildContext context, GoRouterState state) =>
+                BlocProvider(
+              create: (context) => ProfileBloc(
+                userRepository: const UserRepositoryImpl(
+                  authNetworkDataProvider: AuthNetworkDataProviderImpl(
+                    firebaseAuthentication: FirebaseAuthentication(),
+                  ),
+                  userNetworkDataProvider: UserNetworkDataProviderImpl(
+                    cloudFirestore: CloudFirestore(),
+                  ),
+                ),
+              )..add(const ProfileEvent.fetchUser()),
+              child: const ProfileView(),
+            ),
+          ),
+          GoRoute(
+            name: 'conversations',
             path: '/chats',
             builder: (BuildContext context, GoRouterState state) {
               return BlocProvider(

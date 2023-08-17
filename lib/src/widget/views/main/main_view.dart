@@ -1,10 +1,8 @@
-import 'dart:developer';
-
+import 'package:chat_gpt/src/widget/views/main/main_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-
-import 'package:chat_gpt/src/bloc/bloc/main/main_bloc.dart';
 
 class MainView extends StatelessWidget {
   final Widget child;
@@ -16,103 +14,73 @@ class MainView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<MainBloc>().state;
+    int selectIndex =
+        context.select((MainViewModel model) => model.selectIndex);
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: child,
+      bottomNavigationBar: Container(
+        height: 80.0,
+        color: const Color(0xFFFFFFFF),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Chats'),
-            state.when(
-              loading: () => const CircularProgressIndicator(),
-              success: (user) => GestureDetector(
-                onTap: () => showDialog(
-                  context: context,
-                  builder: (_) => BlocProvider<MainBloc>.value(
-                    value: context.read<MainBloc>(),
-                    child: Dialog(
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Row(
-                              children: [
-                                IconButton(
-                                  onPressed: () => context.pop(),
-                                  icon: const Icon(Icons.close_rounded),
-                                ),
-                                const Text('ChatGPT'),
-                              ],
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context).colorScheme.surface,
-                                  borderRadius: BorderRadius.circular(24.0)),
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 16.0, vertical: 8.0),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16.0, vertical: 16.0),
-                              child: Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundImage:
-                                        NetworkImage(user.photoUrl),
-                                  ),
-                                  const SizedBox(width: 16.0),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          user.username,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.fade,
-                                            softWrap: false,
-                                        ),
-                                        Text(
-                                          user.email,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.fade,
-                                          softWrap: false,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            ListTile(
-                              dense: true,
-                              onTap: () => log('Settings'),
-                              leading: const Icon(Icons.settings_rounded),
-                              title: const Text('App Settings'),
-                            ),
-                            ListTile(
-                              dense: true,
-                              onTap: () => log('Account'),
-                              leading:
-                                  const Icon(Icons.manage_accounts_outlined),
-                              title: const Text('Manage Account'),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                child: CircleAvatar(
-                  backgroundImage: NetworkImage(user.photoUrl),
-                ),
-              ),
-              failure: (error) => const Text('Failure'),
+            BottomNavigationItem(
+              icon: 'assets/vector/home.svg',
+              selectIcon: 'assets/vector/home-select.svg',
+              index: 0,
+              selectIndex: selectIndex,
+              path: '/profile',
+            ),
+            const SizedBox(width: 32.0),
+            BottomNavigationItem(
+              icon: 'assets/vector/message.svg',
+              selectIcon: 'assets/vector/message-select.svg',
+              index: 1,
+              selectIndex: selectIndex,
+              path: '/chats',
+            ),
+            const SizedBox(width: 32.0),
+            BottomNavigationItem(
+              icon: 'assets/vector/smile.svg',
+              selectIcon: 'assets/vector/smile-select.svg',
+              index: 2,
+              selectIndex: selectIndex,
+              path: '/profile',
+            ),
+            const SizedBox(width: 32.0),
+            BottomNavigationItem(
+              icon: 'assets/vector/compass.svg',
+              selectIcon: 'assets/vector/compass-select.svg',
+              index: 3,
+              selectIndex: selectIndex,
+              path: '/profile',
             ),
           ],
         ),
       ),
-      body: child,
     );
   }
+}
+
+class BottomNavigationItem extends StatelessWidget {
+  final String icon, selectIcon, path;
+  final int index, selectIndex;
+
+  const BottomNavigationItem({
+    super.key,
+    required this.path,
+    required this.icon,
+    required this.selectIcon,
+    required this.index,
+    required this.selectIndex,
+  });
+
+  @override
+  Widget build(BuildContext context) => GestureDetector(
+        onTap: () {
+          context.read<MainViewModel>().setSelectIndex = index;
+          context.go(path);
+        },
+        child: SvgPicture.asset(index != selectIndex ? icon : selectIcon),
+      );
 }

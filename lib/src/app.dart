@@ -11,10 +11,7 @@ class MyApp extends StatelessWidget {
       title: 'ChatGPT',
       theme: ThemeData(
         useMaterial3: true,
-        brightness: Brightness.dark,
-        appBarTheme: const AppBarTheme(
-          centerTitle: true,
-        ),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(),
       ),
       routerDelegate: AppRouter.router.routerDelegate,
       routeInformationParser: AppRouter.router.routeInformationParser,
