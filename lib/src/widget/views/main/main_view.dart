@@ -1,5 +1,6 @@
 import 'package:chat_gpt/src/widget/views/main/main_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -14,7 +15,7 @@ class MainView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int selectIndex =
+    final int selectIndex =
         context.select((MainViewModel model) => model.selectIndex);
     return Scaffold(
       body: child,
@@ -37,7 +38,7 @@ class MainView extends StatelessWidget {
               selectIcon: 'assets/vector/message-select.svg',
               index: 1,
               selectIndex: selectIndex,
-              path: '/chats',
+              path: '/conversations',
             ),
             const SizedBox(width: 32.0),
             BottomNavigationItem(
@@ -78,6 +79,7 @@ class BottomNavigationItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) => GestureDetector(
         onTap: () {
+          HapticFeedback.vibrate();
           context.read<MainViewModel>().setSelectIndex = index;
           context.go(path);
         },

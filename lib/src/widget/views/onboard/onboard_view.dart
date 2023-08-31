@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 const String background = 'assets/images/background.png';
@@ -39,7 +40,10 @@ class OnboardView extends StatelessWidget {
                   children: [
                     FittedBox(
                       child: GestureDetector(
-                        onTap: () => context.go('/chats'),
+                        onTap: () {
+                          HapticFeedback.vibrate();
+                          context.go('/signIn');
+                        },
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 35.0, vertical: 12.0),
@@ -64,31 +68,37 @@ class OnboardView extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 16.0),
-                    const FittedBox(
-                      child: Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(
-                              text: 'Already have an\naccount? ',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w500,
+                     FittedBox(
+                      child: GestureDetector(
+                        onTap: (){
+                          HapticFeedback.vibrate();
+                          context.go('/registration');
+                        },
+                        child: const Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'Already have an\naccount? ',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                            ),
-                            TextSpan(
-                              text: 'Log In',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w500,
-                                decoration: TextDecoration.underline,
-                                decorationColor:Colors.black,
+                              TextSpan(
+                                text: 'Log In',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w500,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor:Colors.black,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),

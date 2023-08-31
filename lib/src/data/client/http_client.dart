@@ -1,13 +1,15 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:chat_gpt/src/utils/extension/dio_proxy.dart';
 import 'package:dio/dio.dart';
 
 import 'package:chat_gpt/src/utils/constants/strings.dart';
 
 class HttpClient {
   // const HttpClient({required Dio dio}) : _dio = dio;
-  final Dio _dio = Dio();
+  final _dio = Dio()..useProxy();
 
   Future<Map<String, dynamic>> get({
     required String endpoint,
@@ -24,6 +26,7 @@ class HttpClient {
         ),
         queryParameters: queryParameters,
       );
+      log(response.toString());
       _checkStatusCode(response);
       return jsonDecode(response.data ?? '') as Map<String, dynamic>;
     } on SocketException {

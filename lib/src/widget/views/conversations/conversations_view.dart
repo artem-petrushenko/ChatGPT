@@ -10,35 +10,28 @@ class ChatsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context
-        .watch<ConversationsBloc>()
-        .state;
+    final state = context.watch<ConversationsBloc>().state;
     return Scaffold(
       appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: const Text(
-            'Messages',
-          ),
-          titleTextStyle: const TextStyle(
-            color: Colors.black,
-            fontSize: 30,
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.w600,
-          ),
+        automaticallyImplyLeading: false,
+        title: const Text('Messages'),
+        titleTextStyle: const TextStyle(
+          color: Colors.black,
+          fontSize: 30,
+          fontFamily: 'Poppins',
+          fontWeight: FontWeight.w600,
+        ),
       ),
       floatingActionButton: GestureDetector(
-        onLongPress: () => context.pushNamed('profile'),
-        onTap: () =>
-            context
-                .read<ConversationsBloc>()
-                .add(
-                const ConversationsEvent.createConversation(name: 'New Chat')),
+        onTap: () => context
+            .read<ConversationsBloc>()
+            .add(const ConversationsEvent.createConversation(name: 'New Chat')),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 34.0, vertical: 12.0),
           decoration: const ShapeDecoration(
             color: Color(0xFF0D0A07),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all( Radius.circular(15.0)),
+              borderRadius: BorderRadius.all(Radius.circular(15.0)),
             ),
           ),
           child: const Text(
@@ -56,8 +49,7 @@ class ChatsView extends StatelessWidget {
       body: Center(
         child: state.when(
             loading: () => const CircularProgressIndicator(),
-            success: (chats, hasReachedMax) =>
-                CustomScrollView(
+            success: (chats, hasReachedMax) => CustomScrollView(
                   slivers: [
                     SliverList.builder(
                       itemCount: chats.length,
@@ -71,9 +63,9 @@ class ChatsView extends StatelessWidget {
                           key: Key(chats[index].conversationId),
                           onDismissed: (direction) =>
                               context.read<ConversationsBloc>().add(
-                                ConversationsEvent.removeConversation(
-                                    id: chats[index].conversationId),
-                              ),
+                                    ConversationsEvent.removeConversation(
+                                        id: chats[index].conversationId),
+                                  ),
                           child: ListTile(
                             titleAlignment: ListTileTitleAlignment.titleHeight,
                             leading: const CircleAvatar(
@@ -89,7 +81,7 @@ class ChatsView extends StatelessWidget {
                               );
                             },
                             visualDensity:
-                            VisualDensity.adaptivePlatformDensity,
+                                VisualDensity.adaptivePlatformDensity,
                             // isThreeLine: true,
                             title: const Text(
                               // 'chats[index].name',
@@ -107,7 +99,7 @@ class ChatsView extends StatelessWidget {
                             trailing: Text(DateFormat()
                                 .add_jm()
                                 .format(DateTime.fromMillisecondsSinceEpoch(
-                                chats[index].createdAt))
+                                    chats[index].createdAt))
                                 .toString()),
                             titleTextStyle: const TextStyle(
                               color: Colors.black,

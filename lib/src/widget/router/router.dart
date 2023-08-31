@@ -1,16 +1,21 @@
+import 'package:chat_gpt/src/widget/views/registration/registration_view.dart';
+import 'package:flutter/widgets.dart';
+
+import 'package:dio/dio.dart';
+import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:chat_gpt/src/bloc/bloc/conversations/conversations_bloc.dart';
 import 'package:chat_gpt/src/bloc/bloc/profile/profile_bloc.dart';
+
 import 'package:chat_gpt/src/data/provider/conversations/local/conversations_database_access_object_impl.dart';
 import 'package:chat_gpt/src/data/provider/user/remote/user_network_data_provider_impl.dart';
+
 import 'package:chat_gpt/src/widget/views/main/main_view_model.dart';
 import 'package:chat_gpt/src/widget/views/onboard/onboard_view.dart';
 import 'package:chat_gpt/src/widget/views/profile/profile_view.dart';
-import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
-import 'package:dio/dio.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 import 'package:chat_gpt/src/widget/views/main/main_view.dart';
 import 'package:chat_gpt/src/widget/views/conversations/conversations_view.dart';
@@ -43,11 +48,16 @@ class AppRouter {
   static final router = GoRouter(
     navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: '/onboard',
+    initialLocation: '/conversations',
     redirect: (BuildContext context, GoRouterState state) {
       final user = FirebaseAuth.instance.currentUser;
       if (user == null) {
-        return '/signIn';
+        if (state.location == '/signIn') {
+          return '/signIn';
+        } else if (state.location == '/registration') {
+          return '/registration';
+        }
+        return '/onboard';
       }
       return null;
     },
@@ -84,7 +94,7 @@ class AppRouter {
           ),
           GoRoute(
             name: 'conversations',
-            path: '/chats',
+            path: '/conversations',
             builder: (BuildContext context, GoRouterState state) {
               return BlocProvider(
                 create: (BuildContext context) => ConversationsBloc(
@@ -115,56 +125,60 @@ class AppRouter {
       ),
       GoRoute(
         parentNavigatorKey: _rootNavigatorKey,
+        name: 'signIn',
         path: '/signIn',
-        builder: (BuildContext context, GoRouterState state) {
-          return BlocProvider(
-            create: (BuildContext context) => AuthBloc(
-              userRepository: const UserRepositoryImpl(
-                authNetworkDataProvider: AuthNetworkDataProviderImpl(
-                  firebaseAuthentication: FirebaseAuthentication(),
-                ),
-                userNetworkDataProvider: UserNetworkDataProviderImpl(
-                  cloudFirestore: CloudFirestore(),
-                ),
+        builder: (BuildContext context, GoRouterState state) => BlocProvider(
+          create: (BuildContext context) => AuthBloc(
+            userRepository: const UserRepositoryImpl(
+              authNetworkDataProvider: AuthNetworkDataProviderImpl(
+                firebaseAuthentication: FirebaseAuthentication(),
+              ),
+              userNetworkDataProvider: UserNetworkDataProviderImpl(
+                cloudFirestore: CloudFirestore(),
               ),
             ),
-            child: const SignInView(),
-          );
-        },
+          ),
+          child: const SignInView(),
+        ),
+      ),
+      GoRoute(
+        parentNavigatorKey: _rootNavigatorKey,
+        name: 'registration',
+        path: '/registration',
+        builder: (BuildContext context, GoRouterState state) =>
+            const RegistrationView(),
       ),
       GoRoute(
         name: 'chat',
         path: '/chat',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (BuildContext context, GoRouterState state) {
-          return BlocProvider(
-            create: (context) => ChatBloc(
-              chatRepository: const ChatRepositoryImpl(
-                chatNetworkDataProvider: ChatNetworkDataProviderImpl(
-                  cloudFirestore: CloudFirestore(),
-                ),
-                chatDatabaseAccessObject: ChatDatabaseAccessObjectImpl(
-                  sqLiteDatabase: SQLiteDatabase(),
-                ),
+        builder: (BuildContext context, GoRouterState state) => BlocProvider(
+          create: (context) => ChatBloc(
+            chatRepository: const ChatRepositoryImpl(
+              chatNetworkDataProvider: ChatNetworkDataProviderImpl(
+                cloudFirestore: CloudFirestore(),
               ),
-              id: state.queryParameters['id'] ?? '',
-              userRepository: const UserRepositoryImpl(
-                authNetworkDataProvider: AuthNetworkDataProviderImpl(
-                  firebaseAuthentication: FirebaseAuthentication(),
-                ),
-                userNetworkDataProvider: UserNetworkDataProviderImpl(
-                  cloudFirestore: CloudFirestore(),
-                ),
+              chatDatabaseAccessObject: ChatDatabaseAccessObjectImpl(
+                sqLiteDatabase: SQLiteDatabase(),
               ),
-              messageRepository: MessageRepositoryImpl(
-                messageNetworkDataProvider: MessageNetworkDataProviderImpl(
-                  httpClient: HttpClient(),
-                ),
+            ),
+            id: state.queryParameters['id'] ?? '',
+            userRepository: const UserRepositoryImpl(
+              authNetworkDataProvider: AuthNetworkDataProviderImpl(
+                firebaseAuthentication: FirebaseAuthentication(),
               ),
-            )..add(const ChatEvent.fetchMessages(messageId: '')),
-            child: const ChatView(),
-          );
-        },
+              userNetworkDataProvider: UserNetworkDataProviderImpl(
+                cloudFirestore: CloudFirestore(),
+              ),
+            ),
+            messageRepository: MessageRepositoryImpl(
+              messageNetworkDataProvider: MessageNetworkDataProviderImpl(
+                httpClient: HttpClient(),
+              ),
+            ),
+          )..add(const ChatEvent.fetchMessages(messageId: '')),
+          child: const ChatView(),
+        ),
       ),
     ],
   );

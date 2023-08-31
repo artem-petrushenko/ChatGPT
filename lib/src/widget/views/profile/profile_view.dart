@@ -1,8 +1,9 @@
-import 'package:chat_gpt/src/bloc/bloc/profile/profile_bloc.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+
+import 'package:chat_gpt/src/bloc/bloc/profile/profile_bloc.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
@@ -14,21 +15,18 @@ class ProfileView extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Text('Profile'),
-        titleTextStyle: const TextStyle(
-          color: Colors.black,
-          fontSize: 30,
-          fontFamily: 'Poppins',
-          fontWeight: FontWeight.w600,
-        ),
+        actions: [
+          IconButton(
+              onPressed: () async => await FirebaseAuth.instance.signOut(),
+              icon: Icon(Icons.exit_to_app))
+        ],
       ),
       body: Center(
         child: state.when(
             loading: () => const CircularProgressIndicator(),
             success: (user) => Column(
                   children: [
-                    const SizedBox(
-                      height: 64,
-                    ),
+                    const SizedBox(height: 64.0),
                     SizedBox(
                       width: 209.69,
                       height: 227.84,
@@ -106,123 +104,37 @@ class ProfileView extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () => showModalBottomSheet(
+                        elevation: 0,
                         context: context,
-                        builder: (BuildContext context) {
-                          return ListView(
-                            shrinkWrap: true,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 24.0, bottom: 12.0),
-                                child: SvgPicture.asset('assets/vector/chevronup.svg'),
-                              ),
-                              ListTile(
-                                leading: Container(
-                                  width: 45,
-                                  height: 45,
-                                  decoration: const ShapeDecoration(
-                                    color: Color(0xFFE9B85E),
-                                    shape: OvalBorder(),
-                                  ),
-                                ),
-                                title: const Text('Phone number'),
-                                subtitle: Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                      'assets/vector/phone.svg',
-                                      height: 15.0,
-                                      width: 15.0,
-                                    ),
-                                    const SizedBox(width: 8.0),
-                                    Text(user.phoneNumber),
-                                  ],
-                                ),
-                                titleTextStyle: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                subtitleTextStyle: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w300,
-                                ),
-                                visualDensity: VisualDensity.compact,
-                              ),
-                              ListTile(
-                                leading: Container(
-                                  width: 45,
-                                  height: 45,
-                                  decoration: const ShapeDecoration(
-                                    color: Color(0xFFE9B85E),
-                                    shape: OvalBorder(),
-                                  ),
-                                ),
-                                title: const Text('Phone number'),
-                                subtitle: Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                      'assets/vector/phone.svg',
-                                      height: 15.0,
-                                      width: 15.0,
-                                    ),
-                                    const SizedBox(width: 8.0),
-                                    Text(user.phoneNumber),
-                                  ],
-                                ),
-                                titleTextStyle: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                subtitleTextStyle: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w300,
-                                ),
-                                visualDensity: VisualDensity.compact,
-                              ),
-                              ListTile(
-                                leading: Container(
-                                  width: 45,
-                                  height: 45,
-                                  decoration: const ShapeDecoration(
-                                    color: Color(0xFFE9B85E),
-                                    shape: OvalBorder(),
-                                  ),
-                                ),
-                                title: const Text('Phone number'),
-                                subtitle: Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                      'assets/vector/phone.svg',
-                                      height: 15.0,
-                                      width: 15.0,
-                                    ),
-                                    const SizedBox(width: 8.0),
-                                    Text(user.phoneNumber),
-                                  ],
-                                ),
-                                titleTextStyle: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                subtitleTextStyle: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w300,
-                                ),
-                                visualDensity: VisualDensity.compact,
-                              ),
-                            ],
-                          );
-                        },
+                        builder: (BuildContext context) => ListView(
+                          shrinkWrap: true,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 24.0, bottom: 12.0),
+                              child: SvgPicture.asset(
+                                  'assets/vector/chevronup.svg'),
+                            ),
+                            ListTileItem(
+                              title: 'Phone number',
+                              subtitle: user.phoneNumber,
+                              icon: 'assets/vector/phone.svg',
+                              color: const Color(0xFFE9B85E),
+                            ),
+                            ListTileItem(
+                              title: 'Email address',
+                              subtitle: user.email,
+                              icon: 'assets/vector/mail.svg',
+                              color: const Color(0xFFC4C4C4),
+                            ),
+                            ListTileItem(
+                              title: 'User id',
+                              subtitle: user.uid,
+                              icon: 'assets/vector/key.svg',
+                              color: const Color(0xFF0D0A07),
+                            ),
+                          ],
+                        ),
                       ),
                       child: const Icon(Icons.add),
                     )
@@ -230,6 +142,72 @@ class ProfileView extends StatelessWidget {
                 ),
             failure: (error) => const Text('Failure')),
       ),
+    );
+  }
+}
+
+class ListTileItem extends StatelessWidget {
+  final String title, subtitle, icon;
+  final Color color;
+
+  const ListTileItem({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      minVerticalPadding: 15.0,
+      minLeadingWidth: 30.0,
+      leading: Container(
+        width: 45.0,
+        height: 45.0,
+        decoration: ShapeDecoration(
+          color: color,
+          shape: const OvalBorder(),
+        ),
+      ),
+      title: Expanded(
+        child: Text(
+          title,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+      subtitle: Expanded(
+        child: Row(
+          children: [
+            SvgPicture.asset(
+              icon,
+              height: 15.0,
+              width: 15.0,
+            ),
+            const SizedBox(width: 8.0),
+            Text(
+              subtitle,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
+      ),
+      titleTextStyle: const TextStyle(
+        color: Color(0xFF000000),
+        fontSize: 16.0,
+        fontFamily: 'Poppins',
+        fontWeight: FontWeight.w600,
+      ),
+      subtitleTextStyle: const TextStyle(
+        color: Color(0xFF000000),
+        fontSize: 15.0,
+        fontFamily: 'Poppins',
+        fontWeight: FontWeight.w300,
+      ),
+      visualDensity: VisualDensity.comfortable,
     );
   }
 }

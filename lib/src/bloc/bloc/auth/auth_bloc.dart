@@ -19,15 +19,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         super(const AuthState.loading()) {
     on<AuthEvent>(
       (event, emit) => event.map<Future<void>>(
-        googleSignIn: (event) => _onGoogleSingIn(event, emit),
+        signInWithGoogle: (event) => _onSignInWithGoogle(event, emit),
         signOut: (event) => _onSignOut(event, emit),
+        signInWithEmailAndPassword: (event) =>
+            _onSignInWithEmailAndPassword(event, emit),
       ),
       transformer: sequential(),
     );
   }
 
-  Future<void> _onGoogleSingIn(
-      _GoogleSignIn event, Emitter<AuthState> emit) async {
+  Future<void> _onSignInWithGoogle(
+      _SignInWithGoogle event, Emitter<AuthState> emit) async {
+    try {
+      _userRepository.signInWithGoogle();
+      emit(const AuthState.authenticated());
+    } catch (error) {
+      emit(AuthState.failure(error: error));
+    }
+  }
+
+  Future<void> _onSignInWithEmailAndPassword(
+      _SignInWithEmailAndPassword event, Emitter<AuthState> emit) async {
     try {
       _userRepository.signInWithGoogle();
       emit(const AuthState.authenticated());
