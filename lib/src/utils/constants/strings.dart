@@ -1,3 +1,3 @@
-const apiKey = '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';
+const apiKey = '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';
 const organizationID = 'org-1vX6JbNHQYqwNDj2DfXt09JK';
 const host = 'https://api.openai.com/v1/';

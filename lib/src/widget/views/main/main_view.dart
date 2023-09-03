@@ -30,7 +30,7 @@ class MainView extends StatelessWidget {
               selectIcon: 'assets/vector/home-select.svg',
               index: 0,
               selectIndex: selectIndex,
-              path: '/profile',
+              path: '/contacts',
             ),
             const SizedBox(width: 32.0),
             BottomNavigationItem(
@@ -54,7 +54,7 @@ class MainView extends StatelessWidget {
               selectIcon: 'assets/vector/compass-select.svg',
               index: 3,
               selectIndex: selectIndex,
-              path: '/profile',
+              path: '/contacts',
             ),
           ],
         ),

@@ -1,7 +1,8 @@
+import 'package:chat_gpt/src/bloc/bloc/contacts/contacts_bloc.dart';
+import 'package:chat_gpt/src/widget/views/contacts/contacts_view.dart';
 import 'package:chat_gpt/src/widget/views/registration/registration_view.dart';
 import 'package:flutter/widgets.dart';
 
-import 'package:dio/dio.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -91,6 +92,25 @@ class AppRouter {
               )..add(const ProfileEvent.fetchUser()),
               child: const ProfileView(),
             ),
+          ),
+          GoRoute(
+            name: 'contacts',
+            path: '/contacts',
+            builder: (BuildContext context, GoRouterState state) =>
+                BlocProvider(
+                    create: (BuildContext context) => ContactsBloc(
+                          userRepository: const UserRepositoryImpl(
+                            authNetworkDataProvider:
+                                AuthNetworkDataProviderImpl(
+                              firebaseAuthentication: FirebaseAuthentication(),
+                            ),
+                            userNetworkDataProvider:
+                                UserNetworkDataProviderImpl(
+                              cloudFirestore: CloudFirestore(),
+                            ),
+                          ),
+                        )..add(const ContactsEvent.fetchContacts(id: '')),
+                    child: const ContactsView()),
           ),
           GoRoute(
             name: 'conversations',

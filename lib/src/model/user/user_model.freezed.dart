@@ -27,6 +27,7 @@ mixin _$UserModel {
   String get uid => throw _privateConstructorUsedError;
   int get updatedAt => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
+  List<dynamic> get contacts => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -46,7 +47,8 @@ abstract class $UserModelCopyWith<$Res> {
       String photoUrl,
       String uid,
       int updatedAt,
-      String username});
+      String username,
+      List<dynamic> contacts});
 }
 
 /// @nodoc
@@ -69,6 +71,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? uid = null,
     Object? updatedAt = null,
     Object? username = null,
+    Object? contacts = null,
   }) {
     return _then(_value.copyWith(
       createdAt: null == createdAt
@@ -99,6 +102,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String,
+      contacts: null == contacts
+          ? _value.contacts
+          : contacts // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
     ) as $Val);
   }
 }
@@ -117,7 +124,8 @@ abstract class _$$_UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
       String photoUrl,
       String uid,
       int updatedAt,
-      String username});
+      String username,
+      List<dynamic> contacts});
 }
 
 /// @nodoc
@@ -138,6 +146,7 @@ class __$$_UserModelCopyWithImpl<$Res>
     Object? uid = null,
     Object? updatedAt = null,
     Object? username = null,
+    Object? contacts = null,
   }) {
     return _then(_$_UserModel(
       createdAt: null == createdAt
@@ -168,6 +177,10 @@ class __$$_UserModelCopyWithImpl<$Res>
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String,
+      contacts: null == contacts
+          ? _value._contacts
+          : contacts // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
     ));
   }
 }
@@ -183,7 +196,9 @@ class _$_UserModel implements _UserModel {
       required this.photoUrl,
       required this.uid,
       required this.updatedAt,
-      required this.username});
+      required this.username,
+      required final List<dynamic> contacts})
+      : _contacts = contacts;
 
   factory _$_UserModel.fromJson(Map<String, dynamic> json) =>
       _$$_UserModelFromJson(json);
@@ -202,10 +217,17 @@ class _$_UserModel implements _UserModel {
   final int updatedAt;
   @override
   final String username;
+  final List<dynamic> _contacts;
+  @override
+  List<dynamic> get contacts {
+    if (_contacts is EqualUnmodifiableListView) return _contacts;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_contacts);
+  }
 
   @override
   String toString() {
-    return 'UserModel(createdAt: $createdAt, email: $email, phoneNumber: $phoneNumber, photoUrl: $photoUrl, uid: $uid, updatedAt: $updatedAt, username: $username)';
+    return 'UserModel(createdAt: $createdAt, email: $email, phoneNumber: $phoneNumber, photoUrl: $photoUrl, uid: $uid, updatedAt: $updatedAt, username: $username, contacts: $contacts)';
   }
 
   @override
@@ -224,13 +246,22 @@ class _$_UserModel implements _UserModel {
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
             (identical(other.username, username) ||
-                other.username == username));
+                other.username == username) &&
+            const DeepCollectionEquality().equals(other._contacts, _contacts));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, createdAt, email, phoneNumber,
-      photoUrl, uid, updatedAt, username);
+  int get hashCode => Object.hash(
+      runtimeType,
+      createdAt,
+      email,
+      phoneNumber,
+      photoUrl,
+      uid,
+      updatedAt,
+      username,
+      const DeepCollectionEquality().hash(_contacts));
 
   @JsonKey(ignore: true)
   @override
@@ -254,7 +285,8 @@ abstract class _UserModel implements UserModel {
       required final String photoUrl,
       required final String uid,
       required final int updatedAt,
-      required final String username}) = _$_UserModel;
+      required final String username,
+      required final List<dynamic> contacts}) = _$_UserModel;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$_UserModel.fromJson;
@@ -273,6 +305,8 @@ abstract class _UserModel implements UserModel {
   int get updatedAt;
   @override
   String get username;
+  @override
+  List<dynamic> get contacts;
   @override
   @JsonKey(ignore: true)
   _$$_UserModelCopyWith<_$_UserModel> get copyWith =>

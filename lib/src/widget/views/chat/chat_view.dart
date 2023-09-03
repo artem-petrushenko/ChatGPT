@@ -28,25 +28,25 @@ class ChatView extends StatelessWidget {
             height: 16.0,
           ),
         ),
-        actions: [
-          PopupMenuButton(
-            iconSize: 20.0,
-            icon: SvgPicture.asset(
-              'assets/vector/more.svg',
-              width: 20.0,
-              height: 20.0,
-            ),
-            onOpened: () {
-              HapticFeedback.vibrate();
-            },
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                child: const Text('Rename'),
-                onTap: () {},
-              ),
-            ],
-          ),
-        ],
+        // actions: [
+        //   PopupMenuButton(
+        //     iconSize: 20.0,
+        //     icon: SvgPicture.asset(
+        //       'assets/vector/more.svg',
+        //       width: 20.0,
+        //       height: 20.0,
+        //     ),
+        //     onOpened: () {
+        //       HapticFeedback.vibrate();
+        //     },
+        //     itemBuilder: (context) => [
+        //       PopupMenuItem(
+        //         child: const Text('Rename'),
+        //         onTap: () {},
+        //       ),
+        //     ],
+        //   ),
+        // ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(2.0),
           child: (state == const ChatState.loading())
@@ -146,6 +146,7 @@ class ChatView extends StatelessWidget {
               ),
               Container(
                 decoration: const BoxDecoration(
+                  color: Color(0xFFFFFFFF),
                   border: Border(
                     top: BorderSide(
                       width: 2.0,

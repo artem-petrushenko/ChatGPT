@@ -16,6 +16,7 @@ class UserModel with _$UserModel {
     required final String uid,
     required final int updatedAt,
     required final String username,
+    required final List<dynamic> contacts
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
@@ -32,6 +33,7 @@ class UserModel with _$UserModel {
       uid: data['uid'] as String,
       updatedAt: data['updated_at'] as int,
       username: data['username'] as String,
+      contacts: data['contacts'] as List<dynamic>,
     );
   }
 }
