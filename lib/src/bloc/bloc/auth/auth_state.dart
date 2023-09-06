@@ -9,6 +9,6 @@ class AuthState with _$AuthState {
   const factory AuthState.unAuthenticated() = _UnAuthenticated;
 
   const factory AuthState.failure({
-    required final Object? error,
+    required final Object error,
   }) = _Failure;
 }

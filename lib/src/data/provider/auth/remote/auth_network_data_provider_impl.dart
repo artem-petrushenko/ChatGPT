@@ -28,8 +28,10 @@ class AuthNetworkDataProviderImpl implements AuthNetworkDataProvider {
     required String email,
     required String password,
   }) async {
-    // TODO: implement signInWithEmailAndPassword
-    throw UnimplementedError();
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
   }
 
   @override
@@ -53,4 +55,7 @@ class AuthNetworkDataProviderImpl implements AuthNetworkDataProvider {
 
   @override
   String getCurrentUID() => FirebaseAuth.instance.currentUser?.uid ?? '';
+
+  @override
+  User getCurrentUser() => FirebaseAuth.instance.currentUser!;
 }

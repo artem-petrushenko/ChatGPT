@@ -62,4 +62,16 @@ class UserRepositoryImpl implements UserRepository {
     required String uid,
   }) async =>
       await _userNetworkDataProvider.getUser(uid: uid);
+
+  @override
+  Future<void> createUser({required User user}) async {
+    await _userNetworkDataProvider.createUser(user: user);
+  }
+
+  @override
+  Future<bool> isUserInDatabase({required String uid}) async =>
+      await _userNetworkDataProvider.isUserInDatabase(uid: uid);
+
+  @override
+  User getCurrentUser() => _authNetworkDataProvider.getCurrentUser();
 }

@@ -22,6 +22,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<ProfileEvent>(
       (event, emit) => event.map<Future<void>>(
         fetchUser: (event) => _onFetchUser(event, emit),
+        signOut: (event) => _onSignOut(event, emit),
       ),
       transformer: concurrent(),
     );
@@ -35,6 +36,17 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       final uid = _userRepository.getCurrentUID();
       final user = await _userRepository.getUser(uid: uid);
       emit(ProfileState.success(user: user));
+    } catch (error) {
+      emit(ProfileState.failure(error: error));
+    }
+  }
+
+  Future<void> _onSignOut(
+      _SignOut event,
+      Emitter<ProfileState> emit,
+      ) async {
+    try {
+      await _userRepository.logOut();
     } catch (error) {
       emit(ProfileState.failure(error: error));
     }

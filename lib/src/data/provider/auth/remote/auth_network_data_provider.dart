@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 abstract class AuthNetworkDataProvider {
   Future<void> signInWithGoogle();
 
@@ -16,4 +18,6 @@ abstract class AuthNetworkDataProvider {
   bool isAuth();
 
   String getCurrentUID();
+
+  User getCurrentUser();
 }

@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:chat_gpt/src/model/user/user_model.dart';
 
 abstract class UserRepository {
@@ -20,4 +22,10 @@ abstract class UserRepository {
   String getCurrentUID();
 
   Future<UserModel> getUser({required String uid});
+
+  Future<void> createUser({required User user});
+
+  Future<bool> isUserInDatabase({required String uid});
+
+  User getCurrentUser();
 }

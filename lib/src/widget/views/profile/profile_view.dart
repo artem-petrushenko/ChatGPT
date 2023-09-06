@@ -1,5 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -13,96 +13,99 @@ class ProfileView extends StatelessWidget {
     final state = context.watch<ProfileBloc>().state;
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         title: const Text('Profile'),
-        actions: [
-          IconButton(
-              onPressed: () async => await FirebaseAuth.instance.signOut(),
-              icon: Icon(Icons.exit_to_app))
-        ],
       ),
       body: Center(
         child: state.when(
-            loading: () => const CircularProgressIndicator(),
-            success: (user) => Column(
+          loading: () => const CircularProgressIndicator(),
+          failure: (error) => const Text('Failure'),
+          success: (user) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: CustomScrollView(
+              slivers: [
+                SliverList.list(
                   children: [
-                    const SizedBox(height: 64.0),
-                    SizedBox(
-                      width: 209.69,
-                      height: 227.84,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left: 0.31,
-                            top: 28.32,
-                            child: Transform(
-                              transform: Matrix4.identity()
-                                ..translate(0.0, 0.0)
-                                ..rotateZ(-0.16),
-                              child: Container(
-                                width: 180,
-                                height: 202,
-                                decoration: ShapeDecoration(
-                                  color: const Color(0xFF0D0A07),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
+                    Center(
+                      child: SizedBox(
+                        width: 192,
+                        height: 192,
+                        child: Stack(
+                          alignment: Alignment.bottomCenter,
+                          children: [
+                            AspectRatio(
+                              aspectRatio: 1.0,
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(48.0),
+                                  ),
+                                  child: Image.network(
+                                    user.photoUrl,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          Positioned(
-                            left: 0,
-                            top: 0,
-                            child: Container(
-                              width: 185,
-                              height: 213,
-                              decoration: ShapeDecoration(
-                                image: DecorationImage(
-                                  image: NetworkImage(user.photoUrl),
-                                  fit: BoxFit.cover,
+                            Positioned(
+                              bottom: 16.0,
+                              right: 0.0,
+                              child: Container(
+                                padding: const EdgeInsets.all(12.0),
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFF000000),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(16.0),
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        offset: Offset(0.0, 4.0),
+                                        blurRadius: 4.0,
+                                        spreadRadius: 1.0,
+                                        color: Color(0x12000000)),
+                                  ],
                                 ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
+                                child: const Icon(
+                                  Icons.add,
+                                  color: Color(0xFFFFFFFF),
                                 ),
                               ),
                             ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        user.username,
+                        style: const TextStyle(
+                          color: Color(0xFF000000),
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            user.uid.toUpperCase(),
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 12.0,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          SvgPicture.asset(
+                            'assets/vector/share.svg',
+                            width: 15,
+                            height: 15,
                           ),
                         ],
                       ),
-                    ),
-                    const SizedBox(height: 12.0),
-                    Text(
-                      user.username,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 26,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const SizedBox(height: 12.0),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          user.uid.toUpperCase(),
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        const SizedBox(width: 4.0),
-                        SvgPicture.asset(
-                          'assets/vector/share.svg',
-                          width: 15,
-                          height: 15,
-                        ),
-                      ],
-                    ),
-                    GestureDetector(
                       onTap: () => showModalBottomSheet(
                         elevation: 0,
                         context: context,
@@ -136,11 +139,68 @@ class ProfileView extends StatelessWidget {
                           ],
                         ),
                       ),
-                      child: const Icon(Icons.add),
-                    )
+                    ),
+                    const SizedBox(height: 16.0),
+                    ListTileItem(
+                      title: 'Phone number',
+                      subtitle: user.phoneNumber,
+                      icon: 'assets/vector/phone.svg',
+                      color: const Color(0xFFE9B85E),
+                    ),
+                    ListTileItem(
+                      title: 'Email address',
+                      subtitle: user.email,
+                      icon: 'assets/vector/mail.svg',
+                      color: const Color(0xFFC4C4C4),
+                    ),
+                    ListTileItem(
+                      title: 'User id',
+                      subtitle: user.uid,
+                      icon: 'assets/vector/key.svg',
+                      color: const Color(0xFF0D0A07),
+                    ),
+                    const SizedBox(height: 16.0),
+                    GestureDetector(
+                      onTap: () {
+                        HapticFeedback.vibrate();
+                        context
+                            .read<ProfileBloc>()
+                            .add(const ProfileEvent.signOut());
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 35.0, vertical: 12.0),
+                        decoration: const ShapeDecoration(
+                          // color: Color(0xFF0D0A07),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(15.0),
+                            ),
+                            side: BorderSide(
+                              color: Color(0xFFba1a1a),
+                              width: 2.0,
+                            ),
+                          ),
+                        ),
+                        child: const Text(
+                          'Sign Out',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xFFb3261e),
+                            fontSize: 17,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-            failure: (error) => const Text('Failure')),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -171,29 +231,25 @@ class ListTileItem extends StatelessWidget {
           shape: const OvalBorder(),
         ),
       ),
-      title: Expanded(
-        child: Text(
-          title,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
+      title: Text(
+        title,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
       ),
-      subtitle: Expanded(
-        child: Row(
-          children: [
-            SvgPicture.asset(
-              icon,
-              height: 15.0,
-              width: 15.0,
-            ),
-            const SizedBox(width: 8.0),
-            Text(
-              subtitle,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
-        ),
+      subtitle: Row(
+        children: [
+          SvgPicture.asset(
+            icon,
+            height: 15.0,
+            width: 15.0,
+          ),
+          const SizedBox(width: 8.0),
+          Text(
+            subtitle,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
       ),
       titleTextStyle: const TextStyle(
         color: Color(0xFF000000),

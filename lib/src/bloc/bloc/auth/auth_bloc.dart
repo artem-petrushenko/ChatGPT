@@ -29,9 +29,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<void> _onSignInWithGoogle(
-      _SignInWithGoogle event, Emitter<AuthState> emit) async {
+    _SignInWithGoogle event,
+    Emitter<AuthState> emit,
+  ) async {
     try {
-      _userRepository.signInWithGoogle();
+      await _userRepository.signInWithGoogle();
+      final uid = _userRepository.getCurrentUID();
+      final isUserInDatabase = await _userRepository.isUserInDatabase(uid: uid);
+      if (isUserInDatabase == false) {
+        final user = _userRepository.getCurrentUser();
+        await _userRepository.createUser(user: user);
+      }
       emit(const AuthState.authenticated());
     } catch (error) {
       emit(AuthState.failure(error: error));
@@ -39,16 +47,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<void> _onSignInWithEmailAndPassword(
-      _SignInWithEmailAndPassword event, Emitter<AuthState> emit) async {
+    _SignInWithEmailAndPassword event,
+    Emitter<AuthState> emit,
+  ) async {
     try {
-      _userRepository.signInWithGoogle();
+      await _userRepository.signInWithEmailAndPassword(
+          email: event.email, password: event.password);
+      final uid = _userRepository.getCurrentUID();
+      final isUserInDatabase = await _userRepository.isUserInDatabase(uid: uid);
+      if (isUserInDatabase == false) {
+        final user = _userRepository.getCurrentUser();
+        await _userRepository.createUser(user: user);
+      }
       emit(const AuthState.authenticated());
     } catch (error) {
       emit(AuthState.failure(error: error));
     }
   }
 
-  Future<void> _onSignOut(_SignOut event, Emitter<AuthState> emit) async {
+  Future<void> _onSignOut(
+    _SignOut event,
+    Emitter<AuthState> emit,
+  ) async {
     try {
       _userRepository.logOut();
       emit(const AuthState.unAuthenticated());

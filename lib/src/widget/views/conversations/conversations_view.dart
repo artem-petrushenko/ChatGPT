@@ -22,30 +22,30 @@ class ChatsView extends StatelessWidget {
           fontWeight: FontWeight.w600,
         ),
       ),
-      floatingActionButton: GestureDetector(
-        onTap: () => context
-            .read<ConversationsBloc>()
-            .add(const ConversationsEvent.createConversation(name: 'New Chat')),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 34.0, vertical: 12.0),
-          decoration: const ShapeDecoration(
-            color: Color(0xFF0D0A07),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(15.0)),
-            ),
-          ),
-          child: const Text(
-            'Created',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 17,
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-      ),
+      // floatingActionButton: GestureDetector(
+      //   onTap: () => context
+      //       .read<ConversationsBloc>()
+      //       .add(const ConversationsEvent.createConversation(name: 'New Chat')),
+      //   child: Container(
+      //     padding: const EdgeInsets.symmetric(horizontal: 34.0, vertical: 12.0),
+      //     decoration: const ShapeDecoration(
+      //       color: Color(0xFF0D0A07),
+      //       shape: RoundedRectangleBorder(
+      //         borderRadius: BorderRadius.all(Radius.circular(15.0)),
+      //       ),
+      //     ),
+      //     child: const Text(
+      //       'Created',
+      //       textAlign: TextAlign.center,
+      //       style: TextStyle(
+      //         color: Colors.white,
+      //         fontSize: 17,
+      //         fontFamily: 'Poppins',
+      //         fontWeight: FontWeight.w500,
+      //       ),
+      //     ),
+      //   ),
+      // ),
       body: Center(
         child: state.when(
             loading: () => const CircularProgressIndicator(),
@@ -82,10 +82,8 @@ class ChatsView extends StatelessWidget {
                             },
                             visualDensity:
                                 VisualDensity.adaptivePlatformDensity,
-                            // isThreeLine: true,
-                            title: const Text(
-                              // 'chats[index].name',
-                              'William Glen Harold Herrington',
+                            title: Text(
+                              chats[index].name,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               softWrap: false,
