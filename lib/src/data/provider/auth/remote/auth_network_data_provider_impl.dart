@@ -16,8 +16,12 @@ class AuthNetworkDataProviderImpl implements AuthNetworkDataProvider {
     required String email,
     required String password,
   }) async {
-    // TODO: implement createUserWithEmailAndPassword
-    throw UnimplementedError();
+    try {
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+    } catch (e) {
+      throw Exception(e.toString());
+    }
   }
 
   @override
@@ -28,10 +32,14 @@ class AuthNetworkDataProviderImpl implements AuthNetworkDataProvider {
     required String email,
     required String password,
   }) async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } catch (e) {
+      throw Exception(e.toString());
+    }
   }
 
   @override

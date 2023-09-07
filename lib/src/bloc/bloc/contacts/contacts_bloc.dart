@@ -22,42 +22,78 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
     on<ContactsEvent>(
       (event, emit) async {
         if (event is _FetchContacts) {
-          try {
-            final uid = _userRepository.getCurrentUID();
-            final user = await _userRepository.getUser(uid: uid);
-            final contacts = List<String>.from(user.contacts);
-
-            List<String> limitContacts = event.id != ''
-                ? contacts.sublist(contacts.indexOf(event.id) + 1)
-                : contacts;
-            limitContacts = limitContacts.take(10).toList();
-
-            final contactsDoc = await Future.wait(limitContacts
-                .map((uid) async => await _userRepository.getUser(uid: uid)));
-            if (state is _ContactsSuccessState) {
-              if ((state as _ContactsSuccessState).hasReachedMax) return;
-              emit(contactsDoc.isEmpty
-                  ? (state as _ContactsSuccessState)
-                      .copyWith(hasReachedMax: true)
-                  : (state as _ContactsSuccessState).copyWith(
-                      hasReachedMax: false,
-                      contacts: (state as _ContactsSuccessState).contacts +
-                          contactsDoc));
-            } else {
-              final newState = contactsDoc.isEmpty
-                  ? const _ContactsEmptyState()
-                  : _ContactsSuccessState(
-                      contacts: contactsDoc,
-                      hasReachedMax: false,
-                    );
-              emit(newState);
-            }
-          } catch (error) {
-            emit(_ContactsFailureState(error: error));
-          }
+          await _onFetchContacts(event, emit);
+        } else if (event is _AddContact) {
+          await _onAddContacts(event, emit);
+        } else if (event is _RemoveContacts) {
+          await _onRemoveContacts(event, emit);
         }
       },
       transformer: sequential(),
     );
+  }
+
+  Future<void> _onFetchContacts(
+    _FetchContacts event,
+    Emitter<ContactsState> emit,
+  ) async {
+    try {
+      final uid = _userRepository.getCurrentUID();
+      final user = await _userRepository.getUser(uid: uid);
+      final contacts = List<String>.from(user.contacts);
+
+      List<String> limitContacts = event.id != ''
+          ? contacts.sublist(contacts.indexOf(event.id) + 1)
+          : contacts;
+      limitContacts = limitContacts.take(10).toList();
+
+      final contactsDoc = await Future.wait(limitContacts
+          .map((uid) async => await _userRepository.getUser(uid: uid)));
+      if (state is _ContactsSuccessState) {
+        if ((state as _ContactsSuccessState).hasReachedMax) return;
+        emit(contactsDoc.isEmpty
+            ? (state as _ContactsSuccessState).copyWith(hasReachedMax: true)
+            : (state as _ContactsSuccessState).copyWith(
+                hasReachedMax: false,
+                contacts:
+                    (state as _ContactsSuccessState).contacts + contactsDoc));
+      } else {
+        final newState = contactsDoc.isEmpty
+            ? const _ContactsEmptyState()
+            : _ContactsSuccessState(
+                contacts: contactsDoc,
+                hasReachedMax: false,
+              );
+        emit(newState);
+      }
+    } catch (error) {
+      emit(_ContactsFailureState(error: error));
+    }
+  }
+
+  Future<void> _onAddContacts(
+    _AddContact event,
+    Emitter<ContactsState> emit,
+  ) async {
+    try {
+      final currentUID = _userRepository.getCurrentUID();
+      await _userRepository.addNewContact(
+          uid: event.uid, currentUID: currentUID);
+    } catch (error) {
+      emit(_ContactsFailureState(error: error));
+    }
+  }
+
+  Future<void> _onRemoveContacts(
+    _RemoveContacts event,
+    Emitter<ContactsState> emit,
+  ) async {
+    try {
+      final currentUID = _userRepository.getCurrentUID();
+      await _userRepository.removeContacts(
+          uid: event.uid, currentUID: currentUID);
+    } catch (error) {
+      emit(_ContactsFailureState(error: error));
+    }
   }
 }

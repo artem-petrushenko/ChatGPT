@@ -16,42 +16,49 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ContactsEvent {
-  String get id => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String id) fetchContacts,
+    required TResult Function(String uid) addContact,
+    required TResult Function(List<String> uid) removeContacts,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String id)? fetchContacts,
+    TResult? Function(String uid)? addContact,
+    TResult? Function(List<String> uid)? removeContacts,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String id)? fetchContacts,
+    TResult Function(String uid)? addContact,
+    TResult Function(List<String> uid)? removeContacts,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchContacts value) fetchContacts,
+    required TResult Function(_AddContact value) addContact,
+    required TResult Function(_RemoveContacts value) removeContacts,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchContacts value)? fetchContacts,
+    TResult? Function(_AddContact value)? addContact,
+    TResult? Function(_RemoveContacts value)? removeContacts,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchContacts value)? fetchContacts,
+    TResult Function(_AddContact value)? addContact,
+    TResult Function(_RemoveContacts value)? removeContacts,
     required TResult orElse(),
   }) =>
-      throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $ContactsEventCopyWith<ContactsEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -60,8 +67,6 @@ abstract class $ContactsEventCopyWith<$Res> {
   factory $ContactsEventCopyWith(
           ContactsEvent value, $Res Function(ContactsEvent) then) =
       _$ContactsEventCopyWithImpl<$Res, ContactsEvent>;
-  @useResult
-  $Res call({String id});
 }
 
 /// @nodoc
@@ -73,28 +78,13 @@ class _$ContactsEventCopyWithImpl<$Res, $Val extends ContactsEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
 }
 
 /// @nodoc
-abstract class _$$_FetchContactsCopyWith<$Res>
-    implements $ContactsEventCopyWith<$Res> {
+abstract class _$$_FetchContactsCopyWith<$Res> {
   factory _$$_FetchContactsCopyWith(
           _$_FetchContacts value, $Res Function(_$_FetchContacts) then) =
       __$$_FetchContactsCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({String id});
 }
@@ -155,6 +145,8 @@ class _$_FetchContacts implements _FetchContacts {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String id) fetchContacts,
+    required TResult Function(String uid) addContact,
+    required TResult Function(List<String> uid) removeContacts,
   }) {
     return fetchContacts(id);
   }
@@ -163,6 +155,8 @@ class _$_FetchContacts implements _FetchContacts {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String id)? fetchContacts,
+    TResult? Function(String uid)? addContact,
+    TResult? Function(List<String> uid)? removeContacts,
   }) {
     return fetchContacts?.call(id);
   }
@@ -171,6 +165,8 @@ class _$_FetchContacts implements _FetchContacts {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String id)? fetchContacts,
+    TResult Function(String uid)? addContact,
+    TResult Function(List<String> uid)? removeContacts,
     required TResult orElse(),
   }) {
     if (fetchContacts != null) {
@@ -183,6 +179,8 @@ class _$_FetchContacts implements _FetchContacts {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchContacts value) fetchContacts,
+    required TResult Function(_AddContact value) addContact,
+    required TResult Function(_RemoveContacts value) removeContacts,
   }) {
     return fetchContacts(this);
   }
@@ -191,6 +189,8 @@ class _$_FetchContacts implements _FetchContacts {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchContacts value)? fetchContacts,
+    TResult? Function(_AddContact value)? addContact,
+    TResult? Function(_RemoveContacts value)? removeContacts,
   }) {
     return fetchContacts?.call(this);
   }
@@ -199,6 +199,8 @@ class _$_FetchContacts implements _FetchContacts {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchContacts value)? fetchContacts,
+    TResult Function(_AddContact value)? addContact,
+    TResult Function(_RemoveContacts value)? removeContacts,
     required TResult orElse(),
   }) {
     if (fetchContacts != null) {
@@ -211,11 +213,294 @@ class _$_FetchContacts implements _FetchContacts {
 abstract class _FetchContacts implements ContactsEvent {
   const factory _FetchContacts({required final String id}) = _$_FetchContacts;
 
-  @override
   String get id;
-  @override
   @JsonKey(ignore: true)
   _$$_FetchContactsCopyWith<_$_FetchContacts> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_AddContactCopyWith<$Res> {
+  factory _$$_AddContactCopyWith(
+          _$_AddContact value, $Res Function(_$_AddContact) then) =
+      __$$_AddContactCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String uid});
+}
+
+/// @nodoc
+class __$$_AddContactCopyWithImpl<$Res>
+    extends _$ContactsEventCopyWithImpl<$Res, _$_AddContact>
+    implements _$$_AddContactCopyWith<$Res> {
+  __$$_AddContactCopyWithImpl(
+      _$_AddContact _value, $Res Function(_$_AddContact) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? uid = null,
+  }) {
+    return _then(_$_AddContact(
+      uid: null == uid
+          ? _value.uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_AddContact implements _AddContact {
+  const _$_AddContact({required this.uid});
+
+  @override
+  final String uid;
+
+  @override
+  String toString() {
+    return 'ContactsEvent.addContact(uid: $uid)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_AddContact &&
+            (identical(other.uid, uid) || other.uid == uid));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, uid);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_AddContactCopyWith<_$_AddContact> get copyWith =>
+      __$$_AddContactCopyWithImpl<_$_AddContact>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String id) fetchContacts,
+    required TResult Function(String uid) addContact,
+    required TResult Function(List<String> uid) removeContacts,
+  }) {
+    return addContact(uid);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String id)? fetchContacts,
+    TResult? Function(String uid)? addContact,
+    TResult? Function(List<String> uid)? removeContacts,
+  }) {
+    return addContact?.call(uid);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String id)? fetchContacts,
+    TResult Function(String uid)? addContact,
+    TResult Function(List<String> uid)? removeContacts,
+    required TResult orElse(),
+  }) {
+    if (addContact != null) {
+      return addContact(uid);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchContacts value) fetchContacts,
+    required TResult Function(_AddContact value) addContact,
+    required TResult Function(_RemoveContacts value) removeContacts,
+  }) {
+    return addContact(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchContacts value)? fetchContacts,
+    TResult? Function(_AddContact value)? addContact,
+    TResult? Function(_RemoveContacts value)? removeContacts,
+  }) {
+    return addContact?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchContacts value)? fetchContacts,
+    TResult Function(_AddContact value)? addContact,
+    TResult Function(_RemoveContacts value)? removeContacts,
+    required TResult orElse(),
+  }) {
+    if (addContact != null) {
+      return addContact(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _AddContact implements ContactsEvent {
+  const factory _AddContact({required final String uid}) = _$_AddContact;
+
+  String get uid;
+  @JsonKey(ignore: true)
+  _$$_AddContactCopyWith<_$_AddContact> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_RemoveContactsCopyWith<$Res> {
+  factory _$$_RemoveContactsCopyWith(
+          _$_RemoveContacts value, $Res Function(_$_RemoveContacts) then) =
+      __$$_RemoveContactsCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<String> uid});
+}
+
+/// @nodoc
+class __$$_RemoveContactsCopyWithImpl<$Res>
+    extends _$ContactsEventCopyWithImpl<$Res, _$_RemoveContacts>
+    implements _$$_RemoveContactsCopyWith<$Res> {
+  __$$_RemoveContactsCopyWithImpl(
+      _$_RemoveContacts _value, $Res Function(_$_RemoveContacts) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? uid = null,
+  }) {
+    return _then(_$_RemoveContacts(
+      uid: null == uid
+          ? _value._uid
+          : uid // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_RemoveContacts implements _RemoveContacts {
+  const _$_RemoveContacts({required final List<String> uid}) : _uid = uid;
+
+  final List<String> _uid;
+  @override
+  List<String> get uid {
+    if (_uid is EqualUnmodifiableListView) return _uid;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_uid);
+  }
+
+  @override
+  String toString() {
+    return 'ContactsEvent.removeContacts(uid: $uid)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_RemoveContacts &&
+            const DeepCollectionEquality().equals(other._uid, _uid));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_uid));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_RemoveContactsCopyWith<_$_RemoveContacts> get copyWith =>
+      __$$_RemoveContactsCopyWithImpl<_$_RemoveContacts>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String id) fetchContacts,
+    required TResult Function(String uid) addContact,
+    required TResult Function(List<String> uid) removeContacts,
+  }) {
+    return removeContacts(uid);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String id)? fetchContacts,
+    TResult? Function(String uid)? addContact,
+    TResult? Function(List<String> uid)? removeContacts,
+  }) {
+    return removeContacts?.call(uid);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String id)? fetchContacts,
+    TResult Function(String uid)? addContact,
+    TResult Function(List<String> uid)? removeContacts,
+    required TResult orElse(),
+  }) {
+    if (removeContacts != null) {
+      return removeContacts(uid);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchContacts value) fetchContacts,
+    required TResult Function(_AddContact value) addContact,
+    required TResult Function(_RemoveContacts value) removeContacts,
+  }) {
+    return removeContacts(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchContacts value)? fetchContacts,
+    TResult? Function(_AddContact value)? addContact,
+    TResult? Function(_RemoveContacts value)? removeContacts,
+  }) {
+    return removeContacts?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchContacts value)? fetchContacts,
+    TResult Function(_AddContact value)? addContact,
+    TResult Function(_RemoveContacts value)? removeContacts,
+    required TResult orElse(),
+  }) {
+    if (removeContacts != null) {
+      return removeContacts(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _RemoveContacts implements ContactsEvent {
+  const factory _RemoveContacts({required final List<String> uid}) =
+      _$_RemoveContacts;
+
+  List<String> get uid;
+  @JsonKey(ignore: true)
+  _$$_RemoveContactsCopyWith<_$_RemoveContacts> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

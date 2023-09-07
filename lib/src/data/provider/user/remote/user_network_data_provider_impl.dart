@@ -45,4 +45,36 @@ class UserNetworkDataProviderImpl implements UserNetworkDataProvider {
         await FirebaseFirestore.instance.collection('users').doc(uid).get();
     return doc.exists;
   }
+
+  @override
+  Future<void> addNewContact({
+    required String uid,
+    required String currentUID,
+  }) async {
+    final doc =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    if (doc.exists) {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUID)
+          .update({
+        'contacts': FieldValue.arrayUnion(<String>[uid])
+      });
+    } else {
+      throw Exception('Error');
+    }
+  }
+
+  @override
+  Future<void> removeContacts({
+    required List<String> uid,
+    required String currentUID,
+  }) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUID)
+        .update({
+      'contacts': FieldValue.arrayRemove(uid)
+    });
+  }
 }

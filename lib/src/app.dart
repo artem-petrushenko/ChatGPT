@@ -19,7 +19,6 @@ class MyApp extends StatelessWidget {
         chipTheme: const ChipThemeData(
           backgroundColor: Color(0xFFF1F3F3),
         ),
-
         inputDecorationTheme: const InputDecorationTheme(
           suffixIconColor: Color(0xFF000000),
           focusedBorder: UnderlineInputBorder(
@@ -67,8 +66,7 @@ class MyApp extends StatelessWidget {
           elevation: 0.0,
           titleTextStyle: TextStyle(
             color: Colors.black,
-            fontSize: 30,
-            fontFamily: 'Poppins',
+            fontSize: 30.0,
             fontWeight: FontWeight.w600,
           ),
         ),

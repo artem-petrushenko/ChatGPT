@@ -23,6 +23,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         signOut: (event) => _onSignOut(event, emit),
         signInWithEmailAndPassword: (event) =>
             _onSignInWithEmailAndPassword(event, emit),
+        signUpWithEmailAndPassword: (event) =>
+            _onSignUpWithEmailAndPassword(event, emit),
       ),
       transformer: sequential(),
     );
@@ -43,6 +45,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(const AuthState.authenticated());
     } catch (error) {
       emit(AuthState.failure(error: error));
+      emit(const AuthState.unAuthenticated());
     }
   }
 
@@ -62,6 +65,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(const AuthState.authenticated());
     } catch (error) {
       emit(AuthState.failure(error: error));
+      emit(const AuthState.unAuthenticated());
     }
   }
 
@@ -70,10 +74,33 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     try {
-      _userRepository.logOut();
+      await _userRepository.logOut();
       emit(const AuthState.unAuthenticated());
     } catch (error) {
       emit(AuthState.failure(error: error));
+      emit(const AuthState.unAuthenticated());
+    }
+  }
+
+  Future<void> _onSignUpWithEmailAndPassword(
+    _SignUpWithEmailAndPassword event,
+    Emitter<AuthState> emit,
+  ) async {
+    try {
+      await _userRepository.createWithEmailAndPassword(
+        email: event.email,
+        password: event.password,
+      );
+      final uid = _userRepository.getCurrentUID();
+      final isUserInDatabase = await _userRepository.isUserInDatabase(uid: uid);
+      if (isUserInDatabase == false) {
+        final user = _userRepository.getCurrentUser();
+        await _userRepository.createUser(user: user);
+      }
+      emit(const AuthState.authenticated());
+    } catch (error) {
+      emit(AuthState.failure(error: error));
+      emit(const AuthState.unAuthenticated());
     }
   }
 }

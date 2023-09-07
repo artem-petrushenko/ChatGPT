@@ -165,8 +165,19 @@ class AppRouter {
         parentNavigatorKey: _rootNavigatorKey,
         name: 'registration',
         path: '/registration',
-        builder: (BuildContext context, GoRouterState state) =>
-            const RegistrationView(),
+        builder: (BuildContext context, GoRouterState state) => BlocProvider(
+          create: (BuildContext context) => AuthBloc(
+            userRepository: const UserRepositoryImpl(
+              authNetworkDataProvider: AuthNetworkDataProviderImpl(
+                firebaseAuthentication: FirebaseAuthentication(),
+              ),
+              userNetworkDataProvider: UserNetworkDataProviderImpl(
+                cloudFirestore: CloudFirestore(),
+              ),
+            ),
+          ),
+          child: const RegistrationView(),
+        ),
       ),
       GoRoute(
         name: 'chat',

@@ -11,4 +11,8 @@ abstract class UserNetworkDataProvider {
   });
 
   Future<bool> isUserInDatabase({required String uid});
+
+  Future<void> addNewContact({required String uid, required String currentUID});
+
+  Future<void> removeContacts({required List<String> uid, required String currentUID});
 }

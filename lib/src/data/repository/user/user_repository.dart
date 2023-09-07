@@ -17,6 +17,11 @@ abstract class UserRepository {
     required String password,
   });
 
+  Future<void> signUpWithEmailAndPassword({
+    required String email,
+    required String password,
+  });
+
   bool isAuth();
 
   String getCurrentUID();
@@ -28,4 +33,8 @@ abstract class UserRepository {
   Future<bool> isUserInDatabase({required String uid});
 
   User getCurrentUser();
+
+  Future<void> addNewContact({required String uid, required String currentUID});
+
+  Future<void> removeContacts({required List<String> uid, required String currentUID});
 }

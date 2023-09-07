@@ -22,6 +22,7 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<void> signInWithGoogle() async {
+    //TODO
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
     final GoogleSignInAuthentication? googleAuth =
         await googleUser?.authentication;
@@ -30,6 +31,15 @@ class UserRepositoryImpl implements UserRepository {
       idToken: googleAuth?.idToken,
     );
     await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  @override
+  Future<void> signUpWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    _authNetworkDataProvider.createUserWithEmailAndPassword(
+        email: email, password: password);
   }
 
   @override
@@ -74,4 +84,25 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   User getCurrentUser() => _authNetworkDataProvider.getCurrentUser();
+
+  @override
+  Future<void> addNewContact({
+    required String uid,
+    required String currentUID,
+  }) async =>
+      await _userNetworkDataProvider.addNewContact(
+        uid: uid,
+        currentUID: currentUID,
+      );
+
+  @override
+  Future<void> removeContacts({
+    required List<String> uid,
+    required String currentUID,
+  }) async {
+    await _userNetworkDataProvider.removeContacts(
+      uid: uid,
+      currentUID: currentUID,
+    );
+  }
 }
