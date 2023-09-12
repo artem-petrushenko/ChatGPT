@@ -15,7 +15,6 @@ extension DioProxy on Dio {
         adapter.createHttpClient = () => HttpClient()
           ..idleTimeout = const Duration(seconds: 3)
           ..findProxy = (url) {
-            print(proxyUrl);
             return 'PROXY $proxyUrl';
           }
           ..badCertificateCallback = (cert, host, post) => true;

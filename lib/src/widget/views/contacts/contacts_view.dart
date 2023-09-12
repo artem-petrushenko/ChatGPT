@@ -129,7 +129,7 @@ class ContactsView extends StatelessWidget {
                       backgroundImage: NetworkImage(contacts[index].photoUrl),
                     ),
                     trailing: IconButton(
-                        icon: Icon(Icons.traffic_sharp),
+                        icon: const Icon(Icons.traffic_sharp),
                         onPressed: () => context.read<ContactsBloc>().add(
                             ContactsEvent.removeContacts(
                                 uid: [contacts[index].uid]))),

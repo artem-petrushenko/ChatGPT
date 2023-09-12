@@ -92,6 +92,12 @@ class ContactsBloc extends Bloc<ContactsEvent, ContactsState> {
       final currentUID = _userRepository.getCurrentUID();
       await _userRepository.removeContacts(
           uid: event.uid, currentUID: currentUID);
+      List<UserModel> contacts =
+          List.from((state as _ContactsSuccessState).contacts);
+      contacts.removeWhere((element) => (event.uid).contains(element.uid));
+      contacts.isEmpty
+          ? emit((state as _ContactsSuccessState).copyWith(contacts: contacts))
+          : emit(const _ContactsEmptyState());
     } catch (error) {
       emit(_ContactsFailureState(error: error));
     }

@@ -1,39 +1,37 @@
-import 'package:chat_gpt/src/bloc/bloc/contacts/contacts_bloc.dart';
-import 'package:chat_gpt/src/widget/views/contacts/contacts_view.dart';
-import 'package:chat_gpt/src/widget/views/registration/registration_view.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
-
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'package:chat_gpt/src/bloc/bloc/contacts/contacts_bloc.dart';
+import 'package:chat_gpt/src/dependency_injection.dart';
+import 'package:chat_gpt/src/widget/views/contacts/contacts_view.dart';
+import 'package:chat_gpt/src/widget/views/registration/registration_view.dart';
+
 import 'package:chat_gpt/src/bloc/bloc/conversations/conversations_bloc.dart';
 import 'package:chat_gpt/src/bloc/bloc/profile/profile_bloc.dart';
+import 'package:chat_gpt/src/bloc/bloc/auth/auth_bloc.dart';
+import 'package:chat_gpt/src/bloc/bloc/chat/chat_bloc.dart';
 
 import 'package:chat_gpt/src/data/provider/conversations/local/conversations_database_access_object_impl.dart';
 import 'package:chat_gpt/src/data/provider/user/remote/user_network_data_provider_impl.dart';
 
 import 'package:chat_gpt/src/widget/views/main/main_view_model.dart';
+
 import 'package:chat_gpt/src/widget/views/onboard/onboard_view.dart';
 import 'package:chat_gpt/src/widget/views/profile/profile_view.dart';
-
 import 'package:chat_gpt/src/widget/views/main/main_view.dart';
 import 'package:chat_gpt/src/widget/views/conversations/conversations_view.dart';
 import 'package:chat_gpt/src/widget/views/chat/chat_view.dart';
 import 'package:chat_gpt/src/widget/views/sign_in/sign_in_view.dart';
 
-import 'package:chat_gpt/src/bloc/bloc/auth/auth_bloc.dart';
-import 'package:chat_gpt/src/bloc/bloc/chat/chat_bloc.dart';
-
 import 'package:chat_gpt/src/data/repository/message/message_repository_impl.dart';
 import 'package:chat_gpt/src/data/repository/user/user_repository_impl.dart';
-import 'package:chat_gpt/src/data/repository/chat/chat_repository_impl.dart';
 import 'package:chat_gpt/src/data/repository/conversations/conversations_repository_impl.dart';
 
-import 'package:chat_gpt/src/data/provider/chat/remote/chat_network_data_provider_impl.dart';
 import 'package:chat_gpt/src/data/provider/message/remote/message_network_data_provider_impl.dart';
-import 'package:chat_gpt/src/data/provider/chat/local/chat_database_access_object_impl.dart';
 import 'package:chat_gpt/src/data/provider/auth/remote/auth_network_data_provider_impl.dart';
 import 'package:chat_gpt/src/data/provider/conversations/remote/conversations_network_data_provider_impl.dart';
 
@@ -42,11 +40,20 @@ import 'package:chat_gpt/src/data/client/http_client.dart';
 import 'package:chat_gpt/src/data/client/sqlite_database.dart';
 import 'package:chat_gpt/src/data/client/cloud_firestore.dart';
 
+import 'package:chat_gpt/src/data/provider/chat/local/chat_database_access_object_impl.dart';
+import 'package:chat_gpt/src/data/provider/chat/remote/chat_network_data_provider_impl.dart';
+import 'package:chat_gpt/src/data/repository/chat/chat_repository_impl.dart';
+
 class AppRouter {
+  final DependencyInjection _dependencyInjection;
+
+  AppRouter({
+    required DependencyInjection dependencyInjection,
+  }) : _dependencyInjection = dependencyInjection;
+
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
   static final _shellNavigatorKey = GlobalKey<NavigatorState>();
-
-  static final router = GoRouter(
+  final router = GoRouter(
     navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: true,
     initialLocation: '/conversations',
@@ -72,8 +79,9 @@ class AppRouter {
       ShellRoute(
         navigatorKey: _shellNavigatorKey,
         builder: (context, state, child) => ChangeNotifierProvider(
-            create: (BuildContext context) => MainViewModel(),
-            child: MainView(child)),
+          create: (BuildContext context) => MainViewModel(),
+          child: MainView(child),
+        ),
         routes: <RouteBase>[
           GoRoute(
             name: 'profile',
@@ -185,6 +193,7 @@ class AppRouter {
         parentNavigatorKey: _rootNavigatorKey,
         builder: (BuildContext context, GoRouterState state) => BlocProvider(
           create: (context) => ChatBloc(
+            id: state.queryParameters['id'] ?? '',
             chatRepository: const ChatRepositoryImpl(
               chatNetworkDataProvider: ChatNetworkDataProviderImpl(
                 cloudFirestore: CloudFirestore(),
@@ -193,7 +202,6 @@ class AppRouter {
                 sqLiteDatabase: SQLiteDatabase(),
               ),
             ),
-            id: state.queryParameters['id'] ?? '',
             userRepository: const UserRepositoryImpl(
               authNetworkDataProvider: AuthNetworkDataProviderImpl(
                 firebaseAuthentication: FirebaseAuthentication(),
@@ -204,7 +212,7 @@ class AppRouter {
             ),
             messageRepository: MessageRepositoryImpl(
               messageNetworkDataProvider: MessageNetworkDataProviderImpl(
-                httpClient: HttpClient(),
+                httpClient: HttpClient(dio: Dio()),
               ),
             ),
           )..add(const ChatEvent.fetchMessages(messageId: '')),

@@ -1,13 +1,12 @@
-import 'package:chat_gpt/src/data/provider/user/remote/user_network_data_provider.dart';
-import 'package:chat_gpt/src/model/user/user_model.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-
 import 'package:flutter/widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:chat_gpt/src/model/user/user_model.dart';
 
 import 'package:chat_gpt/src/data/repository/user/user_repository.dart';
 
 import 'package:chat_gpt/src/data/provider/auth/remote/auth_network_data_provider.dart';
+import 'package:chat_gpt/src/data/provider/user/remote/user_network_data_provider.dart';
 
 @immutable
 class UserRepositoryImpl implements UserRepository {
@@ -21,17 +20,8 @@ class UserRepositoryImpl implements UserRepository {
   final UserNetworkDataProvider _userNetworkDataProvider;
 
   @override
-  Future<void> signInWithGoogle() async {
-    //TODO
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-    await FirebaseAuth.instance.signInWithCredential(credential);
-  }
+  Future<void> signInWithGoogle() async =>
+      _authNetworkDataProvider.signInWithGoogle();
 
   @override
   Future<void> signUpWithEmailAndPassword({
