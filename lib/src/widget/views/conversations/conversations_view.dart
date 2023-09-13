@@ -15,12 +15,6 @@ class ChatsView extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Text('Messages'),
-        titleTextStyle: const TextStyle(
-          color: Colors.black,
-          fontSize: 30,
-          fontFamily: 'Poppins',
-          fontWeight: FontWeight.w600,
-        ),
       ),
       // floatingActionButton: GestureDetector(
       //   onTap: () => context
@@ -99,16 +93,14 @@ class ChatsView extends StatelessWidget {
                                 .format(DateTime.fromMillisecondsSinceEpoch(
                                     chats[index].createdAt))
                                 .toString()),
-                            titleTextStyle: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 19,
-                              fontFamily: 'Poppins',
+                            titleTextStyle:  TextStyle(
+                              color: Theme.of(context).colorScheme.onBackground,
+                              fontSize: 19.0,
                               fontWeight: FontWeight.w700,
                             ),
                             subtitleTextStyle: TextStyle(
-                              color: Colors.black.withOpacity(0.69),
+                              color: Theme.of(context).colorScheme.onBackground.withOpacity(0.69),
                               fontSize: 13,
-                              fontFamily: 'Poppins',
                               fontWeight: FontWeight.w600,
                             ),
                           ),

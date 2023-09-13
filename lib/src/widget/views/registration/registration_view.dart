@@ -28,18 +28,18 @@ class RegistrationView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text(
+               Text(
                 'Join Us',
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Theme.of(context).colorScheme.onBackground,
                   fontSize: 30.0,
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const Text(
+               Text(
                 'Create your account',
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Theme.of(context).colorScheme.onBackground,
                   fontSize: 12.0,
                   fontWeight: FontWeight.w400,
                 ),
@@ -47,13 +47,13 @@ class RegistrationView extends StatelessWidget {
               const SizedBox(height: 32.0),
               TextField(
                 controller: emailController,
-                cursorColor: const Color(0xFF000000),
+                cursorColor: Theme.of(context).colorScheme.onBackground,
                 cursorWidth: 2.0,
                 cursorRadius: const Radius.circular(0.0),
-                style: const TextStyle(
+                style:  TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.w400,
-                  color: Color(0xFF000000),
+                  color: Theme.of(context).colorScheme.onBackground,
                 ),
                 decoration: const InputDecoration(
                   hintText: 'Email',
@@ -62,14 +62,13 @@ class RegistrationView extends StatelessWidget {
               const SizedBox(height: 32.0),
               TextField(
                 controller: passwordController,
-                cursorColor: const Color(0xFF000000),
+                cursorColor: Theme.of(context).colorScheme.onBackground,
                 cursorWidth: 2.0,
                 cursorRadius: const Radius.circular(0.0),
-                obscureText: true,
-                style: const TextStyle(
+                style:  TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.w400,
-                  color: Color(0xFF000000),
+                  color: Theme.of(context).colorScheme.onBackground,
                 ),
                 decoration: InputDecoration(
                   hintText: 'Password',
@@ -122,23 +121,23 @@ class RegistrationView extends StatelessWidget {
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(
                       horizontal: 35.0, vertical: 12.0),
-                  decoration: const ShapeDecoration(
-                    color: Color(0xFF0D0A07),
+                  decoration:  ShapeDecoration(
+                    color: Theme.of(context).colorScheme.background,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(15.0),
                       ),
                       side: BorderSide(
-                        color: Color(0xFF000000),
+                        color: Theme.of(context).colorScheme.onBackground,
                         width: 2.0,
                       ),
                     ),
                   ),
-                  child: const Text(
+                  child:  Text(
                     'Registration',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.onBackground,
                       fontSize: 17,
                       fontWeight: FontWeight.w500,
                     ),
@@ -151,7 +150,7 @@ class RegistrationView extends StatelessWidget {
                   HapticFeedback.vibrate();
                   context.pushNamed('signIn');
                 },
-                child: const Center(
+                child:  Center(
                   child: Text.rich(
                     TextSpan(
                       children: [
@@ -160,7 +159,7 @@ class RegistrationView extends StatelessWidget {
                             TextSpan(
                               text: 'Already have an account? ',
                               style: TextStyle(
-                                color: Colors.black,
+                                color: Theme.of(context).colorScheme.onBackground,
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -168,11 +167,11 @@ class RegistrationView extends StatelessWidget {
                             TextSpan(
                               text: 'Log In',
                               style: TextStyle(
-                                color: Colors.black,
+                                color: Theme.of(context).colorScheme.onBackground,
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.w500,
                                 decoration: TextDecoration.underline,
-                                decorationColor: Colors.black,
+                                decorationColor: Theme.of(context).colorScheme.onBackground,
                               ),
                             ),
                           ],
@@ -189,27 +188,25 @@ class RegistrationView extends StatelessWidget {
                     onTap: () {
                       HapticFeedback.vibrate();
                     },
-                    child: const Text.rich(
+                    child:  Text.rich(
                       TextSpan(
                         children: [
-                          TextSpan(
+                           TextSpan(
                             text: 'By signing up, you agree to\n',
                             style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontFamily: 'Poppins',
+                              color: Theme.of(context).colorScheme.onBackground,
+                              fontSize: 16.0,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
                           TextSpan(
                             text: 'Teams of Service & Privacy Policy',
                             style: TextStyle(
-                              color: Colors.black,
+                              color: Theme.of(context).colorScheme.onBackground,
                               fontSize: 16,
-                              fontFamily: 'Poppins',
                               fontWeight: FontWeight.w500,
                               decoration: TextDecoration.underline,
-                              decorationColor: Colors.black,
+                              decorationColor: Theme.of(context).colorScheme.onBackground,
                             ),
                           ),
                         ],
@@ -242,16 +239,9 @@ class ChipRule extends StatelessWidget {
     return Chip(
       avatar: Icon(
         isComplete ? Icons.check_circle_outline : Icons.circle_outlined,
-        color: const Color(0xFF787979),
+        color: Theme.of(context).colorScheme.onBackground,
       ),
       label: Text(label),
-      labelStyle: const TextStyle(
-        color: Color(0xFF787979),
-        fontSize: 14.0,
-        fontWeight: FontWeight.w400,
-      ),
-      side: const BorderSide(style: BorderStyle.none),
-      shape: const StadiumBorder(),
     );
   }
 }

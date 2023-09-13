@@ -31,7 +31,6 @@ class OnboardView extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 30,
-                    fontFamily: 'Poppins',
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -59,8 +58,7 @@ class OnboardView extends StatelessWidget {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 17,
-                              fontFamily: 'Poppins',
+                              fontSize: 17.0,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -81,8 +79,7 @@ class OnboardView extends StatelessWidget {
                                 text: 'Already have an\naccount? ',
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 16,
-                                  fontFamily: 'Poppins',
+                                  fontSize: 16.0,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -90,8 +87,7 @@ class OnboardView extends StatelessWidget {
                                 text: 'Log In',
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 16,
-                                  fontFamily: 'Poppins',
+                                  fontSize: 16.0,
                                   fontWeight: FontWeight.w500,
                                   decoration: TextDecoration.underline,
                                   decorationColor:Colors.black,

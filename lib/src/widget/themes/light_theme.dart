@@ -1,21 +1,35 @@
 import 'package:flutter/material.dart';
 
-class Themes {
+class LightTheme {
   static const primaryColor = Color(0xFFE9A322);
   static const accentColor = Color(0xFF000000);
   static const backgroundColor = Color(0xFFFFFFFF);
+  static const onBackgroundColor = Color(0xFF000000);
+  static const errorColor = Color(0xFFB3261E);
 
-  static ThemeData lightTheme = ThemeData(
+  static ThemeData themeData = ThemeData(
     useMaterial3: true,
     fontFamily: 'Poppins',
-    brightness: Brightness.light,
-    colorSchemeSeed: primaryColor,
     iconTheme: const IconThemeData(color: accentColor),
+    colorScheme: const ColorScheme.light(
+      primary: primaryColor,
+      background: backgroundColor,
+      onBackground: onBackgroundColor,
+      brightness: Brightness.light,
+      error: errorColor,
+    ),
     progressIndicatorTheme: const ProgressIndicatorThemeData(
       color: primaryColor,
     ),
     chipTheme: const ChipThemeData(
+      labelStyle: TextStyle(
+        color: onBackgroundColor,
+        fontSize: 14.0,
+        fontWeight: FontWeight.w400,
+      ),
       backgroundColor: Color(0xFFF1F3F3),
+      side: BorderSide.none,
+      shape: StadiumBorder(),
     ),
     inputDecorationTheme: const InputDecorationTheme(
       suffixIconColor: accentColor,
@@ -38,8 +52,8 @@ class Themes {
         borderSide: BorderSide(color: accentColor, width: 1.5),
       ),
     ),
-    snackBarTheme: SnackBarThemeData(
-      contentTextStyle: const TextStyle(
+    snackBarTheme: const SnackBarThemeData(
+      contentTextStyle: TextStyle(
         color: accentColor,
         fontSize: 14.0,
         fontWeight: FontWeight.w400,
@@ -47,10 +61,11 @@ class Themes {
       backgroundColor: backgroundColor,
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
-        side: const BorderSide(color: accentColor, width: 2.0),
-        borderRadius: BorderRadius.circular(12.0),
+        side: BorderSide(color: accentColor, width: 2.0),
+        borderRadius: BorderRadius.all(Radius.circular(12.0)),
       ),
     ),
+    listTileTheme: const ListTileThemeData(),
     appBarTheme: const AppBarTheme(
       surfaceTintColor: backgroundColor,
       color: backgroundColor,
@@ -63,14 +78,10 @@ class Themes {
     ),
     bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: backgroundColor,
+      elevation: 0.0,
+      modalElevation: 0.0,
+      showDragHandle: true,
     ),
     scaffoldBackgroundColor: backgroundColor,
-  );
-
-  static ThemeData darkTheme = ThemeData(
-    useMaterial3: true,
-    fontFamily: 'Poppins',
-    brightness: Brightness.dark,
-    primaryColor: primaryColor,
   );
 }

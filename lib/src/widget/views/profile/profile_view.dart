@@ -52,12 +52,14 @@ class ProfileView extends StatelessWidget {
                               right: 0.0,
                               child: Container(
                                 padding: const EdgeInsets.all(12.0),
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFF000000),
-                                  borderRadius: BorderRadius.all(
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground,
+                                  borderRadius: const BorderRadius.all(
                                     Radius.circular(16.0),
                                   ),
-                                  boxShadow: [
+                                  boxShadow: const [
                                     BoxShadow(
                                         offset: Offset(0.0, 4.0),
                                         blurRadius: 4.0,
@@ -65,9 +67,10 @@ class ProfileView extends StatelessWidget {
                                         color: Color(0x12000000)),
                                   ],
                                 ),
-                                child: const Icon(
+                                child: Icon(
                                   Icons.add,
-                                  color: Color(0xFFFFFFFF),
+                                  color:
+                                      Theme.of(context).colorScheme.background,
                                 ),
                               ),
                             ),
@@ -79,7 +82,6 @@ class ProfileView extends StatelessWidget {
                       child: Text(
                         user.username,
                         style: const TextStyle(
-                          color: Color(0xFF000000),
                           fontSize: 24.0,
                           fontWeight: FontWeight.w600,
                         ),
@@ -93,9 +95,7 @@ class ProfileView extends StatelessWidget {
                           Text(
                             user.uid.toUpperCase(),
                             style: const TextStyle(
-                              color: Colors.black,
                               fontSize: 12.0,
-                              fontFamily: 'Poppins',
                               fontWeight: FontWeight.w400,
                             ),
                           ),
@@ -171,25 +171,24 @@ class ProfileView extends StatelessWidget {
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(
                             horizontal: 35.0, vertical: 12.0),
-                        decoration: const ShapeDecoration(
+                        decoration: ShapeDecoration(
                           // color: Color(0xFF0D0A07),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
+                            borderRadius: const BorderRadius.all(
                               Radius.circular(15.0),
                             ),
                             side: BorderSide(
-                              color: Color(0xFFba1a1a),
+                              color: Theme.of(context).colorScheme.error,
                               width: 2.0,
                             ),
                           ),
                         ),
-                        child: const Text(
+                        child: Text(
                           'Sign Out',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Color(0xFFb3261e),
+                            color: Theme.of(context).colorScheme.error,
                             fontSize: 17,
-                            fontFamily: 'Poppins',
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -242,6 +241,7 @@ class ListTileItem extends StatelessWidget {
             icon,
             height: 15.0,
             width: 15.0,
+            color: Theme.of(context).colorScheme.onBackground,
           ),
           const SizedBox(width: 8.0),
           Text(
@@ -251,17 +251,15 @@ class ListTileItem extends StatelessWidget {
           ),
         ],
       ),
-      titleTextStyle: const TextStyle(
-        color: Color(0xFF000000),
+      titleTextStyle: TextStyle(
         fontSize: 16.0,
-        fontFamily: 'Poppins',
         fontWeight: FontWeight.w600,
+        color: Theme.of(context).colorScheme.onBackground,
       ),
-      subtitleTextStyle: const TextStyle(
-        color: Color(0xFF000000),
+      subtitleTextStyle: TextStyle(
         fontSize: 15.0,
-        fontFamily: 'Poppins',
         fontWeight: FontWeight.w300,
+        color: Theme.of(context).colorScheme.onBackground,
       ),
       visualDensity: VisualDensity.comfortable,
     );

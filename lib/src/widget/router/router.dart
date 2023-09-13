@@ -1,3 +1,4 @@
+import 'package:chat_gpt/src/widget/views/settings/settings_view.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -83,6 +84,12 @@ class AppRouter {
           child: MainView(child),
         ),
         routes: <RouteBase>[
+          GoRoute(
+            name: 'settings',
+            path: '/settings',
+            builder: (BuildContext context, GoRouterState state) =>
+                const SettingsView(),
+          ),
           GoRoute(
             name: 'profile',
             path: '/profile',

@@ -24,6 +24,7 @@ class ChatView extends StatelessWidget {
           iconSize: 16.0,
           icon: SvgPicture.asset(
             'assets/vector/back.svg',
+            color: Theme.of(context).colorScheme.onBackground,
             width: 16.0,
             height: 16.0,
           ),
@@ -50,13 +51,13 @@ class ChatView extends StatelessWidget {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(2.0),
           child: (state == const ChatState.loading())
-              ? const LinearProgressIndicator(
+              ?  LinearProgressIndicator(
                   minHeight: 2.0,
-                  backgroundColor: Color(0x26000000),
-                  color: Color(0xFF000000),
+                  backgroundColor: Theme.of(context).colorScheme.onBackground.withOpacity(0.26),
+                  color: Theme.of(context).colorScheme.onBackground,
                 )
               : Container(
-                  color: const Color(0xFF000000),
+                  color:  Theme.of(context).colorScheme.onBackground,
                   width: double.infinity,
                   height: 2.0,
                 ),
@@ -109,9 +110,7 @@ class ChatView extends StatelessWidget {
                                       Text(
                                         message.senderName ?? '',
                                         style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 19,
-                                          fontFamily: 'Poppins',
+                                          fontSize: 19.0,
                                           fontWeight: FontWeight.w700,
                                         ),
                                       ),
@@ -125,9 +124,8 @@ class ChatView extends StatelessWidget {
                               child: Text(
                                 message.content,
                                 style: TextStyle(
-                                  color: Colors.black.withOpacity(0.69),
+                                  color: Theme.of(context).colorScheme.onBackground.withOpacity(0.69),
                                   fontSize: 15.0,
-                                  fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -145,12 +143,12 @@ class ChatView extends StatelessWidget {
                 ),
               ),
               Container(
-                decoration: const BoxDecoration(
-                  color: Color(0xFFFFFFFF),
+                decoration:  BoxDecoration(
+                  color: Theme.of(context).colorScheme.background,
                   border: Border(
                     top: BorderSide(
                       width: 2.0,
-                      color: Color(0xFF000000),
+                      color: Theme.of(context).colorScheme.onBackground,
                     ),
                   ),
                 ),
@@ -169,18 +167,16 @@ class ChatView extends StatelessWidget {
                           cursorRadius: const Radius.circular(4.0),
                           cursorColor: const Color(0xFF000000),
                           cursorWidth: 2.0,
-                          decoration: const InputDecoration(
+                          decoration:  InputDecoration(
                             hintText: 'Message',
                             hintStyle: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontFamily: 'Poppins',
+                              color: Theme.of(context).colorScheme.onBackground,
+                              fontSize: 16.0,
                               fontWeight: FontWeight.w600,
                             ),
                             labelStyle: TextStyle(
-                              color: Color(0xB0000000),
+                              color: Theme.of(context).colorScheme.onBackground,
                               fontSize: 15.0,
-                              fontFamily: 'Poppins',
                               fontWeight: FontWeight.w600,
                             ),
                             border: InputBorder.none,
@@ -194,9 +190,9 @@ class ChatView extends StatelessWidget {
                           context.read<ChatBloc>().add(
                               ChatEvent.sendMessage(message: input.value.text));
                         },
-                        child: const Icon(
+                        child:  Icon(
                           Icons.send_rounded,
-                          color: Color(0xFF000000),
+                          color: Theme.of(context).colorScheme.onBackground,
                         ),
                       )
                     ],

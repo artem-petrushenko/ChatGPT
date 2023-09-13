@@ -21,40 +21,48 @@ class MainView extends StatelessWidget {
       body: child,
       bottomNavigationBar: Container(
         height: 80.0,
-        color: const Color(0xFFFFFFFF),
+        color: Theme.of(context).colorScheme.background,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             BottomNavigationItem(
-              icon: 'assets/vector/home.svg',
-              selectIcon: 'assets/vector/home-select.svg',
+              lightIcon: 'assets/vector/light/home.svg',
+              lightSelectIcon: 'assets/vector/light/home-select.svg',
+              darkIcon: 'assets/vector/dark/home.svg',
+              darkSelectIcon: 'assets/vector/dark/home-select.svg',
               index: 0,
               selectIndex: selectIndex,
               path: '/contacts',
             ),
             const SizedBox(width: 32.0),
             BottomNavigationItem(
-              icon: 'assets/vector/message.svg',
-              selectIcon: 'assets/vector/message-select.svg',
+              lightIcon: 'assets/vector/light/message.svg',
+              lightSelectIcon: 'assets/vector/light/message-select.svg',
+              darkIcon: 'assets/vector/dark/message.svg',
+              darkSelectIcon: 'assets/vector/dark/message-select.svg',
               index: 1,
               selectIndex: selectIndex,
               path: '/conversations',
             ),
             const SizedBox(width: 32.0),
             BottomNavigationItem(
-              icon: 'assets/vector/smile.svg',
-              selectIcon: 'assets/vector/smile-select.svg',
+              lightIcon: 'assets/vector/light/smile.svg',
+              lightSelectIcon: 'assets/vector/light/smile-select.svg',
+              darkIcon: 'assets/vector/dark/smile.svg',
+              darkSelectIcon: 'assets/vector/dark/smile-select.svg',
               index: 2,
               selectIndex: selectIndex,
               path: '/profile',
             ),
             const SizedBox(width: 32.0),
             BottomNavigationItem(
-              icon: 'assets/vector/compass.svg',
-              selectIcon: 'assets/vector/compass-select.svg',
+              lightIcon: 'assets/vector/light/compass.svg',
+              lightSelectIcon: 'assets/vector/light/compass-select.svg',
+              darkIcon: 'assets/vector/dark/compass.svg',
+              darkSelectIcon: 'assets/vector/dark/compass-select.svg',
               index: 3,
               selectIndex: selectIndex,
-              path: '/contacts',
+              path: '/settings',
             ),
           ],
         ),
@@ -64,25 +72,36 @@ class MainView extends StatelessWidget {
 }
 
 class BottomNavigationItem extends StatelessWidget {
-  final String icon, selectIcon, path;
+  final String lightIcon, lightSelectIcon, darkIcon, darkSelectIcon, path;
   final int index, selectIndex;
 
   const BottomNavigationItem({
-    super.key,
-    required this.path,
-    required this.icon,
-    required this.selectIcon,
+    Key? key,
+    required this.lightIcon,
+    required this.lightSelectIcon,
+    required this.darkIcon,
+    required this.darkSelectIcon,
     required this.index,
     required this.selectIndex,
-  });
+    required this.path,
+  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-        onTap: () {
-          HapticFeedback.vibrate();
-          context.read<MainViewModel>().setSelectIndex = index;
-          context.go(path);
-        },
-        child: SvgPicture.asset(index != selectIndex ? icon : selectIcon),
-      );
+  Widget build(BuildContext context) {
+    final bool isLightTheme = Theme.of(context).brightness == Brightness.light;
+    final bool isSelected = index == selectIndex;
+
+    return GestureDetector(
+      onTap: () {
+        HapticFeedback.vibrate();
+        context.read<MainViewModel>().setSelectIndex = index;
+        context.go(path);
+      },
+      child: SvgPicture.asset(
+        isLightTheme
+            ? (isSelected ? lightSelectIcon : lightIcon)
+            : (isSelected ? darkSelectIcon : darkIcon),
+      ),
+    );
+  }
 }

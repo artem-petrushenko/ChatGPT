@@ -32,18 +32,18 @@ class SignInView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Text(
-                    'Welcome to Chat',
+                  Text(
+                    'Welcome to Wave',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: Theme.of(context).colorScheme.onBackground,
                       fontSize: 30.0,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const Text(
+                  Text(
                     'Sign In to Continue \nIt takes less than a minute',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: Theme.of(context).colorScheme.onBackground,
                       fontSize: 12.0,
                       fontWeight: FontWeight.w400,
                     ),
@@ -51,13 +51,13 @@ class SignInView extends StatelessWidget {
                   const SizedBox(height: 32.0),
                   TextField(
                     controller: emailController,
-                    cursorColor: const Color(0xFF000000),
+                    cursorColor: Theme.of(context).colorScheme.onBackground,
                     cursorWidth: 2.0,
                     cursorRadius: const Radius.circular(0.0),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.w400,
-                      color: Color(0xFF000000),
+                      color: Theme.of(context).colorScheme.onBackground,
                     ),
                     decoration: const InputDecoration(
                       hintText: 'Email',
@@ -66,14 +66,13 @@ class SignInView extends StatelessWidget {
                   const SizedBox(height: 32.0),
                   TextField(
                     controller: passwordController,
-                    cursorColor: const Color(0xFF000000),
+                    cursorColor: Theme.of(context).colorScheme.onBackground,
                     cursorWidth: 2.0,
                     cursorRadius: const Radius.circular(0.0),
-                    obscureText: true,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.w400,
-                      color: Color(0xFF000000),
+                      color: Theme.of(context).colorScheme.onBackground,
                     ),
                     decoration: InputDecoration(
                       hintText: 'Password',
@@ -104,25 +103,24 @@ class SignInView extends StatelessWidget {
                       width: double.infinity,
                       padding: const EdgeInsets.symmetric(
                           horizontal: 35.0, vertical: 12.0),
-                      decoration: const ShapeDecoration(
-                        color: Color(0xFF0D0A07),
+                      decoration: ShapeDecoration(
+                        color: Theme.of(context).colorScheme.background,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
+                          borderRadius: const BorderRadius.all(
                             Radius.circular(15.0),
                           ),
                           side: BorderSide(
-                            color: Color(0xFF000000),
+                            color: Theme.of(context).colorScheme.onBackground,
                             width: 2.0,
                           ),
                         ),
                       ),
-                      child: const Text(
+                      child: Text(
                         'Sign In',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.onBackground,
                           fontSize: 17,
-                          fontFamily: 'Poppins',
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -134,7 +132,7 @@ class SignInView extends StatelessWidget {
                       HapticFeedback.vibrate();
                       context.pushNamed('registration');
                     },
-                    child: const Center(
+                    child: Center(
                       child: Text.rich(
                         TextSpan(
                           children: [
@@ -143,7 +141,9 @@ class SignInView extends StatelessWidget {
                                 TextSpan(
                                   text: 'Don\'t have an account? ',
                                   style: TextStyle(
-                                    color: Colors.black,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.w500,
                                   ),
@@ -151,11 +151,15 @@ class SignInView extends StatelessWidget {
                                 TextSpan(
                                   text: 'Register',
                                   style: TextStyle(
-                                    color: Colors.black,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.w500,
                                     decoration: TextDecoration.underline,
-                                    decorationColor: Colors.black,
+                                    decorationColor: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
                                   ),
                                 ),
                               ],
@@ -171,115 +175,112 @@ class SignInView extends StatelessWidget {
                       HapticFeedback.vibrate();
                       //TODO
                     },
-                    child: const Center(
+                    child: Center(
                       child: Text(
                         'Forgot password?',
                         style: TextStyle(
-                          color: Colors.black,
+                          color: Theme.of(context).colorScheme.onBackground,
                           fontSize: 16.0,
                           fontWeight: FontWeight.w500,
                           decoration: TextDecoration.underline,
-                          decorationColor: Colors.black,
+                          decorationColor:
+                              Theme.of(context).colorScheme.onBackground,
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
-            ),
-            DraggableScrollableSheet(
-              initialChildSize: 0.15,
-              maxChildSize: 0.5,
-              minChildSize: 0.15,
-              builder:
-                  (BuildContext context, ScrollController scrollController) =>
-                      Container(
-                decoration: const BoxDecoration(
-                  color: Color(0xFFFFFFFF),
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(15.0),
-                  ),
-                  border: Border.fromBorderSide(
-                    BorderSide(
-                      color: Color(0xFF000000),
-                      width: 2.0,
-                    ),
-                  ),
-                ),
-                padding:
-                    const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
-                child: CustomScrollView(
-                  controller: scrollController,
-                  slivers: [
-                    SliverList.list(
-                      children: [
-                        Center(
-                          child: Container(
-                            width: 48.0,
-                            height: 12.0,
-                            decoration: const BoxDecoration(
-                              color: Color(0xFFE9A322),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(15.0),
-                              ),
-                              border: Border.fromBorderSide(
-                                BorderSide(
-                                  color: Color(0xFF000000),
-                                  width: 2.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 16.0),
-                        GestureDetector(
-                          onTap: () {
-                            HapticFeedback.vibrate();
-                            context
-                                .read<AuthBloc>()
-                                .add(const AuthEvent.signInWithGoogle());
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 35.0, vertical: 12.0),
-                            decoration: const ShapeDecoration(
-                              color: Color(0xFFFFFFFF),
-                              shape: RoundedRectangleBorder(
-                                side: BorderSide(
-                                  color: Color(0xFF000000),
-                                  width: 2.0,
-                                ),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(15.0),
-                                ),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/vector/google.svg',
-                                  width: 24,
-                                  height: 24.0,
-                                ),
-                                const SizedBox(width: 8.0),
-                                const Text(
-                                  'Sign In with Google',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 17.0,
-                                    fontWeight: FontWeight.w500,
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: GestureDetector(
+                        onTap: () => showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (_) {
+                            final bloc = context.watch<AuthBloc>();
+                            return BlocProvider.value(
+                              value: bloc,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0, vertical: 16.0),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          HapticFeedback.vibrate();
+                                          context.read<AuthBloc>().add(
+                                              const AuthEvent
+                                                  .signInWithGoogle());
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 35.0, vertical: 12.0),
+                                          decoration: ShapeDecoration(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .background,
+                                            shape: RoundedRectangleBorder(
+                                              side: BorderSide(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onBackground,
+                                                width: 2.0,
+                                              ),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                Radius.circular(15.0),
+                                              ),
+                                            ),
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              SvgPicture.asset(
+                                                'assets/vector/google.svg',
+                                                width: 24,
+                                                height: 24.0,
+                                              ),
+                                              const SizedBox(width: 8.0),
+                                              Text(
+                                                'Sign In with Google',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .onBackground,
+                                                  fontSize: 17.0,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            );
+                          },
+                        ),
+                        child: Text(
+                          'Other Authorization Methods',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onBackground,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w500,
+                            decoration: TextDecoration.underline,
+                            decorationColor:
+                                Theme.of(context).colorScheme.onBackground,
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                  ],
-                ),
+                  )
+                ],
               ),
             ),
           ],

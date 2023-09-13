@@ -40,12 +40,14 @@ class ContactsView extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                const Text(
+                                Text(
                                   'New Contact',
                                   style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 24.0,
-                                    color: Color(0xFF000000),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
                                   ),
                                 ),
                                 const SizedBox(height: 16.0),
@@ -65,23 +67,29 @@ class ContactsView extends StatelessWidget {
                                     width: double.infinity,
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 35.0, vertical: 12.0),
-                                    decoration: const ShapeDecoration(
-                                      color: Color(0xFF0D0A07),
+                                    decoration: ShapeDecoration(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .background,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(15.0),
                                         ),
                                         side: BorderSide(
-                                          color: Color(0xFF000000),
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onBackground,
                                           width: 2.0,
                                         ),
                                       ),
                                     ),
-                                    child: const Text(
+                                    child: Text(
                                       'Create Contact',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                        color: Color(0xFFFFFFFF),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onBackground,
                                         fontSize: 17.0,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -97,19 +105,20 @@ class ContactsView extends StatelessWidget {
                     dense: true,
                     leading: const Icon(Icons.contacts),
                     title: const Text('Add New Contact'),
-                    titleTextStyle: const TextStyle(
-                      color: Colors.black,
+                    titleTextStyle: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground,
                       fontSize: 12.0,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    decoration: const BoxDecoration(color: Color(0x4DFFFFFF)),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                    decoration:  BoxDecoration(
+                      color: Theme.of(context).colorScheme.onBackground.withOpacity(0.30),
+                    ),
                     child: const Text(
                       'Your contacts',
                       style: TextStyle(
-                        color: Colors.black,
                         fontSize: 14.0,
                         fontWeight: FontWeight.w700,
                       ),
@@ -145,13 +154,16 @@ class ContactsView extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       softWrap: false,
                     ),
-                    titleTextStyle: const TextStyle(
-                      color: Colors.black,
+                    titleTextStyle:  TextStyle(
                       fontSize: 19.0,
+                      color: Theme.of(context).colorScheme.onBackground,
                       fontWeight: FontWeight.w700,
                     ),
                     subtitleTextStyle: TextStyle(
-                      color: Colors.black.withOpacity(0.69),
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onBackground
+                          .withOpacity(0.69),
                       fontSize: 13.0,
                       fontWeight: FontWeight.w600,
                     ),
