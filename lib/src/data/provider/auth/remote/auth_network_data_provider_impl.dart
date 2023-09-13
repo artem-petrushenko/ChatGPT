@@ -63,6 +63,17 @@ class AuthNetworkDataProviderImpl implements AuthNetworkDataProvider {
   }
 
   @override
+  Future<void> sendPasswordResetEmail({
+    required String email,
+  }) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
   bool isAuth() => FirebaseAuth.instance.currentUser != null;
 
   @override

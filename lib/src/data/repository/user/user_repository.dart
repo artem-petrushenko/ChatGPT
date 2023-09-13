@@ -22,6 +22,10 @@ abstract class UserRepository {
     required String password,
   });
 
+  Future<void> sendPasswordResetEmail({
+    required String email,
+  });
+
   bool isAuth();
 
   String getCurrentUID();

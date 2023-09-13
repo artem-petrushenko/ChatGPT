@@ -95,4 +95,10 @@ class UserRepositoryImpl implements UserRepository {
       currentUID: currentUID,
     );
   }
+
+  @override
+  Future<void> sendPasswordResetEmail({
+    required String email,
+  }) async =>
+      _authNetworkDataProvider.sendPasswordResetEmail(email: email);
 }

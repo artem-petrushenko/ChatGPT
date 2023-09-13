@@ -24,6 +24,7 @@ mixin _$AuthEvent {
         signInWithEmailAndPassword,
     required TResult Function(String email, String password)
         signUpWithEmailAndPassword,
+    required TResult Function(String email) sendPasswordResetEmail,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -34,6 +35,7 @@ mixin _$AuthEvent {
         signInWithEmailAndPassword,
     TResult? Function(String email, String password)?
         signUpWithEmailAndPassword,
+    TResult? Function(String email)? sendPasswordResetEmail,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -42,6 +44,7 @@ mixin _$AuthEvent {
     TResult Function()? signOut,
     TResult Function(String email, String password)? signInWithEmailAndPassword,
     TResult Function(String email, String password)? signUpWithEmailAndPassword,
+    TResult Function(String email)? sendPasswordResetEmail,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -53,6 +56,8 @@ mixin _$AuthEvent {
         signInWithEmailAndPassword,
     required TResult Function(_SignUpWithEmailAndPassword value)
         signUpWithEmailAndPassword,
+    required TResult Function(_SendPasswordResetEmail value)
+        sendPasswordResetEmail,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -63,6 +68,7 @@ mixin _$AuthEvent {
         signInWithEmailAndPassword,
     TResult? Function(_SignUpWithEmailAndPassword value)?
         signUpWithEmailAndPassword,
+    TResult? Function(_SendPasswordResetEmail value)? sendPasswordResetEmail,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -73,6 +79,7 @@ mixin _$AuthEvent {
         signInWithEmailAndPassword,
     TResult Function(_SignUpWithEmailAndPassword value)?
         signUpWithEmailAndPassword,
+    TResult Function(_SendPasswordResetEmail value)? sendPasswordResetEmail,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -139,6 +146,7 @@ class _$_SignInWithGoogle implements _SignInWithGoogle {
         signInWithEmailAndPassword,
     required TResult Function(String email, String password)
         signUpWithEmailAndPassword,
+    required TResult Function(String email) sendPasswordResetEmail,
   }) {
     return signInWithGoogle();
   }
@@ -152,6 +160,7 @@ class _$_SignInWithGoogle implements _SignInWithGoogle {
         signInWithEmailAndPassword,
     TResult? Function(String email, String password)?
         signUpWithEmailAndPassword,
+    TResult? Function(String email)? sendPasswordResetEmail,
   }) {
     return signInWithGoogle?.call();
   }
@@ -163,6 +172,7 @@ class _$_SignInWithGoogle implements _SignInWithGoogle {
     TResult Function()? signOut,
     TResult Function(String email, String password)? signInWithEmailAndPassword,
     TResult Function(String email, String password)? signUpWithEmailAndPassword,
+    TResult Function(String email)? sendPasswordResetEmail,
     required TResult orElse(),
   }) {
     if (signInWithGoogle != null) {
@@ -180,6 +190,8 @@ class _$_SignInWithGoogle implements _SignInWithGoogle {
         signInWithEmailAndPassword,
     required TResult Function(_SignUpWithEmailAndPassword value)
         signUpWithEmailAndPassword,
+    required TResult Function(_SendPasswordResetEmail value)
+        sendPasswordResetEmail,
   }) {
     return signInWithGoogle(this);
   }
@@ -193,6 +205,7 @@ class _$_SignInWithGoogle implements _SignInWithGoogle {
         signInWithEmailAndPassword,
     TResult? Function(_SignUpWithEmailAndPassword value)?
         signUpWithEmailAndPassword,
+    TResult? Function(_SendPasswordResetEmail value)? sendPasswordResetEmail,
   }) {
     return signInWithGoogle?.call(this);
   }
@@ -206,6 +219,7 @@ class _$_SignInWithGoogle implements _SignInWithGoogle {
         signInWithEmailAndPassword,
     TResult Function(_SignUpWithEmailAndPassword value)?
         signUpWithEmailAndPassword,
+    TResult Function(_SendPasswordResetEmail value)? sendPasswordResetEmail,
     required TResult orElse(),
   }) {
     if (signInWithGoogle != null) {
@@ -262,6 +276,7 @@ class _$_SignOut implements _SignOut {
         signInWithEmailAndPassword,
     required TResult Function(String email, String password)
         signUpWithEmailAndPassword,
+    required TResult Function(String email) sendPasswordResetEmail,
   }) {
     return signOut();
   }
@@ -275,6 +290,7 @@ class _$_SignOut implements _SignOut {
         signInWithEmailAndPassword,
     TResult? Function(String email, String password)?
         signUpWithEmailAndPassword,
+    TResult? Function(String email)? sendPasswordResetEmail,
   }) {
     return signOut?.call();
   }
@@ -286,6 +302,7 @@ class _$_SignOut implements _SignOut {
     TResult Function()? signOut,
     TResult Function(String email, String password)? signInWithEmailAndPassword,
     TResult Function(String email, String password)? signUpWithEmailAndPassword,
+    TResult Function(String email)? sendPasswordResetEmail,
     required TResult orElse(),
   }) {
     if (signOut != null) {
@@ -303,6 +320,8 @@ class _$_SignOut implements _SignOut {
         signInWithEmailAndPassword,
     required TResult Function(_SignUpWithEmailAndPassword value)
         signUpWithEmailAndPassword,
+    required TResult Function(_SendPasswordResetEmail value)
+        sendPasswordResetEmail,
   }) {
     return signOut(this);
   }
@@ -316,6 +335,7 @@ class _$_SignOut implements _SignOut {
         signInWithEmailAndPassword,
     TResult? Function(_SignUpWithEmailAndPassword value)?
         signUpWithEmailAndPassword,
+    TResult? Function(_SendPasswordResetEmail value)? sendPasswordResetEmail,
   }) {
     return signOut?.call(this);
   }
@@ -329,6 +349,7 @@ class _$_SignOut implements _SignOut {
         signInWithEmailAndPassword,
     TResult Function(_SignUpWithEmailAndPassword value)?
         signUpWithEmailAndPassword,
+    TResult Function(_SendPasswordResetEmail value)? sendPasswordResetEmail,
     required TResult orElse(),
   }) {
     if (signOut != null) {
@@ -425,6 +446,7 @@ class _$_SignInWithEmailAndPassword implements _SignInWithEmailAndPassword {
         signInWithEmailAndPassword,
     required TResult Function(String email, String password)
         signUpWithEmailAndPassword,
+    required TResult Function(String email) sendPasswordResetEmail,
   }) {
     return signInWithEmailAndPassword(email, password);
   }
@@ -438,6 +460,7 @@ class _$_SignInWithEmailAndPassword implements _SignInWithEmailAndPassword {
         signInWithEmailAndPassword,
     TResult? Function(String email, String password)?
         signUpWithEmailAndPassword,
+    TResult? Function(String email)? sendPasswordResetEmail,
   }) {
     return signInWithEmailAndPassword?.call(email, password);
   }
@@ -449,6 +472,7 @@ class _$_SignInWithEmailAndPassword implements _SignInWithEmailAndPassword {
     TResult Function()? signOut,
     TResult Function(String email, String password)? signInWithEmailAndPassword,
     TResult Function(String email, String password)? signUpWithEmailAndPassword,
+    TResult Function(String email)? sendPasswordResetEmail,
     required TResult orElse(),
   }) {
     if (signInWithEmailAndPassword != null) {
@@ -466,6 +490,8 @@ class _$_SignInWithEmailAndPassword implements _SignInWithEmailAndPassword {
         signInWithEmailAndPassword,
     required TResult Function(_SignUpWithEmailAndPassword value)
         signUpWithEmailAndPassword,
+    required TResult Function(_SendPasswordResetEmail value)
+        sendPasswordResetEmail,
   }) {
     return signInWithEmailAndPassword(this);
   }
@@ -479,6 +505,7 @@ class _$_SignInWithEmailAndPassword implements _SignInWithEmailAndPassword {
         signInWithEmailAndPassword,
     TResult? Function(_SignUpWithEmailAndPassword value)?
         signUpWithEmailAndPassword,
+    TResult? Function(_SendPasswordResetEmail value)? sendPasswordResetEmail,
   }) {
     return signInWithEmailAndPassword?.call(this);
   }
@@ -492,6 +519,7 @@ class _$_SignInWithEmailAndPassword implements _SignInWithEmailAndPassword {
         signInWithEmailAndPassword,
     TResult Function(_SignUpWithEmailAndPassword value)?
         signUpWithEmailAndPassword,
+    TResult Function(_SendPasswordResetEmail value)? sendPasswordResetEmail,
     required TResult orElse(),
   }) {
     if (signInWithEmailAndPassword != null) {
@@ -596,6 +624,7 @@ class _$_SignUpWithEmailAndPassword implements _SignUpWithEmailAndPassword {
         signInWithEmailAndPassword,
     required TResult Function(String email, String password)
         signUpWithEmailAndPassword,
+    required TResult Function(String email) sendPasswordResetEmail,
   }) {
     return signUpWithEmailAndPassword(email, password);
   }
@@ -609,6 +638,7 @@ class _$_SignUpWithEmailAndPassword implements _SignUpWithEmailAndPassword {
         signInWithEmailAndPassword,
     TResult? Function(String email, String password)?
         signUpWithEmailAndPassword,
+    TResult? Function(String email)? sendPasswordResetEmail,
   }) {
     return signUpWithEmailAndPassword?.call(email, password);
   }
@@ -620,6 +650,7 @@ class _$_SignUpWithEmailAndPassword implements _SignUpWithEmailAndPassword {
     TResult Function()? signOut,
     TResult Function(String email, String password)? signInWithEmailAndPassword,
     TResult Function(String email, String password)? signUpWithEmailAndPassword,
+    TResult Function(String email)? sendPasswordResetEmail,
     required TResult orElse(),
   }) {
     if (signUpWithEmailAndPassword != null) {
@@ -637,6 +668,8 @@ class _$_SignUpWithEmailAndPassword implements _SignUpWithEmailAndPassword {
         signInWithEmailAndPassword,
     required TResult Function(_SignUpWithEmailAndPassword value)
         signUpWithEmailAndPassword,
+    required TResult Function(_SendPasswordResetEmail value)
+        sendPasswordResetEmail,
   }) {
     return signUpWithEmailAndPassword(this);
   }
@@ -650,6 +683,7 @@ class _$_SignUpWithEmailAndPassword implements _SignUpWithEmailAndPassword {
         signInWithEmailAndPassword,
     TResult? Function(_SignUpWithEmailAndPassword value)?
         signUpWithEmailAndPassword,
+    TResult? Function(_SendPasswordResetEmail value)? sendPasswordResetEmail,
   }) {
     return signUpWithEmailAndPassword?.call(this);
   }
@@ -663,6 +697,7 @@ class _$_SignUpWithEmailAndPassword implements _SignUpWithEmailAndPassword {
         signInWithEmailAndPassword,
     TResult Function(_SignUpWithEmailAndPassword value)?
         signUpWithEmailAndPassword,
+    TResult Function(_SendPasswordResetEmail value)? sendPasswordResetEmail,
     required TResult orElse(),
   }) {
     if (signUpWithEmailAndPassword != null) {
@@ -682,6 +717,170 @@ abstract class _SignUpWithEmailAndPassword implements AuthEvent {
   @JsonKey(ignore: true)
   _$$_SignUpWithEmailAndPasswordCopyWith<_$_SignUpWithEmailAndPassword>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_SendPasswordResetEmailCopyWith<$Res> {
+  factory _$$_SendPasswordResetEmailCopyWith(_$_SendPasswordResetEmail value,
+          $Res Function(_$_SendPasswordResetEmail) then) =
+      __$$_SendPasswordResetEmailCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String email});
+}
+
+/// @nodoc
+class __$$_SendPasswordResetEmailCopyWithImpl<$Res>
+    extends _$AuthEventCopyWithImpl<$Res, _$_SendPasswordResetEmail>
+    implements _$$_SendPasswordResetEmailCopyWith<$Res> {
+  __$$_SendPasswordResetEmailCopyWithImpl(_$_SendPasswordResetEmail _value,
+      $Res Function(_$_SendPasswordResetEmail) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? email = null,
+  }) {
+    return _then(_$_SendPasswordResetEmail(
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_SendPasswordResetEmail implements _SendPasswordResetEmail {
+  const _$_SendPasswordResetEmail({required this.email});
+
+  @override
+  final String email;
+
+  @override
+  String toString() {
+    return 'AuthEvent.sendPasswordResetEmail(email: $email)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_SendPasswordResetEmail &&
+            (identical(other.email, email) || other.email == email));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, email);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_SendPasswordResetEmailCopyWith<_$_SendPasswordResetEmail> get copyWith =>
+      __$$_SendPasswordResetEmailCopyWithImpl<_$_SendPasswordResetEmail>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() signInWithGoogle,
+    required TResult Function() signOut,
+    required TResult Function(String email, String password)
+        signInWithEmailAndPassword,
+    required TResult Function(String email, String password)
+        signUpWithEmailAndPassword,
+    required TResult Function(String email) sendPasswordResetEmail,
+  }) {
+    return sendPasswordResetEmail(email);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? signInWithGoogle,
+    TResult? Function()? signOut,
+    TResult? Function(String email, String password)?
+        signInWithEmailAndPassword,
+    TResult? Function(String email, String password)?
+        signUpWithEmailAndPassword,
+    TResult? Function(String email)? sendPasswordResetEmail,
+  }) {
+    return sendPasswordResetEmail?.call(email);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? signInWithGoogle,
+    TResult Function()? signOut,
+    TResult Function(String email, String password)? signInWithEmailAndPassword,
+    TResult Function(String email, String password)? signUpWithEmailAndPassword,
+    TResult Function(String email)? sendPasswordResetEmail,
+    required TResult orElse(),
+  }) {
+    if (sendPasswordResetEmail != null) {
+      return sendPasswordResetEmail(email);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_SignInWithGoogle value) signInWithGoogle,
+    required TResult Function(_SignOut value) signOut,
+    required TResult Function(_SignInWithEmailAndPassword value)
+        signInWithEmailAndPassword,
+    required TResult Function(_SignUpWithEmailAndPassword value)
+        signUpWithEmailAndPassword,
+    required TResult Function(_SendPasswordResetEmail value)
+        sendPasswordResetEmail,
+  }) {
+    return sendPasswordResetEmail(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_SignInWithGoogle value)? signInWithGoogle,
+    TResult? Function(_SignOut value)? signOut,
+    TResult? Function(_SignInWithEmailAndPassword value)?
+        signInWithEmailAndPassword,
+    TResult? Function(_SignUpWithEmailAndPassword value)?
+        signUpWithEmailAndPassword,
+    TResult? Function(_SendPasswordResetEmail value)? sendPasswordResetEmail,
+  }) {
+    return sendPasswordResetEmail?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_SignInWithGoogle value)? signInWithGoogle,
+    TResult Function(_SignOut value)? signOut,
+    TResult Function(_SignInWithEmailAndPassword value)?
+        signInWithEmailAndPassword,
+    TResult Function(_SignUpWithEmailAndPassword value)?
+        signUpWithEmailAndPassword,
+    TResult Function(_SendPasswordResetEmail value)? sendPasswordResetEmail,
+    required TResult orElse(),
+  }) {
+    if (sendPasswordResetEmail != null) {
+      return sendPasswordResetEmail(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _SendPasswordResetEmail implements AuthEvent {
+  const factory _SendPasswordResetEmail({required final String email}) =
+      _$_SendPasswordResetEmail;
+
+  String get email;
+  @JsonKey(ignore: true)
+  _$$_SendPasswordResetEmailCopyWith<_$_SendPasswordResetEmail> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc

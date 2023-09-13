@@ -13,6 +13,10 @@ abstract class AuthNetworkDataProvider {
     required String password,
   });
 
+  Future<void> sendPasswordResetEmail({
+    required String email,
+  });
+
   Future<void> logOut();
 
   bool isAuth();

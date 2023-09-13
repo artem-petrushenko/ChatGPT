@@ -15,4 +15,8 @@ class AuthEvent with _$AuthEvent {
     required final String email,
     required final String password,
   }) = _SignUpWithEmailAndPassword;
+
+  const factory AuthEvent.sendPasswordResetEmail({
+    required final String email,
+  }) = _SendPasswordResetEmail;
 }

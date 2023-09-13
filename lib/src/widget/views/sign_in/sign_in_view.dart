@@ -174,6 +174,11 @@ class SignInView extends StatelessWidget {
                     onTap: () {
                       HapticFeedback.vibrate();
                       //TODO
+                      context.read<AuthBloc>().add(
+                            AuthEvent.sendPasswordResetEmail(
+                              email: emailController.text,
+                            ),
+                          );
                     },
                     child: Center(
                       child: Text(

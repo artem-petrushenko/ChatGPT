@@ -25,6 +25,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             _onSignInWithEmailAndPassword(event, emit),
         signUpWithEmailAndPassword: (event) =>
             _onSignUpWithEmailAndPassword(event, emit),
+        sendPasswordResetEmail: (event) =>
+            _onSendPasswordResetEmail(event, emit),
       ),
       transformer: sequential(),
     );
@@ -79,6 +81,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } catch (error) {
       emit(AuthState.failure(error: error));
       emit(const AuthState.unAuthenticated());
+    }
+  }
+
+  Future<void> _onSendPasswordResetEmail(
+    _SendPasswordResetEmail event,
+    Emitter<AuthState> emit,
+  ) async {
+    try {
+      await _userRepository.sendPasswordResetEmail(email: event.email);
+    } catch (error) {
+      // final lastState = state;
+      // emit(AuthState.failure(error: error));
+      // emit(lastState);
     }
   }
 
