@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -5,6 +7,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:chat_gpt/src/model/user/user_model.dart';
 
 import 'package:chat_gpt/src/data/repository/user/user_repository.dart';
+
+import 'package:chat_gpt/src/data/client/firebase_cloud_storage.dart';
 
 part 'profile_event.dart';
 
@@ -23,6 +27,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       (event, emit) => event.map<Future<void>>(
         fetchUser: (event) => _onFetchUser(event, emit),
         signOut: (event) => _onSignOut(event, emit),
+        updateAvatar: (event) => _onUpdateAvatar(event, emit),
       ),
       transformer: concurrent(),
     );
@@ -42,11 +47,35 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   Future<void> _onSignOut(
-      _SignOut event,
-      Emitter<ProfileState> emit,
-      ) async {
+    _SignOut event,
+    Emitter<ProfileState> emit,
+  ) async {
     try {
       await _userRepository.logOut();
+    } catch (error) {
+      emit(ProfileState.failure(error: error));
+    }
+  }
+
+  Future<void> _onUpdateAvatar(
+    _UpdateAvatar event,
+    Emitter<ProfileState> emit,
+  ) async {
+    final storageService = FirebaseCloudStorage();
+    try {
+      final image = event.file;
+      if (image != null) {
+        final String fileName =
+            DateTime.now().millisecondsSinceEpoch.toString();
+        final uid = _userRepository.getCurrentUID();
+        final storagePath = '$uid/avatar/$fileName.jpg';
+
+        final url = await storageService.uploadFile(image, storagePath);
+        await _userRepository.updateAvatar(uid: uid, imageUrl: url);
+        final user = await _userRepository.getUser(uid: uid);
+
+        emit(ProfileState.success(user: user.copyWith(photoUrl: url)));
+      }
     } catch (error) {
       emit(ProfileState.failure(error: error));
     }

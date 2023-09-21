@@ -23,4 +23,9 @@ abstract class UserNetworkDataProvider {
     required List<String> uid,
     required String currentUID,
   });
+
+  Future<void> updateAvatar({
+    required String imageUrl,
+    required String uid,
+  });
 }

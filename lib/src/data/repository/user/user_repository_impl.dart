@@ -101,4 +101,11 @@ class UserRepositoryImpl implements UserRepository {
     required String email,
   }) async =>
       _authNetworkDataProvider.sendPasswordResetEmail(email: email);
+
+  @override
+  Future<void> updateAvatar({
+    required String uid,
+    required String imageUrl,
+  }) async =>
+      await _userNetworkDataProvider.updateAvatar(imageUrl: imageUrl, uid: uid);
 }

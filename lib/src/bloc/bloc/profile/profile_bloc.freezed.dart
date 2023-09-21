@@ -20,18 +20,21 @@ mixin _$ProfileEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() fetchUser,
     required TResult Function() signOut,
+    required TResult Function(File? file) updateAvatar,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchUser,
     TResult? Function()? signOut,
+    TResult? Function(File? file)? updateAvatar,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchUser,
     TResult Function()? signOut,
+    TResult Function(File? file)? updateAvatar,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -39,18 +42,21 @@ mixin _$ProfileEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchUser value) fetchUser,
     required TResult Function(_SignOut value) signOut,
+    required TResult Function(_UpdateAvatar value) updateAvatar,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchUser value)? fetchUser,
     TResult? Function(_SignOut value)? signOut,
+    TResult? Function(_UpdateAvatar value)? updateAvatar,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchUser value)? fetchUser,
     TResult Function(_SignOut value)? signOut,
+    TResult Function(_UpdateAvatar value)? updateAvatar,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -114,6 +120,7 @@ class _$_FetchUser implements _FetchUser {
   TResult when<TResult extends Object?>({
     required TResult Function() fetchUser,
     required TResult Function() signOut,
+    required TResult Function(File? file) updateAvatar,
   }) {
     return fetchUser();
   }
@@ -123,6 +130,7 @@ class _$_FetchUser implements _FetchUser {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchUser,
     TResult? Function()? signOut,
+    TResult? Function(File? file)? updateAvatar,
   }) {
     return fetchUser?.call();
   }
@@ -132,6 +140,7 @@ class _$_FetchUser implements _FetchUser {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchUser,
     TResult Function()? signOut,
+    TResult Function(File? file)? updateAvatar,
     required TResult orElse(),
   }) {
     if (fetchUser != null) {
@@ -145,6 +154,7 @@ class _$_FetchUser implements _FetchUser {
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchUser value) fetchUser,
     required TResult Function(_SignOut value) signOut,
+    required TResult Function(_UpdateAvatar value) updateAvatar,
   }) {
     return fetchUser(this);
   }
@@ -154,6 +164,7 @@ class _$_FetchUser implements _FetchUser {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchUser value)? fetchUser,
     TResult? Function(_SignOut value)? signOut,
+    TResult? Function(_UpdateAvatar value)? updateAvatar,
   }) {
     return fetchUser?.call(this);
   }
@@ -163,6 +174,7 @@ class _$_FetchUser implements _FetchUser {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchUser value)? fetchUser,
     TResult Function(_SignOut value)? signOut,
+    TResult Function(_UpdateAvatar value)? updateAvatar,
     required TResult orElse(),
   }) {
     if (fetchUser != null) {
@@ -215,6 +227,7 @@ class _$_SignOut implements _SignOut {
   TResult when<TResult extends Object?>({
     required TResult Function() fetchUser,
     required TResult Function() signOut,
+    required TResult Function(File? file) updateAvatar,
   }) {
     return signOut();
   }
@@ -224,6 +237,7 @@ class _$_SignOut implements _SignOut {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchUser,
     TResult? Function()? signOut,
+    TResult? Function(File? file)? updateAvatar,
   }) {
     return signOut?.call();
   }
@@ -233,6 +247,7 @@ class _$_SignOut implements _SignOut {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchUser,
     TResult Function()? signOut,
+    TResult Function(File? file)? updateAvatar,
     required TResult orElse(),
   }) {
     if (signOut != null) {
@@ -246,6 +261,7 @@ class _$_SignOut implements _SignOut {
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchUser value) fetchUser,
     required TResult Function(_SignOut value) signOut,
+    required TResult Function(_UpdateAvatar value) updateAvatar,
   }) {
     return signOut(this);
   }
@@ -255,6 +271,7 @@ class _$_SignOut implements _SignOut {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchUser value)? fetchUser,
     TResult? Function(_SignOut value)? signOut,
+    TResult? Function(_UpdateAvatar value)? updateAvatar,
   }) {
     return signOut?.call(this);
   }
@@ -264,6 +281,7 @@ class _$_SignOut implements _SignOut {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchUser value)? fetchUser,
     TResult Function(_SignOut value)? signOut,
+    TResult Function(_UpdateAvatar value)? updateAvatar,
     required TResult orElse(),
   }) {
     if (signOut != null) {
@@ -275,6 +293,145 @@ class _$_SignOut implements _SignOut {
 
 abstract class _SignOut implements ProfileEvent {
   const factory _SignOut() = _$_SignOut;
+}
+
+/// @nodoc
+abstract class _$$_UpdateAvatarCopyWith<$Res> {
+  factory _$$_UpdateAvatarCopyWith(
+          _$_UpdateAvatar value, $Res Function(_$_UpdateAvatar) then) =
+      __$$_UpdateAvatarCopyWithImpl<$Res>;
+  @useResult
+  $Res call({File? file});
+}
+
+/// @nodoc
+class __$$_UpdateAvatarCopyWithImpl<$Res>
+    extends _$ProfileEventCopyWithImpl<$Res, _$_UpdateAvatar>
+    implements _$$_UpdateAvatarCopyWith<$Res> {
+  __$$_UpdateAvatarCopyWithImpl(
+      _$_UpdateAvatar _value, $Res Function(_$_UpdateAvatar) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? file = freezed,
+  }) {
+    return _then(_$_UpdateAvatar(
+      file: freezed == file
+          ? _value.file
+          : file // ignore: cast_nullable_to_non_nullable
+              as File?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_UpdateAvatar implements _UpdateAvatar {
+  const _$_UpdateAvatar({this.file});
+
+  @override
+  final File? file;
+
+  @override
+  String toString() {
+    return 'ProfileEvent.updateAvatar(file: $file)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_UpdateAvatar &&
+            (identical(other.file, file) || other.file == file));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, file);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_UpdateAvatarCopyWith<_$_UpdateAvatar> get copyWith =>
+      __$$_UpdateAvatarCopyWithImpl<_$_UpdateAvatar>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetchUser,
+    required TResult Function() signOut,
+    required TResult Function(File? file) updateAvatar,
+  }) {
+    return updateAvatar(file);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetchUser,
+    TResult? Function()? signOut,
+    TResult? Function(File? file)? updateAvatar,
+  }) {
+    return updateAvatar?.call(file);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetchUser,
+    TResult Function()? signOut,
+    TResult Function(File? file)? updateAvatar,
+    required TResult orElse(),
+  }) {
+    if (updateAvatar != null) {
+      return updateAvatar(file);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchUser value) fetchUser,
+    required TResult Function(_SignOut value) signOut,
+    required TResult Function(_UpdateAvatar value) updateAvatar,
+  }) {
+    return updateAvatar(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchUser value)? fetchUser,
+    TResult? Function(_SignOut value)? signOut,
+    TResult? Function(_UpdateAvatar value)? updateAvatar,
+  }) {
+    return updateAvatar?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchUser value)? fetchUser,
+    TResult Function(_SignOut value)? signOut,
+    TResult Function(_UpdateAvatar value)? updateAvatar,
+    required TResult orElse(),
+  }) {
+    if (updateAvatar != null) {
+      return updateAvatar(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _UpdateAvatar implements ProfileEvent {
+  const factory _UpdateAvatar({final File? file}) = _$_UpdateAvatar;
+
+  File? get file;
+  @JsonKey(ignore: true)
+  _$$_UpdateAvatarCopyWith<_$_UpdateAvatar> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc

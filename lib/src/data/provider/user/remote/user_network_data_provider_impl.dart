@@ -73,8 +73,17 @@ class UserNetworkDataProviderImpl implements UserNetworkDataProvider {
     await FirebaseFirestore.instance
         .collection('users')
         .doc(currentUID)
-        .update({
-      'contacts': FieldValue.arrayRemove(uid)
-    });
+        .update({'contacts': FieldValue.arrayRemove(uid)});
+  }
+
+  @override
+  Future<void> updateAvatar({
+    required String imageUrl,
+    required String uid,
+  }) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .update({'photo_url': imageUrl});
   }
 }

@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
+import 'package:chat_gpt/src/bloc/bloc/gallery/gallery_bloc.dart';
+import 'package:chat_gpt/src/widget/views/gallery/gallery_view.dart';
 import 'package:chat_gpt/src/bloc/bloc/profile/profile_bloc.dart';
 
 class ProfileView extends StatelessWidget {
@@ -50,27 +54,54 @@ class ProfileView extends StatelessWidget {
                             Positioned(
                               bottom: 16.0,
                               right: 0.0,
-                              child: Container(
-                                padding: const EdgeInsets.all(12.0),
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onBackground,
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(16.0),
-                                  ),
-                                  boxShadow: const [
-                                    BoxShadow(
+                              child: GestureDetector(
+                                onTap: () async {
+                                  HapticFeedback.vibrate();
+                                  showModalBottomSheet<File>(
+                                    context: context,
+                                    useSafeArea: true,
+                                    isScrollControlled: true,
+                                    builder: (BuildContext context) {
+                                      return BlocProvider(
+                                        create: (BuildContext context) =>
+                                            GalleryBloc()
+                                              ..add(const GalleryEvent
+                                                  .fetchAssets()),
+                                        child: const GalleryView(),
+                                      );
+                                    },
+                                  ).then((image) => context
+                                      .read<ProfileBloc>()
+                                      .add(ProfileEvent.updateAvatar(
+                                          file: image)));
+                                },
+                                // onTap: () async => context
+                                //     .read<ProfileBloc>()
+                                //     .add(const ProfileEvent.updateAvatar()),
+                                child: Container(
+                                  padding: const EdgeInsets.all(12.0),
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(16.0),
+                                    ),
+                                    boxShadow: const [
+                                      BoxShadow(
                                         offset: Offset(0.0, 4.0),
                                         blurRadius: 4.0,
                                         spreadRadius: 1.0,
-                                        color: Color(0x12000000)),
-                                  ],
-                                ),
-                                child: Icon(
-                                  Icons.add,
-                                  color:
-                                      Theme.of(context).colorScheme.background,
+                                        color: Color(0x12000000),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Icon(
+                                    Icons.add,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .background,
+                                  ),
                                 ),
                               ),
                             ),
