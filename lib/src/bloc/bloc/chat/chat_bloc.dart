@@ -1,14 +1,11 @@
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:chat_gpt/src/data/repository/message/message_repository.dart';
 import 'package:chat_gpt/src/data/repository/user/user_repository.dart';
-import 'package:chat_gpt/src/model/user/user_model.dart';
+import 'package:chat_gpt/src/data/repository/chat/chat_repository.dart';
 
 import 'package:chat_gpt/src/model/message/message_model.dart';
-import 'package:chat_gpt/src/data/repository/chat/chat_repository.dart';
 
 part 'chat_state.dart';
 
@@ -19,17 +16,14 @@ part 'chat_bloc.freezed.dart';
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final ChatRepository _chatRepository;
   final UserRepository _userRepository;
-  final MessageRepository _messageRepository;
   final String _conversationId;
 
   ChatBloc({
     required String id,
     required ChatRepository chatRepository,
-    required MessageRepository messageRepository,
     required UserRepository userRepository,
   })  : _chatRepository = chatRepository,
         _userRepository = userRepository,
-        _messageRepository = messageRepository,
         _conversationId = id,
         super(const ChatState.loading()) {
     on<_FetchMessagesEvent>(_onFetchMessagesEvent, transformer: droppable());
@@ -37,30 +31,15 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       (ChatEvent event, Emitter<ChatState> emit) =>
           event.mapOrNull<Future<void>>(
         sendMessage: (event) => _onSendMessageEvent(event, emit),
-        copyMessage: (event) => _onCopyMessageEvent(event, emit),
-        regenerateResponse: (event) => _onRegenerateResponseEvent(event, emit),
       ),
       transformer: sequential(),
     );
   }
 
-  Future<void> _onRegenerateResponseEvent(
-      _RegenerateResponseEvent event, Emitter<ChatState> emit) async {
-    try {
-      // emit(ChatState.success(history:));
-      // emit(ChatState.success(chatHistoryModel.reversed.toList()));
-    } catch (error) {
-      emit(ChatState.failure(error: error));
-    }
-  }
-
-  Future<void> _onCopyMessageEvent(
-      _CopyMessageEvent event, Emitter<ChatState> emit) async {
-    Clipboard.setData(ClipboardData(text: event.message));
-  }
-
   Future<void> _onSendMessageEvent(
-      _SendMessageEvent event, Emitter<ChatState> emit) async {
+    _SendMessageEvent event,
+    Emitter<ChatState> emit,
+  ) async {
     try {
       final uid = _userRepository.getCurrentUID();
       await _chatRepository.sendMessage(
@@ -68,56 +47,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         message: event.message,
         conversationId: _conversationId,
       );
-      // final userMessage = MessageModel(
-      //   senderId: 'user',
-      //   message: event.message,
-      //   timestamp: DateTime.now().millisecondsSinceEpoch,
-      //   id: '',
-      // );
-      // if (state is _ChatSuccessState) {
-      //   emit((state as _ChatSuccessState).copyWith(
-      //       hasResponse: false,
-      //       messages:
-      //           List<MessageModel>.from((state as _ChatSuccessState).messages)
-      //             ..insert(0, userMessage)));
-      // } else {
-      //   emit(ChatState.success(history: [userMessage], hasResponse: false));
-      // }
-      // _addDataToDatabase(userMessage);
-      // final message =
-      //     List<MessageModel>.from((state as _ChatSuccessState).messages)
-      //         .map((e) =>
-      //             <String, String>{'role': 'user', 'content': event.message})
-      //         .toList()
-      //         .reversed
-      //         .toList();
-      // final response = await _messageRepository.createChatCompletion(
-      //   model: "gpt-3.5-turbo",
-      //   messages: [
-      //     <String, String>{
-      //       'role': 'user',
-      //       'content': event.message,
-      //     },
-      //   ],
-      //   stream: false,
-      // );
-      // await _chatRepository.sendMessage(
-      //   uid: '5RQm9oiOX6tpXyKkhudk',
-      //   message: response.choices?.last.message?.content ?? '',
-      //   conversationId: _conversationId,
-      // );
-      // final responseMessage = MessageModel(
-      //   senderId: response.choices?.last.message?.role ?? '',
-      //   message: response.choices?.last.message?.content ?? '',
-      //   timestamp: DateTime.now().millisecondsSinceEpoch,
-      //   id: '',
-      // );
-      // final newState = (state as _ChatSuccessState).copyWith(
-      //     history: List<MessageModel>.from((state as _ChatSuccessState).history)
-      //       ..insert(0, responseMessage),
-      //     hasResponse: true);
-      // _addDataToDatabase(responseMessage);
-      // emit(newState);
     } catch (error) {
       emit(ChatState.failure(error: error));
     }
@@ -138,8 +67,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         final senderId = messageDoc.sender;
         final sender = await _userRepository.getUser(uid: senderId);
         final messageWithSenderName = messageDoc.copyWith(
-          senderName: sender.username ?? '',
-          photoUrl: sender.photoUrl ?? '',
+          senderName: sender.username,
+          photoUrl: sender.photoUrl,
         );
         messagesWithSenderNames.add(messageWithSenderName);
       }
@@ -158,7 +87,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
                 userId: uid,
                 messages: messagesWithSenderNames,
                 hasReachedMax: false,
-                hasResponse: false,
               );
         emit(newState);
       }
@@ -166,14 +94,4 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       emit(ChatState.failure(error: error));
     }
   }
-
-// void _addDataToDatabase(MessageModel model) {
-//   _chatRepository.addHistory(
-//       chatHistoryModel: MessageModel(
-//     receiverId: model.receiverId,
-//     message: model.message,
-//     timestamp: DateTime.now().millisecondsSinceEpoch,
-//     id: '',
-//   ));
-// }
 }

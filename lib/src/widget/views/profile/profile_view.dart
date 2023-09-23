@@ -2,11 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:chat_gpt/src/widget/views/gallery/gallery_view.dart';
 
 import 'package:chat_gpt/src/bloc/bloc/gallery/gallery_bloc.dart';
-import 'package:chat_gpt/src/widget/views/gallery/gallery_view.dart';
 import 'package:chat_gpt/src/bloc/bloc/profile/profile_bloc.dart';
 
 class ProfileView extends StatelessWidget {
@@ -31,8 +33,8 @@ class ProfileView extends StatelessWidget {
                   children: [
                     Center(
                       child: SizedBox(
-                        width: 192,
-                        height: 192,
+                        width: 192.0,
+                        height: 192.0,
                         child: Stack(
                           alignment: Alignment.bottomCenter,
                           children: [
@@ -219,7 +221,7 @@ class ProfileView extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Theme.of(context).colorScheme.error,
-                            fontSize: 17,
+                            fontSize: 17.0,
                             fontWeight: FontWeight.w500,
                           ),
                         ),

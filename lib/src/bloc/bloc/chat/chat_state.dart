@@ -7,13 +7,12 @@ class ChatState with _$ChatState {
   const factory ChatState.success({
     required final String userId,
     required final List<MessageModel> messages,
-    required final bool hasResponse,
     required final bool hasReachedMax,
   }) = _ChatSuccessState;
 
   const factory ChatState.empty() = _ChatEmptyState;
 
   const factory ChatState.failure({
-    required final Object? error,
+    required final Object error,
   }) = _ChatFailureState;
 }

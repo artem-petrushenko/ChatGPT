@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:chat_gpt/src/bloc/bloc/contacts/contacts_bloc.dart';
@@ -72,7 +73,7 @@ class ContactsView extends StatelessWidget {
                                           .colorScheme
                                           .background,
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
+                                        borderRadius: const BorderRadius.all(
                                           Radius.circular(15.0),
                                         ),
                                         side: BorderSide(

@@ -38,10 +38,15 @@ abstract class UserRepository {
 
   User getCurrentUser();
 
-  Future<void> addNewContact({required String uid, required String currentUID});
+  Future<void> addNewContact({
+    required String uid,
+    required String currentUID,
+  });
 
-  Future<void> removeContacts(
-      {required List<String> uid, required String currentUID});
+  Future<void> removeContacts({
+    required List<String> uid,
+    required String currentUID,
+  });
 
   Future<void> updateAvatar({
     required String uid,

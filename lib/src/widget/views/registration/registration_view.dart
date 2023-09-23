@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -124,7 +125,7 @@ class RegistrationView extends StatelessWidget {
                   decoration:  ShapeDecoration(
                     color: Theme.of(context).colorScheme.background,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(15.0),
                       ),
                       side: BorderSide(

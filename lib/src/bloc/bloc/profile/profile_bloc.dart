@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:chat_gpt/src/model/user/user_model.dart';

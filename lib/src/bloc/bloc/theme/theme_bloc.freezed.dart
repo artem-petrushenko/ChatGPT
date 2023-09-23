@@ -22,6 +22,7 @@ mixin _$ThemeEvent {
     required TResult Function(int themeIndex) changeTheme,
   }) =>
       throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchCurrentTheme,
@@ -35,12 +36,14 @@ mixin _$ThemeEvent {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchCurrentTheme value) fetchCurrentTheme,
     required TResult Function(_ChangeTheme value) changeTheme,
   }) =>
       throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchCurrentTheme value)? fetchCurrentTheme,
@@ -68,9 +71,9 @@ class _$ThemeEventCopyWithImpl<$Res, $Val extends ThemeEvent>
     implements $ThemeEventCopyWith<$Res> {
   _$ThemeEventCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
+// ignore: unused_field
   final $Val _value;
-  // ignore: unused_field
+// ignore: unused_field
   final $Res Function($Val) _then;
 }
 
@@ -365,9 +368,9 @@ class _$ThemeStateCopyWithImpl<$Res, $Val extends ThemeState>
     implements $ThemeStateCopyWith<$Res> {
   _$ThemeStateCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
+// ignore: unused_field
   final $Val _value;
-  // ignore: unused_field
+// ignore: unused_field
   final $Res Function($Val) _then;
 
   @pragma('vm:prefer-inline')

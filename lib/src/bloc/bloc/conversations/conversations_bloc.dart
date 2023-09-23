@@ -1,12 +1,11 @@
-import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:chat_gpt/src/data/repository/conversations/conversations_repository.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:chat_gpt/src/model/conversation/conversation_model.dart';
+
 import 'package:chat_gpt/src/data/repository/user/user_repository.dart';
+import 'package:chat_gpt/src/data/repository/conversations/conversations_repository.dart';
 
 part 'conversations_event.dart';
 

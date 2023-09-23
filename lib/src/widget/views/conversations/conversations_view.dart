@@ -1,9 +1,10 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+
+import 'package:intl/intl.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:chat_gpt/src/bloc/bloc/conversations/conversations_bloc.dart';
-import 'package:intl/intl.dart';
 
 class ChatsView extends StatelessWidget {
   const ChatsView({super.key});
@@ -16,30 +17,6 @@ class ChatsView extends StatelessWidget {
         automaticallyImplyLeading: false,
         title: const Text('Messages'),
       ),
-      // floatingActionButton: GestureDetector(
-      //   onTap: () => context
-      //       .read<ConversationsBloc>()
-      //       .add(const ConversationsEvent.createConversation(name: 'New Chat')),
-      //   child: Container(
-      //     padding: const EdgeInsets.symmetric(horizontal: 34.0, vertical: 12.0),
-      //     decoration: const ShapeDecoration(
-      //       color: Color(0xFF0D0A07),
-      //       shape: RoundedRectangleBorder(
-      //         borderRadius: BorderRadius.all(Radius.circular(15.0)),
-      //       ),
-      //     ),
-      //     child: const Text(
-      //       'Created',
-      //       textAlign: TextAlign.center,
-      //       style: TextStyle(
-      //         color: Colors.white,
-      //         fontSize: 17,
-      //         fontFamily: 'Poppins',
-      //         fontWeight: FontWeight.w500,
-      //       ),
-      //     ),
-      //   ),
-      // ),
       body: Center(
         child: state.when(
             loading: () => const CircularProgressIndicator(),
@@ -93,13 +70,16 @@ class ChatsView extends StatelessWidget {
                                 .format(DateTime.fromMillisecondsSinceEpoch(
                                     chats[index].createdAt))
                                 .toString()),
-                            titleTextStyle:  TextStyle(
+                            titleTextStyle: TextStyle(
                               color: Theme.of(context).colorScheme.onBackground,
                               fontSize: 19.0,
                               fontWeight: FontWeight.w700,
                             ),
                             subtitleTextStyle: TextStyle(
-                              color: Theme.of(context).colorScheme.onBackground.withOpacity(0.69),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onBackground
+                                  .withOpacity(0.69),
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
                             ),

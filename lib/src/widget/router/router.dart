@@ -1,10 +1,10 @@
-import 'package:chat_gpt/src/widget/views/settings/settings_view.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:chat_gpt/src/widget/views/settings/settings_view.dart';
 
 import 'package:chat_gpt/src/bloc/bloc/contacts/contacts_bloc.dart';
 import 'package:chat_gpt/src/dependency_injection.dart';
@@ -28,16 +28,13 @@ import 'package:chat_gpt/src/widget/views/conversations/conversations_view.dart'
 import 'package:chat_gpt/src/widget/views/chat/chat_view.dart';
 import 'package:chat_gpt/src/widget/views/sign_in/sign_in_view.dart';
 
-import 'package:chat_gpt/src/data/repository/message/message_repository_impl.dart';
 import 'package:chat_gpt/src/data/repository/user/user_repository_impl.dart';
 import 'package:chat_gpt/src/data/repository/conversations/conversations_repository_impl.dart';
 
-import 'package:chat_gpt/src/data/provider/message/remote/message_network_data_provider_impl.dart';
 import 'package:chat_gpt/src/data/provider/auth/remote/auth_network_data_provider_impl.dart';
 import 'package:chat_gpt/src/data/provider/conversations/remote/conversations_network_data_provider_impl.dart';
 
 import 'package:chat_gpt/src/data/client/firebase_authentication.dart';
-import 'package:chat_gpt/src/data/client/http_client.dart';
 import 'package:chat_gpt/src/data/client/sqlite_database.dart';
 import 'package:chat_gpt/src/data/client/cloud_firestore.dart';
 
@@ -215,11 +212,6 @@ class AppRouter {
               ),
               userNetworkDataProvider: UserNetworkDataProviderImpl(
                 cloudFirestore: CloudFirestore(),
-              ),
-            ),
-            messageRepository: MessageRepositoryImpl(
-              messageNetworkDataProvider: MessageNetworkDataProviderImpl(
-                httpClient: HttpClient(dio: Dio()),
               ),
             ),
           )..add(const ChatEvent.fetchMessages(messageId: '')),

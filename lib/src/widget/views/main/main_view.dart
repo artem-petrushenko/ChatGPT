@@ -1,9 +1,11 @@
-import 'package:chat_gpt/src/widget/views/main/main_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:chat_gpt/src/widget/views/main/main_view_model.dart';
 
 class MainView extends StatelessWidget {
   final Widget child;

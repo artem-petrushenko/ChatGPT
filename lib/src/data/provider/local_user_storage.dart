@@ -6,14 +6,13 @@ class LocalUserStorage {
   Future<List<File>> getLatestImages() async {
     final PermissionStatus permissionStatus =
         await Permission.storage.request();
-
     if (permissionStatus != PermissionStatus.granted) {
       throw Exception('Необходимо предоставить разрешение на доступ к файлам.');
     }
-
     try {
-      final Directory imagesDirectory =
-          Directory('/storage/emulated/0/DCIM/Camera');
+      final Directory imagesDirectory = Platform.isAndroid
+          ? Directory('/storage/emulated/0/DCIM/Camera')
+          : Directory('/storage/emulated/0/DCIM/Camera');
       final List<FileSystemEntity> files = imagesDirectory.listSync();
       final List<File> imageFiles = [];
       files.sort(
@@ -23,10 +22,9 @@ class LocalUserStorage {
           imageFiles.add(file);
         }
       }
-
       return imageFiles;
-    } catch (error) {
-      throw Exception('$error');
+    } on Object catch (error, stackTrace) {
+      Error.throwWithStackTrace(error, stackTrace);
     }
   }
 }

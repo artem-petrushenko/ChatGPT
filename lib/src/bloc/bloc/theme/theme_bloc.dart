@@ -1,7 +1,7 @@
-import 'package:chat_gpt/src/data/repository/settings/settings_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import 'package:chat_gpt/src/data/repository/settings/settings_repository.dart';
 
 part 'theme_event.dart';
 

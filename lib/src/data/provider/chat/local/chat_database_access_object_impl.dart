@@ -1,10 +1,8 @@
-import 'package:sqflite/sqflite.dart';
-
-import 'package:chat_gpt/src/data/provider/chat/local/chat_database_access_object.dart';
-
 import 'package:chat_gpt/src/data/client/sqlite_database.dart';
 
 import 'package:chat_gpt/src/model/message/message_model.dart';
+
+import 'package:chat_gpt/src/data/provider/chat/local/chat_database_access_object.dart';
 
 class ChatDatabaseAccessObjectImpl implements ChatDatabaseAccessObject {
   const ChatDatabaseAccessObjectImpl({
@@ -20,8 +18,8 @@ class ChatDatabaseAccessObjectImpl implements ChatDatabaseAccessObject {
     // final database = await _sqLiteDatabase.initializeDB();
     //
     // final data = <String, dynamic>{
-    //   'name': chatHistoryModel?.senderId,
-    //   'message': chatHistoryModel?.message,
+    //   'name': chatHistoryModel?.senderName,
+    //   'message': chatHistoryModel?.content,
     // };
     // await database.insert('chats', data,
     //     conflictAlgorithm: ConflictAlgorithm.replace);

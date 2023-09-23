@@ -23,6 +23,7 @@ mixin _$ProfileEvent {
     required TResult Function(File? file) updateAvatar,
   }) =>
       throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchUser,
@@ -38,6 +39,7 @@ mixin _$ProfileEvent {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchUser value) fetchUser,
@@ -45,6 +47,7 @@ mixin _$ProfileEvent {
     required TResult Function(_UpdateAvatar value) updateAvatar,
   }) =>
       throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchUser value)? fetchUser,
@@ -74,9 +77,9 @@ class _$ProfileEventCopyWithImpl<$Res, $Val extends ProfileEvent>
     implements $ProfileEventCopyWith<$Res> {
   _$ProfileEventCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
+// ignore: unused_field
   final $Val _value;
-  // ignore: unused_field
+// ignore: unused_field
   final $Res Function($Val) _then;
 }
 
@@ -494,9 +497,9 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
     implements $ProfileStateCopyWith<$Res> {
   _$ProfileStateCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
+// ignore: unused_field
   final $Val _value;
-  // ignore: unused_field
+// ignore: unused_field
   final $Res Function($Val) _then;
 }
 

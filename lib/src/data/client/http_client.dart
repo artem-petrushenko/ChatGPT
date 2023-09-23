@@ -2,10 +2,8 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:chat_gpt/src/utils/extension/dio_proxy.dart';
 import 'package:dio/dio.dart';
 
-import 'package:chat_gpt/src/utils/constants/strings.dart';
 
 class HttpClient {
   final Dio _dio;
@@ -17,10 +15,9 @@ class HttpClient {
   }) async {
     try {
       final response = await _dio.get<String>(
-        '$host$endpoint',
+        endpoint,
         options: Options(
           headers: <String, dynamic>{
-            HttpHeaders.authorizationHeader: "Bearer $apiKey",
             HttpHeaders.contentTypeHeader: "application/json",
           },
         ),
@@ -43,10 +40,9 @@ class HttpClient {
   }) async {
     try {
       final response = await _dio.post<String>(
-        '$host$endpoint',
+        endpoint,
         options: Options(
           headers: <String, dynamic>{
-            HttpHeaders.authorizationHeader: "Bearer $apiKey",
             HttpHeaders.contentTypeHeader: "application/json",
           },
         ),

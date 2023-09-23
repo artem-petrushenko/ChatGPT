@@ -5,7 +5,7 @@ class FirebaseNotification {
 
   Future<void> initNotification() async {
     await _firebaseMessaging.requestPermission();
-    final fcmToken = await _firebaseMessaging.getToken();
+    await _firebaseMessaging.getToken();
     initPushNotification();
   }
 

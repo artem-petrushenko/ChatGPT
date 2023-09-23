@@ -1,8 +1,10 @@
-import 'package:chat_gpt/src/bloc/bloc/gallery/gallery_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:chat_gpt/src/bloc/bloc/gallery/gallery_bloc.dart';
 
 class GalleryView extends StatelessWidget {
   const GalleryView({super.key});

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:chat_gpt/src/bloc/bloc/chat/chat_bloc.dart';
 
@@ -21,67 +21,38 @@ class ChatView extends StatelessWidget {
             HapticFeedback.vibrate();
             context.pop();
           },
-          iconSize: 16.0,
-          icon: SvgPicture.asset(
-            'assets/vector/back.svg',
-            color: Theme.of(context).colorScheme.onBackground,
-            width: 16.0,
-            height: 16.0,
-          ),
+          icon: const Icon(Icons.arrow_back_ios_rounded),
         ),
-        // actions: [
-        //   PopupMenuButton(
-        //     iconSize: 20.0,
-        //     icon: SvgPicture.asset(
-        //       'assets/vector/more.svg',
-        //       width: 20.0,
-        //       height: 20.0,
-        //     ),
-        //     onOpened: () {
-        //       HapticFeedback.vibrate();
-        //     },
-        //     itemBuilder: (context) => [
-        //       PopupMenuItem(
-        //         child: const Text('Rename'),
-        //         onTap: () {},
-        //       ),
-        //     ],
-        //   ),
-        // ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(2.0),
           child: (state == const ChatState.loading())
-              ?  LinearProgressIndicator(
+              ? LinearProgressIndicator(
                   minHeight: 2.0,
-                  backgroundColor: Theme.of(context).colorScheme.onBackground.withOpacity(0.26),
+                  backgroundColor: Theme.of(context)
+                      .colorScheme
+                      .onBackground
+                      .withOpacity(0.26),
                   color: Theme.of(context).colorScheme.onBackground,
                 )
               : Container(
-                  color:  Theme.of(context).colorScheme.onBackground,
+                  color: Theme.of(context).colorScheme.onBackground,
                   width: double.infinity,
                   height: 2.0,
                 ),
         ),
       ),
-      body: Center(
-        child: state.when(
-          loading: () => const CircularProgressIndicator(),
-          success: (uid, messages, hasResponse, hasReachedMax) => Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              Padding(
+      body: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Center(
+            child: state.when(
+              loading: () => const CircularProgressIndicator(),
+              success: (uid, messages, hasReachedMax) => Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: CustomScrollView(
                   reverse: true,
                   slivers: [
                     const SliverToBoxAdapter(child: SizedBox(height: 80.0)),
-                    if (hasResponse)
-                      const SliverPadding(
-                        padding: EdgeInsets.symmetric(horizontal: 20.0),
-                        sliver: SliverToBoxAdapter(
-                          child: Text('Await'),
-                        ),
-                      ),
                     SliverList.builder(
                       itemBuilder: (BuildContext context, int index) {
                         final message = messages[index];
@@ -121,12 +92,22 @@ class ChatView extends StatelessWidget {
                             Padding(
                               padding:
                                   const EdgeInsets.only(left: (16.0 * 2 + 8.0)),
-                              child: Text(
-                                message.content,
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.onBackground.withOpacity(0.69),
-                                  fontSize: 15.0,
-                                  fontWeight: FontWeight.w600,
+                              child: GestureDetector(
+                                onTap: () {
+                                  HapticFeedback.vibrate();
+                                  Clipboard.setData(
+                                      ClipboardData(text: message.content));
+                                },
+                                child: Text(
+                                  message.content,
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground
+                                        .withOpacity(0.69),
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               ),
                             ),
@@ -142,132 +123,79 @@ class ChatView extends StatelessWidget {
                   ],
                 ),
               ),
-              Container(
-                decoration:  BoxDecoration(
-                  color: Theme.of(context).colorScheme.background,
-                  border: Border(
-                    top: BorderSide(
-                      width: 2.0,
-                      color: Theme.of(context).colorScheme.onBackground,
-                    ),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    top: 4.0,
-                    bottom: 8.0,
-                    right: 16.0,
-                    left: 16.0,
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: input,
-                          cursorRadius: const Radius.circular(4.0),
-                          cursorColor: const Color(0xFF000000),
-                          cursorWidth: 2.0,
-                          decoration:  InputDecoration(
-                            hintText: 'Message',
-                            hintStyle: TextStyle(
-                              color: Theme.of(context).colorScheme.onBackground,
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            labelStyle: TextStyle(
-                              color: Theme.of(context).colorScheme.onBackground,
-                              fontSize: 15.0,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8.0),
-                      GestureDetector(
-                        onTap: () {
-                          HapticFeedback.vibrate();
-                          context.read<ChatBloc>().add(
-                              ChatEvent.sendMessage(message: input.value.text));
-                        },
-                        child:  Icon(
-                          Icons.send_rounded,
-                          color: Theme.of(context).colorScheme.onBackground,
-                        ),
-                      )
-                    ],
-                  ),
+              empty: () => const Text(
+                'Ask anything, get your answer',
+              ),
+              failure: (error) => TextButton(
+                onPressed: () {
+                  HapticFeedback.vibrate();
+                  context
+                      .read<ChatBloc>()
+                      .add(const ChatEvent.fetchMessages(messageId: ''));
+                },
+                child: const Text('Try Again'),
+              ),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.background,
+              border: Border(
+                top: BorderSide(
+                  width: 2.0,
+                  color: Theme.of(context).colorScheme.onBackground,
                 ),
               ),
-            ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: 4.0,
+                bottom: 8.0,
+                right: 16.0,
+                left: 16.0,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: input,
+                      cursorRadius: const Radius.circular(4.0),
+                      cursorColor: const Color(0xFF000000),
+                      cursorWidth: 2.0,
+                      decoration: InputDecoration(
+                        hintText: 'Message',
+                        hintStyle: TextStyle(
+                          color: Theme.of(context).colorScheme.onBackground,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).colorScheme.onBackground,
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8.0),
+                  GestureDetector(
+                    onTap: () {
+                      HapticFeedback.vibrate();
+                      context.read<ChatBloc>().add(
+                          ChatEvent.sendMessage(message: input.value.text));
+                    },
+                    child: Icon(
+                      Icons.send_rounded,
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
+                  )
+                ],
+              ),
+            ),
           ),
-          empty: () => const Text(
-            'Ask anything, get your answer',
-          ),
-          failure: (error) => TextButton(
-            onPressed: () => context
-                .read<ChatBloc>()
-                .add(const ChatEvent.fetchMessages(messageId: '')),
-            child: const Text('Try Again'),
-          ),
-        ),
+        ],
       ),
-      // bottomNavigationBar: state.when(
-      //   loading: () => const SizedBox.shrink(),
-      //   success: (_, history, hasReachedMax, hasResponse) => Row(
-      //     children: [
-      //       Expanded(
-      //         child: TextField(
-      //           controller: input,
-      //           cursorColor: const Color(0xFFFFFFFF),
-      //           cursorHeight: 28.0,
-      //           cursorWidth: 1.0,
-      //           decoration: const InputDecoration(
-      //             hintText: 'Enter text',
-      //             border: InputBorder.none,
-      //           ),
-      //         ),
-      //       ),
-      //       const SizedBox(width: 8.0),
-      //       GestureDetector(
-      //         onTap: () => context
-      //             .read<ChatBloc>()
-      //             .add(ChatEvent.sendMessage(message: input.value.text)),
-      //         child: const Icon(
-      //           Icons.send_outlined,
-      //           color: Color(0xFF000000),
-      //         ),
-      //       )
-      //     ],
-      //   ),
-      //   empty: () => Row(
-      //     children: [
-      //       Expanded(
-      //         child: TextField(
-      //           controller: input,
-      //           cursorColor: const Color(0xFFFFFFFF),
-      //           cursorHeight: 28.0,
-      //           cursorWidth: 1.0,
-      //           decoration: const InputDecoration(
-      //             hintText: 'Enter text',
-      //             border: InputBorder.none,
-      //           ),
-      //         ),
-      //       ),
-      //       const SizedBox(width: 8.0),
-      //       GestureDetector(
-      //         onTap: () => context
-      //             .read<ChatBloc>()
-      //             .add(ChatEvent.sendMessage(message: input.value.text)),
-      //         child: const Icon(
-      //           Icons.send_outlined,
-      //           color: Color(0xFFFFFFFF),
-      //         ),
-      //       )
-      //     ],
-      //   ),
-      //   failure: (error) => const SizedBox.shrink(),
-      // ),
     );
   }
 }
