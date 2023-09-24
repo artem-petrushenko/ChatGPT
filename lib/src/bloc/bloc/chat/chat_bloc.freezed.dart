@@ -26,7 +26,6 @@ mixin _$ChatState {
     required TResult Function(Object error) failure,
   }) =>
       throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
@@ -48,7 +47,6 @@ mixin _$ChatState {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_ChatLoadingState value) loading,
@@ -57,7 +55,6 @@ mixin _$ChatState {
     required TResult Function(_ChatFailureState value) failure,
   }) =>
       throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_ChatLoadingState value)? loading,
@@ -88,9 +85,9 @@ class _$ChatStateCopyWithImpl<$Res, $Val extends ChatState>
     implements $ChatStateCopyWith<$Res> {
   _$ChatStateCopyWithImpl(this._value, this._then);
 
-// ignore: unused_field
+  // ignore: unused_field
   final $Val _value;
-// ignore: unused_field
+  // ignore: unused_field
   final $Res Function($Val) _then;
 }
 
@@ -270,7 +267,7 @@ class _$_ChatSuccessState implements _ChatSuccessState {
   @override
   List<MessageModel> get messages {
     if (_messages is EqualUnmodifiableListView) return _messages;
-// ignore: implicit_dynamic_type
+    // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_messages);
   }
 
@@ -721,9 +718,9 @@ class _$ChatEventCopyWithImpl<$Res, $Val extends ChatEvent>
     implements $ChatEventCopyWith<$Res> {
   _$ChatEventCopyWithImpl(this._value, this._then);
 
-// ignore: unused_field
+  // ignore: unused_field
   final $Val _value;
-// ignore: unused_field
+  // ignore: unused_field
   final $Res Function($Val) _then;
 }
 

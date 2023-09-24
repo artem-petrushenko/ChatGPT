@@ -23,7 +23,6 @@ mixin _$ConversationsEvent {
     required TResult Function(String id) removeConversation,
   }) =>
       throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String id)? fetchConversations,
@@ -39,7 +38,6 @@ mixin _$ConversationsEvent {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchConversations value) fetchConversations,
@@ -47,7 +45,6 @@ mixin _$ConversationsEvent {
     required TResult Function(_RemoveConversation value) removeConversation,
   }) =>
       throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchConversations value)? fetchConversations,
@@ -77,9 +74,9 @@ class _$ConversationsEventCopyWithImpl<$Res, $Val extends ConversationsEvent>
     implements $ConversationsEventCopyWith<$Res> {
   _$ConversationsEventCopyWithImpl(this._value, this._then);
 
-// ignore: unused_field
+  // ignore: unused_field
   final $Val _value;
-// ignore: unused_field
+  // ignore: unused_field
   final $Res Function($Val) _then;
 }
 
@@ -577,9 +574,9 @@ class _$ConversationsStateCopyWithImpl<$Res, $Val extends ConversationsState>
     implements $ConversationsStateCopyWith<$Res> {
   _$ConversationsStateCopyWithImpl(this._value, this._then);
 
-// ignore: unused_field
+  // ignore: unused_field
   final $Val _value;
-// ignore: unused_field
+  // ignore: unused_field
   final $Res Function($Val) _then;
 }
 
@@ -755,7 +752,7 @@ class _$_ConversationsSuccessState implements _ConversationsSuccessState {
   @override
   List<ConversationModel> get conversations {
     if (_conversations is EqualUnmodifiableListView) return _conversations;
-// ignore: implicit_dynamic_type
+    // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_conversations);
   }
 

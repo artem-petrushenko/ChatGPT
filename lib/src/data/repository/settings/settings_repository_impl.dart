@@ -17,4 +17,12 @@ class SettingsRepositoryImpl implements SettingsRepository {
   @override
   Future<void> setCurrentTheme({required int themeIndex}) async =>
       await _settingsStorage.setCurrentTheme(themeIndex: themeIndex);
+
+  @override
+  Future<String> getCurrentLocale() async =>
+      await _settingsStorage.getCurrentLocale();
+
+  @override
+  Future<void> setCurrentLocale({required String locale}) async =>
+      await _settingsStorage.setCurrentLocale(locale: locale);
 }

@@ -23,7 +23,6 @@ mixin _$ContactsEvent {
     required TResult Function(List<String> uid) removeContacts,
   }) =>
       throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String id)? fetchContacts,
@@ -39,7 +38,6 @@ mixin _$ContactsEvent {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchContacts value) fetchContacts,
@@ -47,7 +45,6 @@ mixin _$ContactsEvent {
     required TResult Function(_RemoveContacts value) removeContacts,
   }) =>
       throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchContacts value)? fetchContacts,
@@ -77,9 +74,9 @@ class _$ContactsEventCopyWithImpl<$Res, $Val extends ContactsEvent>
     implements $ContactsEventCopyWith<$Res> {
   _$ContactsEventCopyWithImpl(this._value, this._then);
 
-// ignore: unused_field
+  // ignore: unused_field
   final $Val _value;
-// ignore: unused_field
+  // ignore: unused_field
   final $Res Function($Val) _then;
 }
 
@@ -401,7 +398,7 @@ class _$_RemoveContacts implements _RemoveContacts {
   @override
   List<String> get uid {
     if (_uid is EqualUnmodifiableListView) return _uid;
-// ignore: implicit_dynamic_type
+    // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_uid);
   }
 
@@ -574,9 +571,9 @@ class _$ContactsStateCopyWithImpl<$Res, $Val extends ContactsState>
     implements $ContactsStateCopyWith<$Res> {
   _$ContactsStateCopyWithImpl(this._value, this._then);
 
-// ignore: unused_field
+  // ignore: unused_field
   final $Val _value;
-// ignore: unused_field
+  // ignore: unused_field
   final $Res Function($Val) _then;
 }
 
@@ -742,7 +739,7 @@ class _$_ContactsSuccessState implements _ContactsSuccessState {
   @override
   List<UserModel> get contacts {
     if (_contacts is EqualUnmodifiableListView) return _contacts;
-// ignore: implicit_dynamic_type
+    // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_contacts);
   }
 

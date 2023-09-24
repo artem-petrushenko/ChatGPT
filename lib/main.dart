@@ -16,6 +16,7 @@ import 'package:chat_gpt/src/dependency_injection.dart';
 import 'package:chat_gpt/src/widget/router/router.dart';
 
 import 'package:chat_gpt/src/bloc/chat_observer.dart';
+import 'package:chat_gpt/src/bloc/bloc/locale/locale_bloc.dart';
 import 'package:chat_gpt/src/bloc/bloc/theme/theme_bloc.dart';
 
 import 'package:chat_gpt/src/data/provider/auth/remote/auth_network_data_provider_impl.dart';
@@ -91,14 +92,27 @@ Future<void> main() async {
     };
     final router = await initDependencyInjection();
     runApp(
-      BlocProvider(
-        create: (BuildContext context) => ThemeBloc(
-          settingsRepository: SettingsRepositoryImpl(
-            settingsStorage: SettingsStorageImpl(
-              sharedPreferencesManager: SharedPreferencesManager(),
-            ),
+      MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (BuildContext context) => ThemeBloc(
+              settingsRepository: SettingsRepositoryImpl(
+                settingsStorage: SettingsStorageImpl(
+                  sharedPreferencesManager: SharedPreferencesManager(),
+                ),
+              ),
+            )..add(const ThemeEvent.fetchCurrentTheme()),
           ),
-        )..add(const ThemeEvent.fetchCurrentTheme()),
+          BlocProvider(
+            create: (BuildContext context) => LocaleBloc(
+              settingsRepository: SettingsRepositoryImpl(
+                settingsStorage: SettingsStorageImpl(
+                  sharedPreferencesManager: SharedPreferencesManager(),
+                ),
+              ),
+            )..add(const LocaleEvent.fetchCurrentLocale()),
+          ),
+        ],
         child: MyApp(router: router),
       ),
     );

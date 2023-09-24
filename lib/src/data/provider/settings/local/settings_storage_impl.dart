@@ -15,4 +15,12 @@ class SettingsStorageImpl implements SettingsStorage {
   @override
   Future<void> setCurrentTheme({required int themeIndex}) async =>
       await _sharedPreferencesManager.setInt('theme', themeIndex);
+
+  @override
+  Future<String> getCurrentLocale() async =>
+      await _sharedPreferencesManager.getString('locale') ?? 'en';
+
+  @override
+  Future<void> setCurrentLocale({required String locale}) async =>
+      await _sharedPreferencesManager.setString('locale', locale);
 }

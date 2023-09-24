@@ -27,7 +27,6 @@ mixin _$AuthEvent {
     required TResult Function(String email) sendPasswordResetEmail,
   }) =>
       throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? signInWithGoogle,
@@ -49,7 +48,6 @@ mixin _$AuthEvent {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_SignInWithGoogle value) signInWithGoogle,
@@ -62,7 +60,6 @@ mixin _$AuthEvent {
         sendPasswordResetEmail,
   }) =>
       throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_SignInWithGoogle value)? signInWithGoogle,
@@ -99,9 +96,9 @@ class _$AuthEventCopyWithImpl<$Res, $Val extends AuthEvent>
     implements $AuthEventCopyWith<$Res> {
   _$AuthEventCopyWithImpl(this._value, this._then);
 
-// ignore: unused_field
+  // ignore: unused_field
   final $Val _value;
-// ignore: unused_field
+  // ignore: unused_field
   final $Res Function($Val) _then;
 }
 
@@ -951,9 +948,9 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     implements $AuthStateCopyWith<$Res> {
   _$AuthStateCopyWithImpl(this._value, this._then);
 
-// ignore: unused_field
+  // ignore: unused_field
   final $Val _value;
-// ignore: unused_field
+  // ignore: unused_field
   final $Res Function($Val) _then;
 }
 

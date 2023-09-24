@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:chat_gpt/src/widget/l10n/generated/l10n.dart';
+
 import 'package:chat_gpt/src/bloc/bloc/contacts/contacts_bloc.dart';
 
 class ContactsView extends StatelessWidget {
@@ -14,7 +16,7 @@ class ContactsView extends StatelessWidget {
     final idController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Contacts'),
+        title: Text(Localization.of(context).contacts),
       ),
       body: Center(
         child: state.when(
@@ -113,9 +115,13 @@ class ContactsView extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                    decoration:  BoxDecoration(
-                      color: Theme.of(context).colorScheme.onBackground.withOpacity(0.30),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 8.0),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onBackground
+                          .withOpacity(0.30),
                     ),
                     child: const Text(
                       'Your contacts',
@@ -155,7 +161,7 @@ class ContactsView extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       softWrap: false,
                     ),
-                    titleTextStyle:  TextStyle(
+                    titleTextStyle: TextStyle(
                       fontSize: 19.0,
                       color: Theme.of(context).colorScheme.onBackground,
                       fontWeight: FontWeight.w700,

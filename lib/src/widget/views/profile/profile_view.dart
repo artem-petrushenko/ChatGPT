@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:chat_gpt/src/widget/l10n/generated/l10n.dart';
+
 import 'package:chat_gpt/src/widget/views/gallery/gallery_view.dart';
 
 import 'package:chat_gpt/src/bloc/bloc/gallery/gallery_bloc.dart';
@@ -19,7 +21,7 @@ class ProfileView extends StatelessWidget {
     final state = context.watch<ProfileBloc>().state;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: Text(Localization.of(context).profile),
       ),
       body: Center(
         child: state.when(

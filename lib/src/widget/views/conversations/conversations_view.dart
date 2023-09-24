@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
-
 import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:chat_gpt/src/widget/l10n/generated/l10n.dart';
 
 import 'package:chat_gpt/src/bloc/bloc/conversations/conversations_bloc.dart';
 
@@ -14,8 +15,7 @@ class ChatsView extends StatelessWidget {
     final state = context.watch<ConversationsBloc>().state;
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text('Messages'),
+        title: Text(Localization.of(context).messages),
       ),
       body: Center(
         child: state.when(
