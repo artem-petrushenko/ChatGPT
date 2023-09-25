@@ -14,8 +14,8 @@ class ConversationModel with _$ConversationModel {
     required final String conversationId,
     required final String name,
     required final List<dynamic> participants,
-    required final int createdAt,
-    required final int updatedAt,
+    required final DateTime createdAt,
+    required final DateTime updatedAt,
   }) = _ConversationModel;
 
   factory ConversationModel.fromJson(Map<String, dynamic> json) =>
@@ -28,19 +28,19 @@ class ConversationModel with _$ConversationModel {
       conversationId: data!['conversation_id'] as String,
       name: data['name'] as String,
       participants: data['participants'] as List<dynamic>,
-      createdAt: data['created_at'] as int,
-      updatedAt: data['updated_at'] as int,
+      createdAt: (data['created_at'] as Timestamp).toDate(),
+      updatedAt: (data['updated_at'] as Timestamp).toDate(),
     );
   }
 
   factory ConversationModel.fromSQL(Map<String, dynamic> json) {
     return ConversationModel(
       conversationId: json['conversation_id'] as String,
-      createdAt: json['created_at'] as int,
+      createdAt: json['created_at'] as DateTime,
       name: json['name'] as String,
       participants: List<String>.from(
           jsonDecode(json['participants'] as String) as List<dynamic>),
-      updatedAt: json['updated_at'] as int,
+      updatedAt: json['updated_at'] as DateTime,
     );
   }
 }

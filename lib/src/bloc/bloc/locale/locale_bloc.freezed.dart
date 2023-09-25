@@ -22,7 +22,6 @@ mixin _$LocaleEvent {
     required TResult Function(String locale) changeLocale,
   }) =>
       throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchCurrentLocale,
@@ -36,7 +35,6 @@ mixin _$LocaleEvent {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchCurrentLocaleEvent value)
@@ -44,7 +42,6 @@ mixin _$LocaleEvent {
     required TResult Function(_ChangeLocaleEvent value) changeLocale,
   }) =>
       throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchCurrentLocaleEvent value)? fetchCurrentLocale,
@@ -72,9 +69,9 @@ class _$LocaleEventCopyWithImpl<$Res, $Val extends LocaleEvent>
     implements $LocaleEventCopyWith<$Res> {
   _$LocaleEventCopyWithImpl(this._value, this._then);
 
-// ignore: unused_field
+  // ignore: unused_field
   final $Val _value;
-// ignore: unused_field
+  // ignore: unused_field
   final $Res Function($Val) _then;
 }
 
@@ -373,9 +370,9 @@ class _$LocaleStateCopyWithImpl<$Res, $Val extends LocaleState>
     implements $LocaleStateCopyWith<$Res> {
   _$LocaleStateCopyWithImpl(this._value, this._then);
 
-// ignore: unused_field
+  // ignore: unused_field
   final $Val _value;
-// ignore: unused_field
+  // ignore: unused_field
   final $Res Function($Val) _then;
 
   @pragma('vm:prefer-inline')

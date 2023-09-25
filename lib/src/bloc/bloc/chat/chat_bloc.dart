@@ -1,3 +1,4 @@
+import 'package:chat_gpt/src/data/repository/conversations/conversations_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -16,14 +17,17 @@ part 'chat_bloc.freezed.dart';
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final ChatRepository _chatRepository;
   final UserRepository _userRepository;
+  final ConversationsRepository _conversationsRepository;
   final String _conversationId;
 
   ChatBloc({
     required String id,
     required ChatRepository chatRepository,
     required UserRepository userRepository,
+    required ConversationsRepository conversationsRepository,
   })  : _chatRepository = chatRepository,
         _userRepository = userRepository,
+        _conversationsRepository = conversationsRepository,
         _conversationId = id,
         super(const ChatState.loading()) {
     on<_FetchMessagesEvent>(_onFetchMessagesEvent, transformer: droppable());
@@ -47,6 +51,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         message: event.message,
         conversationId: _conversationId,
       );
+      await _conversationsRepository.updateConversationDate(
+          id: _conversationId);
     } catch (error) {
       emit(ChatState.failure(error: error));
     }

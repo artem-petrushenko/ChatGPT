@@ -56,7 +56,12 @@ class ConversationsRepositoryImpl implements ConversationsRepository {
     required String uid,
     required String id,
   }) async {
-    _conversationsNetworkDataProvider.removeConversation(id: id);
-    _conversationsDatabaseAccessObject.removeConversation(id: id);
+    await _conversationsNetworkDataProvider.removeConversation(id: id);
+    await _conversationsDatabaseAccessObject.removeConversation(id: id);
+  }
+
+  @override
+  Future<void> updateConversationDate({required String id}) async {
+    await _conversationsNetworkDataProvider.updateConversationDate(id: id);
   }
 }

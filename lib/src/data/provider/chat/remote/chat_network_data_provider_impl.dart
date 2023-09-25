@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:chat_gpt/src/data/client/cloud_firestore.dart';
+
 import 'package:chat_gpt/src/model/message/message_model.dart';
 
 import 'package:chat_gpt/src/data/provider/chat/remote/chat_network_data_provider.dart';
-
-import 'package:chat_gpt/src/data/client/cloud_firestore.dart';
 
 class ChatNetworkDataProviderImpl implements ChatNetworkDataProvider {
   const ChatNetworkDataProviderImpl({
@@ -40,12 +40,12 @@ class ChatNetworkDataProviderImpl implements ChatNetworkDataProvider {
   }) async {
     final collection = FirebaseFirestore.instance.collection('messages');
     final document = collection.doc();
-    await document.set(MessageModel(
-      messageId: document.id,
-      content: message,
-      conversationId: conversationId,
-      sender: uid,
-      timestamp: DateTime.now().millisecondsSinceEpoch,
-    ).toJson());
+    await document.set({
+      'message_id': document.id,
+      'content': message,
+      'conversation_id': conversationId,
+      'sender': uid,
+      'timestamp': FieldValue.serverTimestamp(),
+    });
   }
 }

@@ -8,16 +8,15 @@ part 'user_model.g.dart';
 @freezed
 class UserModel with _$UserModel {
   @JsonSerializable(fieldRename: FieldRename.snake, explicitToJson: true)
-  const factory UserModel({
-    required final int createdAt,
-    required final String email,
-    required final String phoneNumber,
-    required final String photoUrl,
-    required final String uid,
-    required final int updatedAt,
-    required final String username,
-    required final List<dynamic> contacts
-  }) = _UserModel;
+  const factory UserModel(
+      {required final DateTime createdAt,
+      required final String email,
+      required final String phoneNumber,
+      required final String photoUrl,
+      required final String uid,
+      required final DateTime updatedAt,
+      required final String username,
+      required final List<dynamic> contacts}) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
@@ -26,12 +25,12 @@ class UserModel with _$UserModel {
       DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data()!;
     return UserModel(
-      createdAt: data['created_at'] as int,
+      createdAt: (data['created_at'] as Timestamp).toDate(),
       email: data['email'] as String,
       phoneNumber: data['phone_number'] as String,
       photoUrl: data['photo_url'] as String,
       uid: data['uid'] as String,
-      updatedAt: data['updated_at'] as int,
+      updatedAt: (data['updated_at'] as Timestamp).toDate(),
       username: data['username'] as String,
       contacts: data['contacts'] as List<dynamic>,
     );

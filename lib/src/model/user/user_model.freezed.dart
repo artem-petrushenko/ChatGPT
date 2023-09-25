@@ -20,12 +20,12 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UserModel {
-  int get createdAt => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get phoneNumber => throw _privateConstructorUsedError;
   String get photoUrl => throw _privateConstructorUsedError;
   String get uid => throw _privateConstructorUsedError;
-  int get updatedAt => throw _privateConstructorUsedError;
+  DateTime get updatedAt => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
   List<dynamic> get contacts => throw _privateConstructorUsedError;
 
@@ -41,12 +41,12 @@ abstract class $UserModelCopyWith<$Res> {
       _$UserModelCopyWithImpl<$Res, UserModel>;
   @useResult
   $Res call(
-      {int createdAt,
+      {DateTime createdAt,
       String email,
       String phoneNumber,
       String photoUrl,
       String uid,
-      int updatedAt,
+      DateTime updatedAt,
       String username,
       List<dynamic> contacts});
 }
@@ -77,7 +77,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as int,
+              as DateTime,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -97,7 +97,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
       updatedAt: null == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as int,
+              as DateTime,
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
@@ -118,12 +118,12 @@ abstract class _$$_UserModelCopyWith<$Res> implements $UserModelCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {int createdAt,
+      {DateTime createdAt,
       String email,
       String phoneNumber,
       String photoUrl,
       String uid,
-      int updatedAt,
+      DateTime updatedAt,
       String username,
       List<dynamic> contacts});
 }
@@ -152,7 +152,7 @@ class __$$_UserModelCopyWithImpl<$Res>
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as int,
+              as DateTime,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -172,7 +172,7 @@ class __$$_UserModelCopyWithImpl<$Res>
       updatedAt: null == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as int,
+              as DateTime,
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
@@ -204,7 +204,7 @@ class _$_UserModel implements _UserModel {
       _$$_UserModelFromJson(json);
 
   @override
-  final int createdAt;
+  final DateTime createdAt;
   @override
   final String email;
   @override
@@ -214,7 +214,7 @@ class _$_UserModel implements _UserModel {
   @override
   final String uid;
   @override
-  final int updatedAt;
+  final DateTime updatedAt;
   @override
   final String username;
   final List<dynamic> _contacts;
@@ -279,12 +279,12 @@ class _$_UserModel implements _UserModel {
 
 abstract class _UserModel implements UserModel {
   const factory _UserModel(
-      {required final int createdAt,
+      {required final DateTime createdAt,
       required final String email,
       required final String phoneNumber,
       required final String photoUrl,
       required final String uid,
-      required final int updatedAt,
+      required final DateTime updatedAt,
       required final String username,
       required final List<dynamic> contacts}) = _$_UserModel;
 
@@ -292,7 +292,7 @@ abstract class _UserModel implements UserModel {
       _$_UserModel.fromJson;
 
   @override
-  int get createdAt;
+  DateTime get createdAt;
   @override
   String get email;
   @override
@@ -302,7 +302,7 @@ abstract class _UserModel implements UserModel {
   @override
   String get uid;
   @override
-  int get updatedAt;
+  DateTime get updatedAt;
   @override
   String get username;
   @override

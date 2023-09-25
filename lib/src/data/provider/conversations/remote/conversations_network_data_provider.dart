@@ -14,4 +14,8 @@ abstract class ConversationsNetworkDataProvider {
   Future<void> removeConversation({
     required String id,
   });
+
+  Future<void> updateConversationDate({
+    required String id,
+  });
 }

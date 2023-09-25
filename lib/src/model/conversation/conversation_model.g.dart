@@ -11,8 +11,8 @@ _$_ConversationModel _$$_ConversationModelFromJson(Map<String, dynamic> json) =>
       conversationId: json['conversation_id'] as String,
       name: json['name'] as String,
       participants: json['participants'] as List<dynamic>,
-      createdAt: json['created_at'] as int,
-      updatedAt: json['updated_at'] as int,
+      createdAt: DateTime.parse(json['created_at'] as String),
+      updatedAt: DateTime.parse(json['updated_at'] as String),
     );
 
 Map<String, dynamic> _$$_ConversationModelToJson(
@@ -21,6 +21,6 @@ Map<String, dynamic> _$$_ConversationModelToJson(
       'conversation_id': instance.conversationId,
       'name': instance.name,
       'participants': instance.participants,
-      'created_at': instance.createdAt,
-      'updated_at': instance.updatedAt,
+      'created_at': instance.createdAt.toIso8601String(),
+      'updated_at': instance.updatedAt.toIso8601String(),
     };

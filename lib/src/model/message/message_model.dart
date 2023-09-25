@@ -13,7 +13,7 @@ class MessageModel with _$MessageModel {
     required final String content,
     required final String conversationId,
     required final String sender,
-    required final int timestamp,
+    required final DateTime timestamp,
     final String? senderName,
     final String? photoUrl,
   }) = _MessageModel;
@@ -29,7 +29,7 @@ class MessageModel with _$MessageModel {
       content: data['content'] as String,
       conversationId: data['conversation_id'] as String,
       sender: data['sender'] as String,
-      timestamp: data['timestamp'] as int,
+      timestamp: (data['timestamp'] as Timestamp).toDate(),
     );
   }
 }

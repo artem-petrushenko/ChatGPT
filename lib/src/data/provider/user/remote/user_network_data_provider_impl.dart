@@ -29,20 +29,22 @@ class UserNetworkDataProviderImpl implements UserNetworkDataProvider {
     final doc = FirebaseFirestore.instance.collection('users').doc(user.uid);
     await doc.set(<String, dynamic>{
       'contacts': <String>[],
-      'created_at': DateTime.now().millisecondsSinceEpoch,
+      'created_at': FieldValue.serverTimestamp(),
       'email': user.email ?? '',
       'phone_number': user.phoneNumber ?? '',
       'photo_url': user.photoURL ?? '',
       'uid': user.uid,
-      'updated_at': DateTime.now().millisecondsSinceEpoch,
+      'updated_at': FieldValue.serverTimestamp(),
       'username': user.displayName ?? '',
     });
   }
 
   @override
   Future<bool> isUserInDatabase({required String uid}) async {
-    final doc =
-        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    final doc = await _cloudFirestore.read(
+      collection: 'users',
+      documentId: uid,
+    );
     return doc.exists;
   }
 
@@ -51,15 +53,18 @@ class UserNetworkDataProviderImpl implements UserNetworkDataProvider {
     required String uid,
     required String currentUID,
   }) async {
-    final doc =
-        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    final doc = await _cloudFirestore.read(
+      collection: 'users',
+      documentId: uid,
+    );
     if (doc.exists) {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(currentUID)
-          .update({
-        'contacts': FieldValue.arrayUnion(<String>[uid])
-      });
+      await _cloudFirestore.update(
+        collection: 'users',
+        documentId: currentUID,
+        data: {
+          'contacts': FieldValue.arrayUnion(<String>[uid]),
+        },
+      );
     } else {
       throw Exception('Error');
     }
@@ -69,21 +74,25 @@ class UserNetworkDataProviderImpl implements UserNetworkDataProvider {
   Future<void> removeContacts({
     required List<String> uid,
     required String currentUID,
-  }) async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(currentUID)
-        .update({'contacts': FieldValue.arrayRemove(uid)});
-  }
+  }) async =>
+      await _cloudFirestore.update(
+        collection: 'users',
+        documentId: currentUID,
+        data: {
+          'contacts': FieldValue.arrayRemove(uid),
+        },
+      );
 
   @override
   Future<void> updateAvatar({
     required String imageUrl,
     required String uid,
-  }) async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .update({'photo_url': imageUrl});
-  }
+  }) async =>
+      await _cloudFirestore.update(
+        collection: 'users',
+        documentId: uid,
+        data: {
+          'photo_url': imageUrl,
+        },
+      );
 }

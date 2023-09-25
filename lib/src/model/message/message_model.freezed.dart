@@ -24,7 +24,7 @@ mixin _$MessageModel {
   String get content => throw _privateConstructorUsedError;
   String get conversationId => throw _privateConstructorUsedError;
   String get sender => throw _privateConstructorUsedError;
-  int get timestamp => throw _privateConstructorUsedError;
+  DateTime get timestamp => throw _privateConstructorUsedError;
   String? get senderName => throw _privateConstructorUsedError;
   String? get photoUrl => throw _privateConstructorUsedError;
 
@@ -45,7 +45,7 @@ abstract class $MessageModelCopyWith<$Res> {
       String content,
       String conversationId,
       String sender,
-      int timestamp,
+      DateTime timestamp,
       String? senderName,
       String? photoUrl});
 }
@@ -91,7 +91,7 @@ class _$MessageModelCopyWithImpl<$Res, $Val extends MessageModel>
       timestamp: null == timestamp
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
-              as int,
+              as DateTime,
       senderName: freezed == senderName
           ? _value.senderName
           : senderName // ignore: cast_nullable_to_non_nullable
@@ -117,7 +117,7 @@ abstract class _$$_MessageModelCopyWith<$Res>
       String content,
       String conversationId,
       String sender,
-      int timestamp,
+      DateTime timestamp,
       String? senderName,
       String? photoUrl});
 }
@@ -161,7 +161,7 @@ class __$$_MessageModelCopyWithImpl<$Res>
       timestamp: null == timestamp
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
-              as int,
+              as DateTime,
       senderName: freezed == senderName
           ? _value.senderName
           : senderName // ignore: cast_nullable_to_non_nullable
@@ -199,7 +199,7 @@ class _$_MessageModel implements _MessageModel {
   @override
   final String sender;
   @override
-  final int timestamp;
+  final DateTime timestamp;
   @override
   final String? senderName;
   @override
@@ -254,7 +254,7 @@ abstract class _MessageModel implements MessageModel {
       required final String content,
       required final String conversationId,
       required final String sender,
-      required final int timestamp,
+      required final DateTime timestamp,
       final String? senderName,
       final String? photoUrl}) = _$_MessageModel;
 
@@ -270,7 +270,7 @@ abstract class _MessageModel implements MessageModel {
   @override
   String get sender;
   @override
-  int get timestamp;
+  DateTime get timestamp;
   @override
   String? get senderName;
   @override

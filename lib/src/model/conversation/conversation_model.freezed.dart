@@ -23,8 +23,8 @@ mixin _$ConversationModel {
   String get conversationId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   List<dynamic> get participants => throw _privateConstructorUsedError;
-  int get createdAt => throw _privateConstructorUsedError;
-  int get updatedAt => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  DateTime get updatedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -42,8 +42,8 @@ abstract class $ConversationModelCopyWith<$Res> {
       {String conversationId,
       String name,
       List<dynamic> participants,
-      int createdAt,
-      int updatedAt});
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -81,11 +81,11 @@ class _$ConversationModelCopyWithImpl<$Res, $Val extends ConversationModel>
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as int,
+              as DateTime,
       updatedAt: null == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as int,
+              as DateTime,
     ) as $Val);
   }
 }
@@ -102,8 +102,8 @@ abstract class _$$_ConversationModelCopyWith<$Res>
       {String conversationId,
       String name,
       List<dynamic> participants,
-      int createdAt,
-      int updatedAt});
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -139,11 +139,11 @@ class __$$_ConversationModelCopyWithImpl<$Res>
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as int,
+              as DateTime,
       updatedAt: null == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as int,
+              as DateTime,
     ));
   }
 }
@@ -176,9 +176,9 @@ class _$_ConversationModel implements _ConversationModel {
   }
 
   @override
-  final int createdAt;
+  final DateTime createdAt;
   @override
-  final int updatedAt;
+  final DateTime updatedAt;
 
   @override
   String toString() {
@@ -226,8 +226,8 @@ abstract class _ConversationModel implements ConversationModel {
       {required final String conversationId,
       required final String name,
       required final List<dynamic> participants,
-      required final int createdAt,
-      required final int updatedAt}) = _$_ConversationModel;
+      required final DateTime createdAt,
+      required final DateTime updatedAt}) = _$_ConversationModel;
 
   factory _ConversationModel.fromJson(Map<String, dynamic> json) =
       _$_ConversationModel.fromJson;
@@ -239,9 +239,9 @@ abstract class _ConversationModel implements ConversationModel {
   @override
   List<dynamic> get participants;
   @override
-  int get createdAt;
+  DateTime get createdAt;
   @override
-  int get updatedAt;
+  DateTime get updatedAt;
   @override
   @JsonKey(ignore: true)
   _$$_ConversationModelCopyWith<_$_ConversationModel> get copyWith =>

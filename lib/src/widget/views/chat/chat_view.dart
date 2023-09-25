@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:intl/intl.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -59,6 +60,16 @@ class ChatView extends StatelessWidget {
                         final bool showSenderName =
                             index == messages.length - 1 ||
                                 message.sender != messages[index + 1].sender;
+                        bool showDateDivider = false;
+                        if (index < messages.length - 1) {
+                          final nextMessage = messages[index + 1];
+                          final currentDate = message.timestamp.toLocal().day;
+                          final nextDate = nextMessage.timestamp.toLocal().day;
+                          if (currentDate != nextDate) {
+                            showDateDivider = true;
+                          }
+                        }
+
                         if (index >= messages.length - 1) {
                           context.read<ChatBloc>().add(ChatEvent.fetchMessages(
                               messageId: message.messageId));
@@ -66,7 +77,38 @@ class ChatView extends StatelessWidget {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (showSenderName)
+                            if (showDateDivider || index == messages.length - 1)
+                              Center(
+                                child: Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 4.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0, vertical: 4.0),
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground
+                                        .withOpacity(0.17),
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(16.0),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    DateFormat()
+                                        .add_MMMMd()
+                                        .format(message.timestamp.toLocal()),
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onBackground
+                                          .withOpacity(0.67),
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            if (showSenderName || showDateDivider)
                               Column(
                                 children: [
                                   const SizedBox(height: 16.0),
@@ -79,10 +121,11 @@ class ChatView extends StatelessWidget {
                                       ),
                                       const SizedBox(width: 8.0),
                                       Text(
-                                        message.senderName ?? '',
+                                        (message.senderName ?? '')
+                                            .toUpperCase(),
                                         style: const TextStyle(
-                                          fontSize: 19.0,
-                                          fontWeight: FontWeight.w700,
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.w500,
                                         ),
                                       ),
                                     ],
@@ -90,25 +133,44 @@ class ChatView extends StatelessWidget {
                                 ],
                               ),
                             Padding(
-                              padding:
-                                  const EdgeInsets.only(left: (16.0 * 2 + 8.0)),
-                              child: GestureDetector(
-                                onTap: () {
-                                  HapticFeedback.vibrate();
-                                  Clipboard.setData(
-                                      ClipboardData(text: message.content));
-                                },
-                                child: Text(
-                                  message.content,
-                                  style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onBackground
-                                        .withOpacity(0.69),
-                                    fontSize: 15.0,
-                                    fontWeight: FontWeight.w600,
+                              padding: const EdgeInsets.only(
+                                  left: (16.0 * 2 + 8.0), bottom: 8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      HapticFeedback.vibrate();
+                                      Clipboard.setData(
+                                          ClipboardData(text: message.content));
+                                    },
+                                    child: Text(
+                                      message.content,
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onBackground
+                                            .withOpacity(0.69),
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                  Text(
+                                    DateFormat()
+                                        .add_jm()
+                                        .format(message.timestamp.toLocal())
+                                        .toString(),
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onBackground
+                                          .withOpacity(0.67),
+                                      fontSize: 11.0,
+                                      fontWeight: FontWeight.w300,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
@@ -120,6 +182,7 @@ class ChatView extends StatelessWidget {
                       const SliverToBoxAdapter(
                         child: Center(child: CircularProgressIndicator()),
                       ),
+                    const SliverToBoxAdapter(child: SizedBox(height: 16.0)),
                   ],
                 ),
               ),
@@ -183,7 +246,9 @@ class ChatView extends StatelessWidget {
                     onTap: () {
                       HapticFeedback.vibrate();
                       context.read<ChatBloc>().add(
-                          ChatEvent.sendMessage(message: input.value.text));
+                            ChatEvent.sendMessage(message: input.value.text),
+                          );
+                      input.clear();
                     },
                     child: Icon(
                       Icons.send_rounded,

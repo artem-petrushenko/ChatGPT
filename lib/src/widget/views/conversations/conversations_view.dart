@@ -67,8 +67,7 @@ class ChatsView extends StatelessWidget {
                             ),
                             trailing: Text(DateFormat()
                                 .add_jm()
-                                .format(DateTime.fromMillisecondsSinceEpoch(
-                                    chats[index].createdAt))
+                                .format(chats[index].updatedAt.toLocal())
                                 .toString()),
                             titleTextStyle: TextStyle(
                               color: Theme.of(context).colorScheme.onBackground,

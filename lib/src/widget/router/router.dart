@@ -214,6 +214,16 @@ class AppRouter {
                 cloudFirestore: CloudFirestore(),
               ),
             ),
+            conversationsRepository: const ConversationsRepositoryImpl(
+              conversationsNetworkDataProvider:
+                  ConversationsNetworkDataProviderImpl(
+                cloudFirestore: CloudFirestore(),
+              ),
+              conversationsDatabaseAccessObject:
+                  ConversationsDatabaseAccessObjectImpl(
+                sqLiteDatabase: SQLiteDatabase(),
+              ),
+            ),
           )..add(const ChatEvent.fetchMessages(messageId: '')),
           child: const ChatView(),
         ),

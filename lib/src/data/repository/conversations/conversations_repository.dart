@@ -15,4 +15,8 @@ abstract class ConversationsRepository {
     required String uid,
     required String id,
   });
+
+  Future<void> updateConversationDate({
+    required String id,
+  });
 }
