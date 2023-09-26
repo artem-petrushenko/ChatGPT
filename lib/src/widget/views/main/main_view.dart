@@ -96,13 +96,23 @@ class BottomNavigationItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         HapticFeedback.vibrate();
-        context.read<MainViewModel>().setSelectIndex = index;
-        context.go(path);
+        if (selectIndex != index) {
+          context.read<MainViewModel>().setSelectIndex = index;
+          context.go(path);
+        }
+        return;
       },
-      child: SvgPicture.asset(
-        isLightTheme
-            ? (isSelected ? lightSelectIcon : lightIcon)
-            : (isSelected ? darkSelectIcon : darkIcon),
+      behavior: HitTestBehavior.translucent,
+      child: SizedBox.square(
+        dimension: 40.0,
+        child: SvgPicture.asset(
+          isLightTheme
+              ? (isSelected ? lightSelectIcon : lightIcon)
+              : (isSelected ? darkSelectIcon : darkIcon),
+          width: 16.0,
+          height: 16.0,
+          fit: BoxFit.none,
+        ),
       ),
     );
   }

@@ -150,7 +150,7 @@ class SignInView extends StatelessWidget {
                                   ),
                                 ),
                                 TextSpan(
-                                  text: 'Register',
+                                  text: 'Registration',
                                   style: TextStyle(
                                     color: Theme.of(context)
                                         .colorScheme
