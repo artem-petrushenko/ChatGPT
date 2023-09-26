@@ -15,7 +15,6 @@ class ChatRepositoryImpl implements ChatRepository {
         _chatDatabaseAccessObject = chatDatabaseAccessObject;
 
   final ChatNetworkDataProvider _chatNetworkDataProvider;
-
   final ChatDatabaseAccessObject _chatDatabaseAccessObject;
 
   @override
@@ -50,4 +49,10 @@ class ChatRepositoryImpl implements ChatRepository {
       conversationId: conversationId,
     );
   }
+
+  @override
+  Future<void> removeMessage({
+    required String messageId,
+  }) async =>
+      await _chatNetworkDataProvider.removeMessage(messageId: messageId);
 }

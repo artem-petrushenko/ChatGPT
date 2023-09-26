@@ -15,4 +15,8 @@ abstract class ChatRepository {
     required String message,
     required String conversationId,
   });
+
+  Future<void> removeMessage({
+    required String messageId,
+  });
 }

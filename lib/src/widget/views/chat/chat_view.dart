@@ -139,10 +139,46 @@ class ChatView extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   GestureDetector(
-                                    onTap: () {
+                                    onTapDown: (TapDownDetails details) {
                                       HapticFeedback.vibrate();
-                                      Clipboard.setData(
-                                          ClipboardData(text: message.content));
+                                      showMenu(
+                                        context: context,
+                                        position: RelativeRect.fromLTRB(
+                                          details.localPosition.dx,
+                                          details.localPosition.dy,
+                                          details.localPosition.dx + 100,
+                                          details.localPosition.dy + 40,
+                                        ),
+                                        items: [
+                                          PopupMenuItem(
+                                            child: const Text('Remove'),
+                                            onTap: () {
+                                              HapticFeedback.vibrate();
+                                              context.read<ChatBloc>().add(
+                                                    ChatEvent.removeMessage(
+                                                      messageId:
+                                                          message.messageId,
+                                                    ),
+                                                  );
+                                            },
+                                          ),
+                                          PopupMenuItem(
+                                            child: const Text('Copy'),
+                                            onTap: (){
+                                              HapticFeedback.vibrate();
+                                              Clipboard.setData(
+                                                  ClipboardData(text: message.content));
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                  content: Text(
+                                                      'Message Copping to Clipboard'),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      );
                                     },
                                     child: Text(
                                       message.content,

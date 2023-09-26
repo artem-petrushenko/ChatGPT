@@ -35,6 +35,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       (ChatEvent event, Emitter<ChatState> emit) =>
           event.mapOrNull<Future<void>>(
         sendMessage: (event) => _onSendMessageEvent(event, emit),
+        removeMessage: (event) => _onRemoveMessageEvent(event, emit),
       ),
       transformer: sequential(),
     );
@@ -53,6 +54,17 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       );
       await _conversationsRepository.updateConversationDate(
           id: _conversationId);
+    } catch (error) {
+      emit(ChatState.failure(error: error));
+    }
+  }
+
+  Future<void> _onRemoveMessageEvent(
+    _RemoveMessageEvent event,
+    Emitter<ChatState> emit,
+  ) async {
+    try {
+      await _chatRepository.removeMessage(messageId: event.messageId);
     } catch (error) {
       emit(ChatState.failure(error: error));
     }

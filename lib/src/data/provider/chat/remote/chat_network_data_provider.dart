@@ -11,4 +11,8 @@ abstract class ChatNetworkDataProvider {
     required String message,
     required String conversationId,
   });
+
+  Future<void> removeMessage({
+    required String messageId,
+  });
 }

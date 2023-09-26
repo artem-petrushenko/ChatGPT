@@ -48,4 +48,13 @@ class ChatNetworkDataProviderImpl implements ChatNetworkDataProvider {
       'timestamp': FieldValue.serverTimestamp(),
     });
   }
+
+  @override
+  Future<void> removeMessage({
+    required String messageId,
+  }) async =>
+      await _cloudFirestore.delete(
+        collection: 'messages',
+        documentId: messageId,
+      );
 }

@@ -9,4 +9,8 @@ class ChatEvent with _$ChatEvent {
   const factory ChatEvent.sendMessage({
     required final String message,
   }) = _SendMessageEvent;
+
+  const factory ChatEvent.removeMessage({
+    required final String messageId,
+  }) = _RemoveMessageEvent;
 }

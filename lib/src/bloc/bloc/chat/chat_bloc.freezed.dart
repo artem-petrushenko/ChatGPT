@@ -671,18 +671,21 @@ mixin _$ChatEvent {
   TResult when<TResult extends Object?>({
     required TResult Function(String messageId) fetchMessages,
     required TResult Function(String message) sendMessage,
+    required TResult Function(String messageId) removeMessage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String messageId)? fetchMessages,
     TResult? Function(String message)? sendMessage,
+    TResult? Function(String messageId)? removeMessage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String messageId)? fetchMessages,
     TResult Function(String message)? sendMessage,
+    TResult Function(String messageId)? removeMessage,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -690,18 +693,21 @@ mixin _$ChatEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchMessagesEvent value) fetchMessages,
     required TResult Function(_SendMessageEvent value) sendMessage,
+    required TResult Function(_RemoveMessageEvent value) removeMessage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchMessagesEvent value)? fetchMessages,
     TResult? Function(_SendMessageEvent value)? sendMessage,
+    TResult? Function(_RemoveMessageEvent value)? removeMessage,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchMessagesEvent value)? fetchMessages,
     TResult Function(_SendMessageEvent value)? sendMessage,
+    TResult Function(_RemoveMessageEvent value)? removeMessage,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -792,6 +798,7 @@ class _$_FetchMessagesEvent implements _FetchMessagesEvent {
   TResult when<TResult extends Object?>({
     required TResult Function(String messageId) fetchMessages,
     required TResult Function(String message) sendMessage,
+    required TResult Function(String messageId) removeMessage,
   }) {
     return fetchMessages(messageId);
   }
@@ -801,6 +808,7 @@ class _$_FetchMessagesEvent implements _FetchMessagesEvent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String messageId)? fetchMessages,
     TResult? Function(String message)? sendMessage,
+    TResult? Function(String messageId)? removeMessage,
   }) {
     return fetchMessages?.call(messageId);
   }
@@ -810,6 +818,7 @@ class _$_FetchMessagesEvent implements _FetchMessagesEvent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String messageId)? fetchMessages,
     TResult Function(String message)? sendMessage,
+    TResult Function(String messageId)? removeMessage,
     required TResult orElse(),
   }) {
     if (fetchMessages != null) {
@@ -823,6 +832,7 @@ class _$_FetchMessagesEvent implements _FetchMessagesEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchMessagesEvent value) fetchMessages,
     required TResult Function(_SendMessageEvent value) sendMessage,
+    required TResult Function(_RemoveMessageEvent value) removeMessage,
   }) {
     return fetchMessages(this);
   }
@@ -832,6 +842,7 @@ class _$_FetchMessagesEvent implements _FetchMessagesEvent {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchMessagesEvent value)? fetchMessages,
     TResult? Function(_SendMessageEvent value)? sendMessage,
+    TResult? Function(_RemoveMessageEvent value)? removeMessage,
   }) {
     return fetchMessages?.call(this);
   }
@@ -841,6 +852,7 @@ class _$_FetchMessagesEvent implements _FetchMessagesEvent {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchMessagesEvent value)? fetchMessages,
     TResult Function(_SendMessageEvent value)? sendMessage,
+    TResult Function(_RemoveMessageEvent value)? removeMessage,
     required TResult orElse(),
   }) {
     if (fetchMessages != null) {
@@ -926,6 +938,7 @@ class _$_SendMessageEvent implements _SendMessageEvent {
   TResult when<TResult extends Object?>({
     required TResult Function(String messageId) fetchMessages,
     required TResult Function(String message) sendMessage,
+    required TResult Function(String messageId) removeMessage,
   }) {
     return sendMessage(message);
   }
@@ -935,6 +948,7 @@ class _$_SendMessageEvent implements _SendMessageEvent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String messageId)? fetchMessages,
     TResult? Function(String message)? sendMessage,
+    TResult? Function(String messageId)? removeMessage,
   }) {
     return sendMessage?.call(message);
   }
@@ -944,6 +958,7 @@ class _$_SendMessageEvent implements _SendMessageEvent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String messageId)? fetchMessages,
     TResult Function(String message)? sendMessage,
+    TResult Function(String messageId)? removeMessage,
     required TResult orElse(),
   }) {
     if (sendMessage != null) {
@@ -957,6 +972,7 @@ class _$_SendMessageEvent implements _SendMessageEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchMessagesEvent value) fetchMessages,
     required TResult Function(_SendMessageEvent value) sendMessage,
+    required TResult Function(_RemoveMessageEvent value) removeMessage,
   }) {
     return sendMessage(this);
   }
@@ -966,6 +982,7 @@ class _$_SendMessageEvent implements _SendMessageEvent {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchMessagesEvent value)? fetchMessages,
     TResult? Function(_SendMessageEvent value)? sendMessage,
+    TResult? Function(_RemoveMessageEvent value)? removeMessage,
   }) {
     return sendMessage?.call(this);
   }
@@ -975,6 +992,7 @@ class _$_SendMessageEvent implements _SendMessageEvent {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchMessagesEvent value)? fetchMessages,
     TResult Function(_SendMessageEvent value)? sendMessage,
+    TResult Function(_RemoveMessageEvent value)? removeMessage,
     required TResult orElse(),
   }) {
     if (sendMessage != null) {
@@ -991,5 +1009,147 @@ abstract class _SendMessageEvent implements ChatEvent {
   String get message;
   @JsonKey(ignore: true)
   _$$_SendMessageEventCopyWith<_$_SendMessageEvent> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_RemoveMessageEventCopyWith<$Res> {
+  factory _$$_RemoveMessageEventCopyWith(_$_RemoveMessageEvent value,
+          $Res Function(_$_RemoveMessageEvent) then) =
+      __$$_RemoveMessageEventCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String messageId});
+}
+
+/// @nodoc
+class __$$_RemoveMessageEventCopyWithImpl<$Res>
+    extends _$ChatEventCopyWithImpl<$Res, _$_RemoveMessageEvent>
+    implements _$$_RemoveMessageEventCopyWith<$Res> {
+  __$$_RemoveMessageEventCopyWithImpl(
+      _$_RemoveMessageEvent _value, $Res Function(_$_RemoveMessageEvent) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? messageId = null,
+  }) {
+    return _then(_$_RemoveMessageEvent(
+      messageId: null == messageId
+          ? _value.messageId
+          : messageId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_RemoveMessageEvent implements _RemoveMessageEvent {
+  const _$_RemoveMessageEvent({required this.messageId});
+
+  @override
+  final String messageId;
+
+  @override
+  String toString() {
+    return 'ChatEvent.removeMessage(messageId: $messageId)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_RemoveMessageEvent &&
+            (identical(other.messageId, messageId) ||
+                other.messageId == messageId));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, messageId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_RemoveMessageEventCopyWith<_$_RemoveMessageEvent> get copyWith =>
+      __$$_RemoveMessageEventCopyWithImpl<_$_RemoveMessageEvent>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String messageId) fetchMessages,
+    required TResult Function(String message) sendMessage,
+    required TResult Function(String messageId) removeMessage,
+  }) {
+    return removeMessage(messageId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String messageId)? fetchMessages,
+    TResult? Function(String message)? sendMessage,
+    TResult? Function(String messageId)? removeMessage,
+  }) {
+    return removeMessage?.call(messageId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String messageId)? fetchMessages,
+    TResult Function(String message)? sendMessage,
+    TResult Function(String messageId)? removeMessage,
+    required TResult orElse(),
+  }) {
+    if (removeMessage != null) {
+      return removeMessage(messageId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchMessagesEvent value) fetchMessages,
+    required TResult Function(_SendMessageEvent value) sendMessage,
+    required TResult Function(_RemoveMessageEvent value) removeMessage,
+  }) {
+    return removeMessage(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchMessagesEvent value)? fetchMessages,
+    TResult? Function(_SendMessageEvent value)? sendMessage,
+    TResult? Function(_RemoveMessageEvent value)? removeMessage,
+  }) {
+    return removeMessage?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchMessagesEvent value)? fetchMessages,
+    TResult Function(_SendMessageEvent value)? sendMessage,
+    TResult Function(_RemoveMessageEvent value)? removeMessage,
+    required TResult orElse(),
+  }) {
+    if (removeMessage != null) {
+      return removeMessage(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _RemoveMessageEvent implements ChatEvent {
+  const factory _RemoveMessageEvent({required final String messageId}) =
+      _$_RemoveMessageEvent;
+
+  String get messageId;
+  @JsonKey(ignore: true)
+  _$$_RemoveMessageEventCopyWith<_$_RemoveMessageEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
